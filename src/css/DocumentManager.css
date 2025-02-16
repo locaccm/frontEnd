@@ -15,35 +15,6 @@ h2 {
     margin-bottom: 15px;
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-.upload-label {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #007bff;
-    color: white;
-    padding: 10px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s;
-    font-size: 1.2rem;
-    font-weight: bold;
-}
-
-.upload-label:hover {
-    background: #0056b3;
-    transform: scale(1.05);
-}
-
-.upload-icon {
-    margin-right: 10px;
-}
-
->>>>>>> 40e67ea (feat(document): add document management and file import)
-=======
->>>>>>> b53e016 (feat: add profile form to the front-end)
 .document-list {
     margin-top: 20px;
     text-align: left;
@@ -66,15 +37,7 @@ h2 {
 }
 
 .file-icon {
-<<<<<<< HEAD
-<<<<<<< HEAD
     color: #d8b9a0;
-=======
-    color: #007bff;
->>>>>>> 40e67ea (feat(document): add document management and file import)
-=======
-    color: #d8b9a0;
->>>>>>> b53e016 (feat: add profile form to the front-end)
     font-size: 1.5rem;
     margin-right: 10px;
 }
