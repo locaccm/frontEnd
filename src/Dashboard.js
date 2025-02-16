@@ -33,11 +33,8 @@ function Dashboard() {
 
                 {/* Affichage conditionnel de la page */}
                 {activePage === "profile" ? <Profile /> :
-<<<<<<< HEAD
                 activePage === "properties" ? <Properties /> :
                 activePage === "leases" ? <Leases /> :
-=======
->>>>>>> b53e016 (feat: add profile form to the front-end)
                 activePage === "statistic" ? <Statistic /> : 
                 activePage === "contact" ? <ContactUs /> : 
                 activePage === "calendar" ? <Calendar /> : 
