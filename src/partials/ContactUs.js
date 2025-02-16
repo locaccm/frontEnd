@@ -1,5 +1,9 @@
 import React, { useState } from "react";
+<<<<<<< HEAD
 import "../css/ContactUs.css";
+=======
+import "../css/ContactUs.css"; // Import du fichier CSS
+>>>>>>> afac983 (Add 'Contact Us' frontend and manage sidebar links)
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -9,12 +13,16 @@ const ContactUs = () => {
   });
 
   const [isSubmitted, setIsSubmitted] = useState(false);
+<<<<<<< HEAD
   const [error, setError] = useState(null);
+=======
+>>>>>>> afac983 (Add 'Contact Us' frontend and manage sidebar links)
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+<<<<<<< HEAD
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
@@ -41,6 +49,12 @@ const ContactUs = () => {
     } catch (error) {
       setError("Une erreur est survenue. Veuillez réessayer.");
     }
+=======
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Form submitted:", formData);
+    setIsSubmitted(true);
+>>>>>>> afac983 (Add 'Contact Us' frontend and manage sidebar links)
   };
 
   return (
@@ -53,6 +67,10 @@ const ContactUs = () => {
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="contact-form">
+<<<<<<< HEAD
+=======
+          {/* Nom */}
+>>>>>>> afac983 (Add 'Contact Us' frontend and manage sidebar links)
           <div className="form-group">
             <label>Nom :</label>
             <input
@@ -65,6 +83,10 @@ const ContactUs = () => {
             />
           </div>
 
+<<<<<<< HEAD
+=======
+          {/* Email */}
+>>>>>>> afac983 (Add 'Contact Us' frontend and manage sidebar links)
           <div className="form-group">
             <label>Email :</label>
             <input
@@ -77,6 +99,10 @@ const ContactUs = () => {
             />
           </div>
 
+<<<<<<< HEAD
+=======
+          {/* Message */}
+>>>>>>> afac983 (Add 'Contact Us' frontend and manage sidebar links)
           <div className="form-group">
             <label>Message :</label>
             <textarea
@@ -88,8 +114,12 @@ const ContactUs = () => {
             ></textarea>
           </div>
 
+<<<<<<< HEAD
           {error && <p className="error-message">{error}</p>}
 
+=======
+          {/* Bouton Soumettre */}
+>>>>>>> afac983 (Add 'Contact Us' frontend and manage sidebar links)
           <button type="submit" className="contact-btn">
             Envoyer 🚀
           </button>
