@@ -16,6 +16,7 @@ h2 {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 .upload-label {
     display: flex;
@@ -41,6 +42,8 @@ h2 {
 }
 
 >>>>>>> 40e67ea (feat(document): add document management and file import)
+=======
+>>>>>>> b53e016 (feat: add profile form to the front-end)
 .document-list {
     margin-top: 20px;
     text-align: left;
@@ -64,10 +67,14 @@ h2 {
 
 .file-icon {
 <<<<<<< HEAD
+<<<<<<< HEAD
     color: #d8b9a0;
 =======
     color: #007bff;
 >>>>>>> 40e67ea (feat(document): add document management and file import)
+=======
+    color: #d8b9a0;
+>>>>>>> b53e016 (feat: add profile form to the front-end)
     font-size: 1.5rem;
     margin-right: 10px;
 }
