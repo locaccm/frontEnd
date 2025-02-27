@@ -1,0 +1,57 @@
+/* Conteneur principal */
+.leases-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #cec0ad;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    text-align: center;
+}
+
+/* Titre */
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+/* Tableau */
+.leases-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* En-tête du tableau */
+.leases-table thead {
+    background: #0984e3;
+    color: white;
+}
+
+.leases-table th {
+    padding: 12px;
+    font-size: 16px;
+    background-color: #d8b9a0;
+}
+
+/* Corps du tableau */
+.leases-table td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Ligne en survol */
+.leases-table tr:hover {
+    background: #f5f1e3;
+    transition: background 0.3s ease-in-out;
+}
+
+/* Style du loyer */
+.rent {
+    font-weight: bold;
+    color: black;
+}

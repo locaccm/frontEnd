@@ -1,0 +1,47 @@
+/* Grille des statistiques */
+.statistic {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Cartes */
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Carte en pleine largeur */
+.full-width {
+    grid-column: span 2;
+}
+
+/* Chiffres */
+.number {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Tableau */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+/* Cellules du tableau */
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+/* En-têtes du tableau */
+th {
+    background-color: #f4f4f4;
+}
