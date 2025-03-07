@@ -1,0 +1,95 @@
+/* Conteneur principal */
+.contact-container {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #CEC0AD; /* Nouvelle couleur de fond */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    text-align: center;
+    animation: fade-in 0.5s ease-in-out;
+}
+
+/* Titre */
+.contact-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Message de succès */
+.success-message {
+    font-size: 18px;
+    color: #28a745;
+    padding: 10px;
+    background: #e8f5e9;
+    border-radius: 8px;
+}
+
+/* Style du formulaire */
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Groupe de formulaire */
+.form-group {
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+/* Champs de saisie */
+.form-group input,
+.form-group textarea {
+    width: 95%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0px 0px 8px rgba(0, 123, 255, 0.3);
+}
+
+/* Bouton d'envoi */
+.contact-btn {
+    background: #F5F1E3; /* Nouvelle couleur */
+    color: #333;
+    font-size: 18px;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: bold;
+}
+
+.contact-btn:hover {
+    background: #e5dfcc;
+    transform: scale(1.05);
+}
+
+/* Animation d'apparition */
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
