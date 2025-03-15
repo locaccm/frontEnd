@@ -1,0 +1,11 @@
+/* Main container */
+.app-container {
+  display: flex;
+}
+
+/* Secondary container for the dashboard */
+.content {
+  margin-left: 25vw; 
+  padding: 20px;
+  width: 100%;
+}
