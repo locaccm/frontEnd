@@ -1,4 +1,4 @@
-/* Grille des statistiques */
+/* Statistics grid */
 .statistic {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -6,7 +6,7 @@
     padding: 20px;
 }
 
-/* Cartes */
+/* Cards */
 .card {
     background: white;
     padding: 20px;
@@ -15,33 +15,33 @@
     text-align: center;
 }
 
-/* Carte en pleine largeur */
+/* Full-width card */
 .full-width {
     grid-column: span 2;
 }
 
-/* Chiffres */
+/* Numbers */
 .number {
     font-size: 2.5em;
     font-weight: bold;
     color: #333;
 }
 
-/* Tableau */
+/* Table */
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
 }
 
-/* Cellules du tableau */
+/* Table cells */
 th, td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: center;
 }
 
-/* En-têtes du tableau */
+/* Table headers */
 th {
     background-color: #f4f4f4;
 }

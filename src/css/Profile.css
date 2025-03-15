@@ -1,26 +1,30 @@
+/* Main profile container */
 .profile-container {
     max-width: 500px;
     margin: 20px auto;
     padding: 20px;
-    background: #CEC0AD;;
+    background: #CEC0AD;
     border-radius: 12px;
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
     text-align: center;
     transition: all 0.3s ease-in-out;
 }
 
+/* Title styling */
 h2 {
     color: #333;
     font-size: 1.8rem;
     margin-bottom: 15px;
 }
 
+/* Profile picture container */
 .profile-picture {
     position: relative;
     display: inline-block;
     margin-bottom: 15px;
 }
 
+/* Profile picture styling */
 .profile-picture img {
     width: 120px;
     height: 120px;
@@ -30,22 +34,26 @@ h2 {
     transition: transform 0.3s;
 }
 
+/* Zoom effect on hover */
 .profile-picture img:hover {
     transform: scale(1.1);
 }
 
+/* Profile image upload field */
 .profile-picture input {
     display: block;
     margin: 10px auto;
     font-size: 0.9rem;
 }
 
+/* Profile details container */
 .profile-details {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
+/* Profile details input fields */
 .profile-details input {
     width: 95%;
     padding: 10px;
@@ -55,14 +63,16 @@ h2 {
     transition: border 0.3s;
 }
 
+/* Focus effect on input fields */
 .profile-details input:focus {
     border-color: #007bff;
     outline: none;
     box-shadow: 0px 0px 8px rgba(0, 123, 255, 0.5);
 }
 
+/* Profile update button */
 .profile-btn {
-    background: #F5F1E3; /* Nouvelle couleur */
+    background: #F5F1E3;
     color: #333;
     font-size: 18px;
     padding: 12px;
@@ -74,11 +84,13 @@ h2 {
     margin-top: 10px;
 }
 
+/* Hover effect on update button */
 .profile-btn:hover {
     background: #e5dfcc;
     transform: scale(1.05);
 }
 
+/* Upload button label */
 .upload-label {
     display: flex;
     align-items: center;
@@ -93,11 +105,13 @@ h2 {
     font-weight: bold;
 }
 
+/* Hover effect on upload label */
 .upload-label:hover {
     background: #bb8960;
     transform: scale(1.05);
 }
 
+/* Upload button icon */
 .upload-icon {
     margin-right: 10px;
 }

@@ -1,4 +1,4 @@
-/* Barre latérale */
+/* Sidebar */
 .sidebar {
     position: fixed;
     top: 0;
@@ -15,7 +15,7 @@
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
 }
 
-/* Titre de la sidebar */
+/* Sidebar title */
 .sidebar h1 {
     font-size: 3em;
     font-weight: bold;
@@ -24,7 +24,7 @@
     text-align: center;
 }
 
-/* Image de profil */
+/* Profile picture */
 .profile-pic {
     width: 10vw;
     height: 10vw;
@@ -43,7 +43,7 @@
     align-items: center;
 }
 
-/* Liens */
+/* Navigation links */
 .sidebar a {
     display: flex;
     justify-content: center;
@@ -58,7 +58,7 @@
     font-size: 2em;
 }
 
-/* Effet au survol */
+/* Hover effect */
 .sidebar a:hover {
     background-color: #bfa188;
 }

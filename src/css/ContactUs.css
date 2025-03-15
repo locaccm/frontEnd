@@ -1,16 +1,16 @@
-/* Conteneur principal */
+/* Main container */
 .contact-container {
     max-width: 500px;
     margin: 50px auto;
     padding: 20px;
-    background: #CEC0AD; /* Nouvelle couleur de fond */
+    background: #CEC0AD; /* New background color */
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     border-radius: 12px;
     text-align: center;
-    animation: fade-in 0.5s ease-in-out;
+    animation: fade-in 0.5s ease-in-out; /* Fade-in animation */
 }
 
-/* Titre */
+/* Title */
 .contact-title {
     font-size: 24px;
     font-weight: bold;
@@ -18,7 +18,7 @@
     margin-bottom: 20px;
 }
 
-/* Message de succès */
+/* Success message */
 .success-message {
     font-size: 18px;
     color: #28a745;
@@ -27,18 +27,19 @@
     border-radius: 8px;
 }
 
-/* Style du formulaire */
+/* Form styling */
 .contact-form {
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
-/* Groupe de formulaire */
+/* Form group */
 .form-group {
     text-align: left;
 }
 
+/* Form group label */
 .form-group label {
     display: block;
     font-weight: bold;
@@ -46,7 +47,7 @@
     margin-bottom: 5px;
 }
 
-/* Champs de saisie */
+/* Input and textarea fields */
 .form-group input,
 .form-group textarea {
     width: 95%;
@@ -54,9 +55,10 @@
     border: 2px solid #ddd;
     border-radius: 8px;
     font-size: 16px;
-    transition: 0.3s;
+    transition: 0.3s; /* Smooth transition effect */
 }
 
+/* Focus effect on input and textarea */
 .form-group input:focus,
 .form-group textarea:focus {
     border-color: #007bff;
@@ -64,9 +66,9 @@
     box-shadow: 0px 0px 8px rgba(0, 123, 255, 0.3);
 }
 
-/* Bouton d'envoi */
+/* Submit button */
 .contact-btn {
-    background: #F5F1E3; /* Nouvelle couleur */
+    background: #F5F1E3; /* New color */
     color: #333;
     font-size: 18px;
     padding: 12px;
@@ -77,12 +79,13 @@
     font-weight: bold;
 }
 
+/* Hover effect on submit button */
 .contact-btn:hover {
     background: #e5dfcc;
     transform: scale(1.05);
 }
 
-/* Animation d'apparition */
+/* Fade-in animation */
 @keyframes fade-in {
     from {
         opacity: 0;

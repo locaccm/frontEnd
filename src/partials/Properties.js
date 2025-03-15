@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../css/Properties.css";
 
 const Properties = () => {
+    // State to store the list of properties
     const [properties, setProperties] = useState([
         { id: 1, name: "Appartement Paris", location: "Paris, France", price: 1200 },
         { id: 2, name: "Villa Nice", location: "Nice, France", price: 2500 },
@@ -9,13 +10,16 @@ const Properties = () => {
 
     return (
         <div className="properties-container">
-            <h2 className="title">Gestion des Biens</h2>
+            {/* Page title */}
+            <h2 className="title">Property Management</h2>
+
+            {/* Table displaying properties */}
             <table className="properties-table">
                 <thead>
                     <tr>
-                        <th>Nom</th>
-                        <th>Localisation</th>
-                        <th>Prix (€)</th>
+                        <th>Name</th>
+                        <th>Location</th>
+                        <th>Price (€)</th>
                     </tr>
                 </thead>
                 <tbody>

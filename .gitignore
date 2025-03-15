@@ -6,6 +6,7 @@ build/# See https://help.github.com/articles/ignoring-files/ for more about igno
 /node_modules
 /.pnp
 .pnp.js
+public/img/
 
 # testing
 /coverage
@@ -15,6 +16,7 @@ build/# See https://help.github.com/articles/ignoring-files/ for more about igno
 
 # misc
 .DS_Store
+.env
 .env.local
 .env.development.local
 .env.test.local
@@ -23,3 +25,5 @@ build/# See https://help.github.com/articles/ignoring-files/ for more about igno
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+/src/logo.svg
