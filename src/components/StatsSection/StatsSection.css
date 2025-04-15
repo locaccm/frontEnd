@@ -1,0 +1,77 @@
+.management-section {
+    padding: 60px 20px;
+    background-color: #f9f5ee54; /* couleur légère du fond */
+  }
+  
+  .management-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 40px;
+  }
+  
+  .image-container {
+    flex: 1;
+  }
+  
+  .management-image {
+    width: 100%;
+    border-radius: 15px;
+    object-fit: cover;
+  }
+  
+  .text-container {
+    flex: 1.4;
+    text-align: center;
+  }
+  
+  .text-container h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.9rem;
+    color: #333;
+    margin-bottom: 30px;
+  }
+  
+  .stats-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+  }
+  
+  .stat-item {
+    text-align: center;
+  }
+  
+  .stat-number {
+    font-size: 2rem;
+    color: #d7c0a6; /* couleur similaire à ton exemple */
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  
+  .stat-text {
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  @media (max-width: 991px) {
+    .management-container {
+      flex-direction: column;
+    }
+  
+    .text-container {
+      width: 100%;
+    }
+  
+    .stats-container {
+      flex-direction: column;
+      gap: 20px;
+    }
+  
+    .stat-item {
+      margin-bottom: 20px;
+    }
+  }
+  
