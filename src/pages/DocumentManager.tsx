@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import "../styles/DocumentManager.css";
 import { FaUpload, FaFileAlt, FaTrash } from "react-icons/fa";
-import {Document} from "../interfaces/DocumentManager.interface.js"
+
+// Type pour un document
+interface Document {
+  id: string;
+  name: string;
+}
 
 const DocumentManager: React.FC = () => {
   // State to store uploaded documents, with proper typing

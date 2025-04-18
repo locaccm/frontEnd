@@ -1,0 +1,63 @@
+/* Main container for documents */
+.document-container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background: linear-gradient(135deg, #ffffff, #f8f9fa); /* Light gradient */
+  border-radius: 12px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Document list */
+.document-list {
+  margin-top: 20px;
+  text-align: left;
+}
+
+/* Individual list item */
+.document-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s;
+}
+
+/* Hover effect on document */
+.document-item:hover {
+  background: #f0f8ff;
+}
+
+/* File icon */
+.file-icon {
+  color: #d8b9a0;
+  font-size: 1.5rem;
+  margin-right: 10px;
+}
+
+/* File name */
+.file-name {
+  flex-grow: 1;
+  font-size: 1rem;
+  color: #333;
+}
+
+/* Delete icon */
+.delete-icon {
+  color: #dc3545;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: color 0.3s, transform 0.2s;
+}
+
+/* Hover effect on delete icon */
+.delete-icon:hover {
+  color: #b52b37;
+  transform: scale(1.1);
+}
