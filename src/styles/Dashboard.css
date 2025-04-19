@@ -1,0 +1,98 @@
+/* =======================
+  Dashboard Layout$
+======================= */
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Dashboard page title */
+.dashboard-title {
+  font-size: 36px;
+  font-weight: bold;
+  margin: 32px 24px 16px;
+  color: #1f2937;
+}
+
+/* =======================
+    Card Styling
+======================= */
+/* General card layout */
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Card that spans full width */
+.full-width {
+  grid-column: span 2;
+}
+
+/* =======================
+    Event List Section
+======================= */
+/* Container for event list */
+.event-list-container {
+  padding: 24px;
+}
+
+/* Title above event list */
+.event-list-title {
+  font-size: 48px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Event list items */
+.event-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Individual event card */
+.event-item {
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.2s ease;
+}
+
+.event-item:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Event title styling */
+.event-title {
+  font-size: 36px;
+  font-weight: 600;
+}
+
+/* Event date styling */
+.event-date {
+  font-size: 20px;
+  color: #6b7280;
+}
+
+/* Event location styling */
+.event-location {
+  font-size: 20px;
+  color: #4b5563;
+}
+
+/* Event description styling */
+.event-description {
+  font-size: 20px;
+  margin-top: 8px;
+}
