@@ -14,7 +14,7 @@ const Statistic: React.FC = () => {
     return (
         <div className="statistic">
 
-            <h1>Dashboard Tenant</h1>
+            <h1>Dashboard Owner</h1>
             
             {/* Statistic card */}
             <div className="card">
