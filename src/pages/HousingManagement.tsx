@@ -6,7 +6,7 @@ import HousingTable from "../components/housingTable.js";
 import { Property } from "../interfaces/property.interface.js";
 import { initialProperties } from "../data/fakedata.js";
 import { Button } from "../components/ui/button.js";
-import "../styles/WealthManagement.css";
+import "../styles/HousingManagement.css";
 
 export default function HousingManagement() {
   // State for property list, editing, deleting, and form handling
@@ -20,6 +20,7 @@ export default function HousingManagement() {
     rent: "",
     surface: "",
     rooms: "",
+    locataire: "",
   });
 
   // Update form state on input change
@@ -30,7 +31,7 @@ export default function HousingManagement() {
 
   // Reset form fields
   const resetForm = () => {
-    setFormData({ title: "", address: "", rent: "", surface: "", rooms: "" });
+    setFormData({ title: "", address: "", rent: "", surface: "", rooms: "", locataire: "" });
   };
 
   // Add a new property to the list
@@ -42,6 +43,7 @@ export default function HousingManagement() {
       rent: Number(formData.rent),
       surface: Number(formData.surface),
       rooms: Number(formData.rooms),
+      locataire: formData.locataire,
     };
     setProperties([...properties, newProperty]);
     setShowAddForm(false);
@@ -75,7 +77,7 @@ export default function HousingManagement() {
 
   return (
     <div className="container">
-      <h2>Property Management</h2>
+      <h2>housing Management</h2>
 
       {/* Button to open the Add Property form */}
       <Button className="button primary" onClick={() => setShowAddForm(true)}>
@@ -94,6 +96,7 @@ export default function HousingManagement() {
             rent: String(prop.rent),
             surface: String(prop.surface),
             rooms: String(prop.rooms),
+            locataire: prop.locataire,
           });
         }}
         onDelete={setDeletingProperty}

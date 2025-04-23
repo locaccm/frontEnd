@@ -6,6 +6,7 @@ export type Property = {
     rent: number;
     surface: number;
     rooms: number;
+    locataire: string;
 };
 
 // Represents the structure of the form data used to create or edit a property
@@ -15,6 +16,7 @@ export type PropertyFormData = {
     rent: string;
     surface: string;
     rooms: string;
+    locataire: string;
 };
 
 export type HousingTableProps = {

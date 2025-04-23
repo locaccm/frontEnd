@@ -21,6 +21,7 @@ export default function PropertyFormModal({ isEditing, formData, onChange, onClo
                     <Input className="input-field" name="rent" type="number" placeholder="Loyer" value={formData.rent} onChange={onChange} />
                     <Input className="input-field" name="surface" type="number" placeholder="Surface" value={formData.surface} onChange={onChange} />
                     <Input className="input-field" name="rooms" type="number" placeholder="Nombre de pièces" value={formData.rooms} onChange={onChange} />
+                    <Input className="input-field" name="locataire" type="name" placeholder="Email" value={formData.locataire} onChange={onChange} />
                 </div>
                 <div className="dialog-footer">
                     <button className="button primary" onClick={onSubmit}>

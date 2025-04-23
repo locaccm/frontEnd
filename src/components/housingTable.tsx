@@ -18,6 +18,7 @@ export default function HousingTable({ properties, onEdit, onDelete }: HousingTa
                     <th>Loyer</th>
                     <th>Surface</th>
                     <th>Pièces</th>
+                    <th>Locataire</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -29,6 +30,7 @@ export default function HousingTable({ properties, onEdit, onDelete }: HousingTa
                     <td>{prop.rent} €</td>
                     <td>{prop.surface} m²</td>
                     <td>{prop.rooms}</td>
+                    <td>{prop.locataire}</td>
                     <td>
                         <Button className="button outline" onClick={() => onEdit(prop)}>
                             <Pencil />

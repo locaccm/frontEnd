@@ -9,6 +9,7 @@ export const initialProperties: Property[] = [
         rent: 1200,
         surface: 45,
         rooms: 2,
+        locataire: 'test@gmail.com',
     },
     {
         id: 2,
@@ -17,5 +18,6 @@ export const initialProperties: Property[] = [
         rent: 750,
         surface: 28,
         rooms: 1,
+        locataire: 'test2@gmail.com',
     },
 ];
