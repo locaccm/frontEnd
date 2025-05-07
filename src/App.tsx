@@ -1,35 +1,51 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './styles/App.css'
+// src/App.tsx
+import React, { useEffect, useState } from 'react';
+import api from './services/api.js';
+import Sidebar from './components/Sidebar.js';
+import './styles/App.css';
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+interface User {
+  USEN_ID: number;
+  USEC_TYPE: string;
+  USEC_FNAME: string;
+  USEC_LNAME: string;
 }
 
-export default App
+const App: React.FC = () => {
+  const [users, setUsers] = useState<User[]>([]);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    api.get<User[]>('/users').then((response) => setUsers(response.data));
+  }, []);
+
+  return (
+    <div className="app-container">
+      <h1>Liste des utilisateurs</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Type</th>
+            <th>Nom</th>
+            <th>Prénom</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.map((user) => (
+            <tr key={user.USEN_ID} onClick={() => setSelectedUser(user)}>
+              <td>{user.USEN_ID}</td>
+              <td>{user.USEC_TYPE}</td>
+              <td>{user.USEC_LNAME}</td>
+              <td>{user.USEC_FNAME}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      {selectedUser && <Sidebar userId={selectedUser.USEN_ID} onClose={() => setSelectedUser(null)} />}
+    </div>
+  );
+};
+
+export default App;
