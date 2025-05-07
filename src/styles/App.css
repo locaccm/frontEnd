@@ -1,0 +1,123 @@
+.app-container {
+  padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  position: relative;
+  background-color: #f9fafc;
+  min-height: 100vh;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 2rem;
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.user-table th,
+.user-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+.user-table th {
+  background-color: #4c7ffb;
+  color: white;
+}
+
+.user-table tr:hover {
+  background-color: #f1f6ff;
+  cursor: pointer;
+}
+
+/* Sidebar Styles */
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100vh;
+  background-color: #ffffff;
+  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+  padding: 2rem;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.sidebar.visible {
+  transform: translateX(0);
+}
+
+.sidebar h2 {
+  margin-top: 0;
+  color: #333;
+  border-bottom: 2px solid #4c7ffb;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.sidebar label {
+  display: block;
+  margin-bottom: 0.3rem;
+  color: #555;
+  font-weight: 500;
+}
+
+.sidebar input,
+.sidebar textarea {
+  width: 100%;
+  padding: 0.6rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.sidebar textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.sidebar button {
+  padding: 0.7rem 1.5rem;
+  background-color: #4c7ffb;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.sidebar button:hover {
+  background-color: #386be6;
+}
+
+.tabs {
+  margin-bottom: 1rem;
+}
+
+.tabs button {
+  margin-right: 0.5rem;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #e7e7e7;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.tabs button:hover,
+.tabs button.active {
+  background-color: #4c7ffb;
+  color: white;
+}

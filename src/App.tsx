@@ -1,8 +1,8 @@
-// src/App.tsx
+// App.tsx
 import React, { useEffect, useState } from 'react';
 import api from './services/api.js';
-import Sidebar from './components/Sidebar.js';
 import './styles/App.css';
+import Sidebar from './components/Sidebar.js';
 
 interface User {
   USEN_ID: number;
@@ -22,7 +22,7 @@ const App: React.FC = () => {
   return (
     <div className="app-container">
       <h1>Liste des utilisateurs</h1>
-      <table>
+      <table className="user-table">
         <thead>
           <tr>
             <th>ID</th>
@@ -43,7 +43,11 @@ const App: React.FC = () => {
         </tbody>
       </table>
 
-      {selectedUser && <Sidebar userId={selectedUser.USEN_ID} onClose={() => setSelectedUser(null)} />}
+      <Sidebar
+        userId={selectedUser?.USEN_ID || 0}
+        visible={!!selectedUser}
+        onClose={() => setSelectedUser(null)}
+      />
     </div>
   );
 };
