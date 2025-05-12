@@ -1,5 +1,5 @@
 import React from 'react';
-import FeatureCard from './FeatureCard';
+import FeatureCard from './FeatureCard.js';
 import './Features.css';
 
 import icon1 from '../../assets/1312661-81a73415.png';
