@@ -1,8 +1,7 @@
 import AppRoutes from "./routes/appRoutes.js";
-import authentification from "./pages/authentication/authentication.js"
 
 function App() {
-    return <authentification />
+    return <AppRoutes />
 }
 
 export default App

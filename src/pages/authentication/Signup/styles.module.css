@@ -56,30 +56,8 @@
     margin-top: 0;
 }
 
-.input {
-    outline: none;
-    border: none;
-    width: 370px;
-    padding: 15px;
-    border-radius: 10px;
-    background-color: #edf5f3;
-    margin: 5px 0;
-    font-size: 14px;
-}
 
-.error_msg {
-    width: 370px;
-    padding: 15px;
-    margin: 5px 0;
-    font-size: 14px;
-    background-color: #f34646;
-    color: white;
-    border-radius: 5px;
-    text-align: center;
-}
-
-.white_btn,
-.green_btn {
+.white_btn {
     border: none;
     outline: none;
     padding: 12px 0;
@@ -90,10 +68,4 @@
     font-size: 14px;
     cursor: pointer;
 
-}
-
-.green_btn {
-    background-color: #cec0ad;
-    color: white;
-    margin: 10px;
 }

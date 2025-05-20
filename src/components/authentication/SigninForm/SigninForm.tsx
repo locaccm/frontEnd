@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "./styles.module.css";
 
-const signinForm = () => {
+const SigninForm = () => {
     const [data, setData] = useState({ email: "", password: "" });
 
     const handleChange = ({ currentTarget: input }: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,4 +45,4 @@ const signinForm = () => {
     );
 };
 
-export default signinForm;
+export default SigninForm;

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "./styles.module.css";
 
-const signupForm = () => {
+const SignupForm = () => {
     const [data, setData] = useState({
         firstName: "",
         lastName: "",
@@ -65,4 +65,4 @@ const signupForm = () => {
     );
 };
 
-export default signupForm;
+export default SignupForm;
