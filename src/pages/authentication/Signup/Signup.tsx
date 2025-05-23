@@ -11,7 +11,7 @@ const Signup = () => {
                     <h1>
                         Bienvenue <br /> de retour
                     </h1>
-                    <Link to="/login">
+                    <Link to="/signin">
                         <button type="button" className={styles.white_btn}>
                             Se connecter
                         </button>

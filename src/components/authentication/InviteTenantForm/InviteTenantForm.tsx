@@ -2,69 +2,63 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "./styles.module.css";
 
-type SigninResponse = {
-    token: string;
-    user: {
-        USEC_FNAME: string;
-        USEC_LNAME: string;
-        USEC_MAIL: string;
-        USED_BIRTH: string;
-    }
-};
-
-const SigninForm = () => {
-    const [data, setData] = useState({ USEC_MAIL: "", USEC_PASSWORD: "" });
-
-    const checkAllFieldsIsCompleted = () => {
-        return Object.values(data).every((value) => value !== "");
-    }
+const InviteTenantForm = () => {
+    const [data, setData] = useState({ USEC_MAIL: "", ADDRESS: "" });
 
     const handleChange = ({ currentTarget: input }: React.ChangeEvent<HTMLInputElement>) => {
         setData({ ...data, [input.name]: input.value });
     };
 
+    const checkAllFieldsIsCompleted = () => {
+        return Object.values(data).every((value) => value !== "");
+    }
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         console.log("Data submitted:", data);
-        if(!checkAllFieldsIsCompleted()){
+        if (!checkAllFieldsIsCompleted()) {
             alert("Il faut remplir tous les champs");
             return
         }
 
-        fetch(`${import.meta.env.VITE_AUTH_URL}/auth/signin`, {
+        /*if(sessionStorage.getItem("userFirstName") == null || sessionStorage.getItem("userLastName") == null){
+            window.location.href = "/signin";
+            return;
+        }
+        const ownerName = sessionStorage.getItem("userFirstName") + " " + sessionStorage.getItem("userLastName");
+
+         */
+        const ownerName = "test"
+        const dataToSend = {
+            ...data,
+            OWNER_NAME: ownerName,
+        }
+        fetch(`${import.meta.env.VITE_AUTH_URL}/auth/invitetenant`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(data),
+            body: JSON.stringify(dataToSend),
         })
             .then(async (response) => {
-                const body : SigninResponse = await response.json();
                 if (response.ok && response.body !== null) {
-                    alert("Connexion réussie")
-                    sessionStorage.setItem("token", body.token);
-                    sessionStorage.setItem("userFirstName", body.user.USEC_FNAME);
-                    sessionStorage.setItem("userLastName", body.user.USEC_LNAME);
-                    sessionStorage.setItem("userEmail", body.user.USEC_MAIL);
-                    sessionStorage.setItem("userBirthDate", body.user.USED_BIRTH);
+                    alert("Invitation réussie")
                 } else {
-                    alert("Erreur lors de la connexion");
+                    alert("Erreur lors de l'invitation");
                 }
             })
             .catch((error) => {
                 console.error("Error:", error);
                 alert(error);
             })
-
     };
 
     return (
 
         <form className={styles.form_container} onSubmit={handleSubmit}>
-            <h1>Connectez-vous</h1>
+            <h1>Inviter un locataire</h1>
             <input
                 type="email"
-                placeholder="Email"
+                placeholder="Email du futur locataire"
                 name="USEC_MAIL"
                 onChange={handleChange}
                 value={data.USEC_MAIL}
@@ -72,20 +66,20 @@ const SigninForm = () => {
                 className={styles.input}
             />
             <input
-                type="password"
-                placeholder="Mot de passe"
-                name="USEC_PASSWORD"
+                type="text"
+                placeholder="Adresse"
+                name="ADDRESS"
                 onChange={handleChange}
-                value={data.USEC_PASSWORD}
+                value={data.ADDRESS}
                 required
                 className={styles.input}
             />
             <button type="submit" className={styles.green_btn}>
-                Se Connecter
+                Inviter
             </button>
         </form>
 
     );
 };
 
-export default SigninForm;
+export default InviteTenantForm;
