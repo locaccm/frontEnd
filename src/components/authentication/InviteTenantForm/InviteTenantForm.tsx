@@ -21,14 +21,18 @@ const InviteTenantForm = () => {
       return;
     }
 
-    /*if(sessionStorage.getItem("userFirstName") == null || sessionStorage.getItem("userLastName") == null){
-            window.location.href = "/signin";
-            return;
-        }
-        const ownerName = sessionStorage.getItem("userFirstName") + " " + sessionStorage.getItem("userLastName");
+    if (
+      sessionStorage.getItem("userFirstName") == null ||
+      sessionStorage.getItem("userLastName") == null
+    ) {
+      window.location.href = "/signin";
+      return;
+    }
+    const ownerName =
+      sessionStorage.getItem("userFirstName") +
+      " " +
+      sessionStorage.getItem("userLastName");
 
-         */
-    const ownerName = "test";
     const dataToSend = {
       ...data,
       OWNER_NAME: ownerName,
