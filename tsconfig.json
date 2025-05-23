@@ -14,8 +14,8 @@
     "moduleDetection": "force",
     "jsx": "react-jsx",
     "noEmit": true,
-    "types": ["vite/client","vitest/globals"]
+    "types": ["vite/client", "vitest/globals"]
   },
-  "include": ["src","setupTests.js"],
+  "include": ["src", "setupTests.js"],
   "exclude": ["dist", "node_modules"]
 }
