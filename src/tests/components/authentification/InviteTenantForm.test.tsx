@@ -10,6 +10,9 @@ describe("InviteTenantForm", () => {
     vi.restoreAllMocks();
     vi.stubGlobal("alert", alertMock);
     vi.stubGlobal("fetch", fetchMock);
+
+    sessionStorage.setItem("userFirstName", "John");
+    sessionStorage.setItem("userLastName", "Doe");
   });
 
   it("renders form inputs and button", () => {
@@ -44,7 +47,7 @@ describe("InviteTenantForm", () => {
         body: JSON.stringify({
           USEC_MAIL: "test@example.com",
           ADDRESS: "123 rue de Paris",
-          OWNER_NAME: "test",
+          OWNER_NAME: "John Doe",
         }),
       }),
     );
