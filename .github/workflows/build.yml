@@ -33,7 +33,7 @@ jobs:
       - name: Run tests with coverage
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: npm run test -- --coverage --coverageReporters=lcov
+        run: npm run test -- --coverage
 
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v4
