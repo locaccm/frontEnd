@@ -3,7 +3,7 @@ import { MemoryRouter } from "react-router-dom";
 import Signup from "../../../pages/authentication/Signup/Signup.js";
 
 describe("<Signup />", () => {
-  it("rend correctement la page d'inscription avec ses éléments", () => {
+  it("correctly renders the registration page with its elements", () => {
     render(
       <MemoryRouter>
         <Signup />

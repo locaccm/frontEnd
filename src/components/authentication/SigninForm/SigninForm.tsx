@@ -26,7 +26,6 @@ const SigninForm = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Data submitted:", data);
     if (!checkAllFieldsIsCompleted()) {
       alert("Il faut remplir tous les champs");
       return;
