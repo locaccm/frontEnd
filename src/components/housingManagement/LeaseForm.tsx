@@ -84,7 +84,7 @@ const LeaseForm = ({ lease, onClose }: LeaseFormProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginTop: "2rem", border: "1px solid #ccc", padding: "1rem" }}>
+    <form aria-label="lease form" onSubmit={handleSubmit} style={{ marginTop: "2rem", border: "1px solid #ccc", padding: "1rem" }}>
       <h2>{lease ? "Modifier un bail" : "Ajouter un nouveau bail"}</h2>
 
       <label>
