@@ -38,7 +38,7 @@ describe("LeaseForm", () => {
   });
 
   it("POSTs the form if lease is null", async () => {
-    global.fetch = vi.fn().mockResolvedValue({ ok: true }) as any;
+    global.fetch = vi.fn().mockResolvedValue({ ok: true });
     const onClose = vi.fn();
 
     render(<LeaseForm lease={null} onClose={onClose} />);
@@ -86,7 +86,7 @@ describe("LeaseForm", () => {
     global.fetch = vi.fn().mockResolvedValue({
       ok: false,
       text: () => Promise.resolve(errorMessage),
-    }) as any;
+    });
 
     const onClose = vi.fn();
     render(<LeaseForm lease={null} onClose={onClose} />);

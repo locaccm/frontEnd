@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import HousingManagement from "../../../pages/housingManagement/housingManagement.js"; 
-import { vi, beforeEach, describe, it, expect, Mock } from "vitest";
+import { vi, beforeEach, describe, expect, Mock } from "vitest";
 import '@testing-library/jest-dom';
 
 global.fetch = vi.fn();
