@@ -1,0 +1,145 @@
+import { useState, useEffect } from "react";
+import styles from "./styles.module.css";
+
+type UserProfile = {
+    firstName: string;
+    lastName: string;
+    address: string;
+    birthDate: string;
+    tel: string;
+    photoUrl?: string;
+    bio?: string;
+};
+
+const ProfileForm = () => {
+    const [profile, setProfile] = useState<UserProfile>({
+        firstName: "",
+        lastName: "",
+        address: "",
+        birthDate: "",
+        tel: "",
+        photoUrl: "",
+        bio: "",
+    });
+
+    const userId = 1; // Temporaire en DEV
+
+    useEffect(() => {
+        fetch(`${import.meta.env.VITE_PROFILE_URL}profiles/${userId}`)
+            .then((res) => res.json())
+            .then((data) => {
+                const formattedBirthDate = data.birthDate
+                    ? new Date(data.birthDate).toISOString().split("T")[0]
+                    : "";
+
+                setProfile({
+                    ...data,
+                    birthDate: formattedBirthDate,
+                });
+            });
+    }, []);
+
+    const handleChange = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => {
+        const { name, value } = e.target;
+        setProfile((prev) => ({ ...prev, [name]: value }));
+    };
+
+    const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        try {
+            const res = await fetch(`${import.meta.env.VITE_BUCKET_UPLOAD_URL}/`, {
+                //MAKE BUCKET UPLOAD
+            });
+
+            const data = await res.json();
+            setProfile((prev) => ({ ...prev, photoUrl: data.url }));
+        } catch (err) {
+            alert("Erreur lors de l'upload de l'image");
+        }
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        const res = await fetch(
+            `${import.meta.env.VITE_PROFILE_URL}profiles/${userId}`,
+            {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(profile),
+            }
+        );
+
+        if (res.ok) alert("Profil mis à jour !");
+        else alert("Erreur lors de la mise à jour");
+    };
+
+    return (
+        <form className={styles.form_container} onSubmit={handleSubmit}>
+            <h1>Mon Profil</h1>
+            <input
+                type="text"
+                name="firstName"
+                placeholder="Prénom"
+                value={profile.firstName}
+                onChange={handleChange}
+                className={styles.input}
+            />
+            <input
+                type="text"
+                name="lastName"
+                placeholder="Nom"
+                value={profile.lastName}
+                onChange={handleChange}
+                className={styles.input}
+            />
+            <input
+                type="date"
+                name="birthDate"
+                value={profile.birthDate}
+                onChange={handleChange}
+                className={styles.input}
+            />
+
+            <input
+                type="text"
+                name="tel"
+                placeholder="Téléphone"
+                value={profile.tel}
+                onChange={handleChange}
+                className={styles.input}
+            />
+            <input
+                type="text"
+                name="address"
+                placeholder="Adresse"
+                value={profile.address}
+                onChange={handleChange}
+                className={styles.input}
+            />
+            <textarea
+                name="bio"
+                placeholder="Bio"
+                value={profile.bio}
+                onChange={handleChange}
+                className={styles.input}
+            />
+            <div className={styles.image_upload}>
+                {profile.photoUrl && <img src={profile.photoUrl} alt="Profile" />}
+                <input type="file" accept="image/*" onChange={handlePhotoChange} />
+            </div>
+            <button type="submit" className={styles.green_btn}>
+                Enregistrer
+            </button>
+        </form>
+    );
+};
+
+export default ProfileForm;
