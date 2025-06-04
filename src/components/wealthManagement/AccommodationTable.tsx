@@ -11,7 +11,7 @@ interface AccommodationTableProps {
 const AccommodationTable: React.FC<AccommodationTableProps> = ({ onEdit, onDelete, onCreate }) => {
   const [accommodations, setAccommodations] = useState<Accommodation[]>([]);
 
-  const { fetchAccommodations, loading, error } = useAccommodationActions();
+  const { fetchAccommodations } = useAccommodationActions();
 
   useEffect(() => {
     const loadData = async () => {

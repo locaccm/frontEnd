@@ -11,7 +11,7 @@ interface UpdateAccommodationModalProps {
 }
 
 const UpdateAccommodationModal: React.FC<UpdateAccommodationModalProps> = ({ onClose, accommodationId, initialData, onSuccess }) => {
-  const { updateAccommodation, loading, error } = useAccommodationActions();
+  const { updateAccommodation } = useAccommodationActions();
   
   const handleUpdate = async (data: AccommodationInput) => {
     const success = await updateAccommodation(accommodationId, data);
