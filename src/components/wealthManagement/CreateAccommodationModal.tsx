@@ -9,7 +9,7 @@ interface CreateAccommodationModalProps {
 }
 
 const CreateAccommodationModal: React.FC<CreateAccommodationModalProps> = ({ onClose, onSuccess }) => {
-  const { createAccommodation, loading, error } = useAccommodationActions();
+  const { createAccommodation } = useAccommodationActions();
 
   const handleCreate = async (data: AccommodationInput) => {
     const success = await createAccommodation(data);

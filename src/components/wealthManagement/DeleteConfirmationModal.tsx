@@ -14,7 +14,7 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
   accommodationId,
   onSuccess,
 }) => {
-  const { deleteAccommodation, loading, error } = useAccommodationActions();
+  const { deleteAccommodation } = useAccommodationActions();
   
   const handleDelete = async () => {
     const success = await deleteAccommodation(accommodationId);
