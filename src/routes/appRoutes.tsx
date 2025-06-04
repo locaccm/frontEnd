@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Signup from "../pages/authentication/Signup/Signup.js";
 import Signin from "../pages/authentication/Signin/Signin.js";
 import HousingManagement from "../pages/housingManagement/housingManagement.js";
+import WealthManagement from "../pages/wealthManagement/WealthManagementPage.js";
 
 const AppRoutes = () => {
   return (
@@ -10,6 +11,7 @@ const AppRoutes = () => {
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/lease" element={<HousingManagement  />} />
+        <Route path="/wealth-management" element={<WealthManagement />} />
       </Routes>
     </BrowserRouter>
   );
