@@ -4,6 +4,7 @@ import styles from "./styles.module.css";
 type SigninResponse = {
   token: string;
   user: {
+    USEN_ID: number;
     USEC_FNAME: string;
     USEC_LNAME: string;
     USEC_MAIL: string;
@@ -43,6 +44,7 @@ const SigninForm = () => {
         if (response.ok && response.body !== null) {
           alert("Connexion réussie");
           sessionStorage.setItem("token", body.token);
+          sessionStorage.setItem("userId", body.user.USEN_ID.toString());
           sessionStorage.setItem("userFirstName", body.user.USEC_FNAME);
           sessionStorage.setItem("userLastName", body.user.USEC_LNAME);
           sessionStorage.setItem("userEmail", body.user.USEC_MAIL);
