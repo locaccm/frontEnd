@@ -1,8 +1,17 @@
 import { renderHook, act } from "@testing-library/react";
 import { useAccommodationActions } from "../../../hooks/wealthManagement/useAccommodationActions.js";
 import { vi } from "vitest";
+import type { AccommodationPayload } from "../../../types/wealthManagement/wealthManagement.js";
 
-global.fetch = vi.fn();
+type JsonResponse = Record<string, unknown> | unknown[];
+
+interface MockFetchResponse {
+  ok: boolean;
+  json?: () => Promise<JsonResponse>;
+}
+
+const mockedFetch = vi.fn();
+global.fetch = mockedFetch;
 
 beforeEach(() => {
   vi.resetAllMocks();
@@ -11,15 +20,20 @@ beforeEach(() => {
 });
 
 describe("useAccommodationActions", () => {
-  it("fetchAccommodations - succes", async () => {
+  it("fetchAccommodations - success", async () => {
     const mockData = [{ ACCN_ID: 1, ACCC_NAME: "Test logement" }];
-    (fetch as any).mockResolvedValueOnce({
+
+    mockedFetch.mockResolvedValueOnce({
       ok: true,
       json: async () => mockData,
-    });
+    } as MockFetchResponse);
 
     const { result } = renderHook(() => useAccommodationActions());
-    const res = await act(() => result.current.fetchAccommodations());
+
+    let res: JsonResponse | null = null;
+    await act(async () => {
+      res = await result.current.fetchAccommodations();
+    });
 
     expect(fetch).toHaveBeenCalledWith(
       expect.stringContaining("/read?userId=1"),
@@ -32,10 +46,14 @@ describe("useAccommodationActions", () => {
   });
 
   it("fetchAccommodations - server error", async () => {
-    (fetch as any).mockResolvedValueOnce({ ok: false });
+    mockedFetch.mockResolvedValueOnce({ ok: false } as MockFetchResponse);
 
     const { result } = renderHook(() => useAccommodationActions());
-    const res = await act(() => result.current.fetchAccommodations());
+
+    let res: JsonResponse | null = null;
+    await act(async () => {
+      res = await result.current.fetchAccommodations();
+    });
 
     expect(res).toBeNull();
     expect(result.current.error).toBe("Échec du chargement des logements.");
@@ -43,71 +61,93 @@ describe("useAccommodationActions", () => {
 
   it("fetchAccommodations - user not connected", async () => {
     sessionStorage.removeItem("userId");
+
     const { result } = renderHook(() => useAccommodationActions());
-    const res = await act(() => result.current.fetchAccommodations());
+
+    let res: JsonResponse | null = null;
+    await act(async () => {
+      res = await result.current.fetchAccommodations();
+    });
 
     expect(res).toBeNull();
     expect(result.current.error).toBe("Utilisateur non connecté.");
   });
 
   it("createAccommodation - success", async () => {
-    (fetch as any).mockResolvedValueOnce({ ok: true });
+    mockedFetch.mockResolvedValueOnce({ ok: true } as MockFetchResponse);
 
     const { result } = renderHook(() => useAccommodationActions());
-    const res = await act(() =>
-      result.current.createAccommodation({
-        ACCC_NAME: "Logement",
-        ACCC_TYPE: "Appartement",
-        ACCC_ADDRESS: "Paris",
-        ACCC_DESC: "Très bien",
-        ACCB_AVAILABLE: true,
-      })
-    );
+
+    const payload: AccommodationPayload = {
+      ACCC_NAME: "Logement",
+      ACCC_TYPE: "Appartement",
+      ACCC_ADDRESS: "Paris",
+      ACCC_DESC: "Très bien",
+      ACCB_AVAILABLE: true,
+    };
+
+    let res: boolean = false;
+    await act(async () => {
+      res = await result.current.createAccommodation(payload);
+    });
 
     expect(res).toBe(true);
     expect(result.current.error).toBeNull();
   });
 
   it("createAccommodation - server error", async () => {
-    (fetch as any).mockResolvedValueOnce({ ok: false });
+    mockedFetch.mockResolvedValueOnce({ ok: false } as MockFetchResponse);
 
     const { result } = renderHook(() => useAccommodationActions());
-    const res = await act(() =>
-      result.current.createAccommodation({
-        ACCC_NAME: "Logement",
-        ACCC_TYPE: "Appartement",
-        ACCC_ADDRESS: "Paris",
-        ACCC_DESC: "Très bien",
-        ACCB_AVAILABLE: true,
-      })
-    );
+
+    const payload: AccommodationPayload = {
+      ACCC_NAME: "Logement",
+      ACCC_TYPE: "Appartement",
+      ACCC_ADDRESS: "Paris",
+      ACCC_DESC: "Très bien",
+      ACCB_AVAILABLE: true,
+    };
+
+    let res: boolean = true;
+    await act(async () => {
+      res = await result.current.createAccommodation(payload);
+    });
 
     expect(res).toBe(false);
     expect(result.current.error).toBe("Échec de la création du logement.");
   });
 
   it("updateAccommodation - success", async () => {
-    (fetch as any).mockResolvedValueOnce({ ok: true });
+    mockedFetch.mockResolvedValueOnce({ ok: true } as MockFetchResponse);
 
     const { result } = renderHook(() => useAccommodationActions());
-    const res = await act(() =>
-      result.current.updateAccommodation(5, {
-        ACCC_NAME: "Modif",
-        ACCC_TYPE: "Maison",
-        ACCC_ADDRESS: "Lyon",
-        ACCC_DESC: "Maj",
-        ACCB_AVAILABLE: false,
-      })
-    );
+
+    const updates: AccommodationPayload = {
+      ACCC_NAME: "Modif",
+      ACCC_TYPE: "Maison",
+      ACCC_ADDRESS: "Lyon",
+      ACCC_DESC: "Maj",
+      ACCB_AVAILABLE: false,
+    };
+
+    let res: boolean = false;
+    await act(async () => {
+      res = await result.current.updateAccommodation(5, updates);
+    });
 
     expect(res).toBe(true);
+    expect(result.current.error).toBeNull();
   });
 
   it("deleteAccommodation - server error", async () => {
-    (fetch as any).mockResolvedValueOnce({ ok: false });
+    mockedFetch.mockResolvedValueOnce({ ok: false } as MockFetchResponse);
 
     const { result } = renderHook(() => useAccommodationActions());
-    const res = await act(() => result.current.deleteAccommodation(5));
+
+    let res: boolean = true;
+    await act(async () => {
+      res = await result.current.deleteAccommodation(5);
+    });
 
     expect(res).toBe(false);
     expect(result.current.error).toBe("Échec de la suppression du logement.");
@@ -117,7 +157,11 @@ describe("useAccommodationActions", () => {
     sessionStorage.removeItem("userId");
 
     const { result } = renderHook(() => useAccommodationActions());
-    const res = await act(() => result.current.deleteAccommodation(5));
+
+    let res: boolean = true;
+    await act(async () => {
+      res = await result.current.deleteAccommodation(5);
+    });
 
     expect(res).toBe(false);
     expect(result.current.error).toBe("Utilisateur non connecté.");

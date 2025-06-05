@@ -2,9 +2,21 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import WealthManagementPage from "../../../pages/wealthManagement/WealthManagementPage.js";
 import React from "react";
 import { vi } from "vitest";
+import type { Accommodation } from "../../../types/wealthManagement/wealthManagement.js";
+
+interface TableProps {
+  onCreate: () => void;
+  onEdit: (acc: Accommodation) => void;
+  onDelete: (id: number) => void;
+}
+
+interface ModalProps {
+  onClose: () => void;
+  onSuccess: () => void;
+}
 
 vi.mock("../../../components/wealthManagement/AccommodationTable", () => ({
-  default: ({ onCreate, onEdit, onDelete }: any) => (
+  default: ({ onCreate, onEdit, onDelete }: TableProps) => (
     <div>
       <button onClick={onCreate}>Mock Créer</button>
       <button onClick={() => onEdit(mockAccommodation)}>Mock Éditer</button>
@@ -14,7 +26,7 @@ vi.mock("../../../components/wealthManagement/AccommodationTable", () => ({
 }));
 
 vi.mock("../../../components/wealthManagement/CreateAccommodationModal", () => ({
-  default: ({ onClose, onSuccess }: any) => (
+  default: ({ onClose, onSuccess }: ModalProps) => (
     <div>
       <span>Modal Création</span>
       <button onClick={onSuccess}>Valider Création</button>
@@ -24,7 +36,7 @@ vi.mock("../../../components/wealthManagement/CreateAccommodationModal", () => (
 }));
 
 vi.mock("../../../components/wealthManagement/UpdateAccommodationModal", () => ({
-  default: ({ onClose, onSuccess }: any) => (
+  default: ({ onClose, onSuccess }: ModalProps) => (
     <div>
       <span>Modal Update</span>
       <button onClick={onSuccess}>Valider Update</button>
@@ -34,7 +46,7 @@ vi.mock("../../../components/wealthManagement/UpdateAccommodationModal", () => (
 }));
 
 vi.mock("../../../components/wealthManagement/DeleteConfirmationModal", () => ({
-  default: ({ onClose, onSuccess }: any) => (
+  default: ({ onClose, onSuccess }: ModalProps) => (
     <div>
       <span>Modal Delete</span>
       <button onClick={onSuccess}>Valider Delete</button>
@@ -50,6 +62,7 @@ const mockAccommodation = {
   ACCC_ADDRESS: "Adresse test",
   ACCC_DESC: "Desc test",
   ACCB_AVAILABLE: true,
+  USEN_ID: 1,
 };
 
 describe("WealthManagementPage", () => {
