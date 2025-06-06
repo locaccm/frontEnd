@@ -46,6 +46,7 @@ describe("SigninForm", () => {
     const fakeResponse = {
       token: "fake-token",
       user: {
+        USEN_ID: 1,
         USEC_FNAME: "John",
         USEC_LNAME: "Doe",
         USEC_MAIL: "john@example.com",
@@ -73,6 +74,7 @@ describe("SigninForm", () => {
     });
 
     expect(sessionStorage.getItem("token")).toBe("fake-token");
+    expect(sessionStorage.getItem("userId")).toBe("1");
     expect(sessionStorage.getItem("userFirstName")).toBe("John");
     expect(sessionStorage.getItem("userLastName")).toBe("Doe");
     expect(sessionStorage.getItem("userEmail")).toBe("john@example.com");
