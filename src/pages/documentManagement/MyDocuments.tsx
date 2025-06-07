@@ -1,7 +1,6 @@
-// src/pages/documentManagement/MyDocuments.tsx
-import React, { useEffect, useState } from "react";
-import {DocumentInfo, fetchDocuments} from "../../core/api/documentManagement/getDocument.js";
-import {deleteDocument} from "../../core/api/documentManagement/deleteDocument.js";
+import React, { useEffect, useState, useCallback } from "react";
+import { DocumentInfo, fetchDocuments } from "../../core/api/documentManagement/getDocument.js";
+import { deleteDocument } from "../../core/api/documentManagement/deleteDocument.js";
 
 interface MyDocumentsProps {
     jwt: string;
@@ -12,18 +11,19 @@ const MyDocuments: React.FC<MyDocumentsProps> = ({ jwt }) => {
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
 
-    async function loadDocs() {
+    const loadDocs = useCallback(async () => {
         try {
             setError(null);
-            setDocs(await fetchDocuments(jwt));
-        } catch (err: any) {
-            setError(err.message ?? "Erreur lors du chargement");
+            const data = await fetchDocuments(jwt);
+            setDocs(data);
+        } catch (err: unknown) {
+            setError(err instanceof Error ? err.message : "Erreur lors du chargement");
         }
-    }
+    }, [jwt]);
 
     useEffect(() => {
         loadDocs();
-    }, [jwt]);
+    }, [loadDocs]);
 
     const handleDelete = async (filename: string) => {
         if (!window.confirm(`Confirmez-vous la suppression de ${filename} ?`)) {
@@ -33,8 +33,8 @@ const MyDocuments: React.FC<MyDocumentsProps> = ({ jwt }) => {
             setLoading(true);
             await deleteDocument(filename, jwt);
             await loadDocs();
-        } catch (err: any) {
-            setError(err.message);
+        } catch (err: unknown) {
+            setError(err instanceof Error ? err.message : "Erreur inconnue");
         } finally {
             setLoading(false);
         }

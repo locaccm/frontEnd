@@ -9,7 +9,6 @@ describe('generateReceipt', () => {
     const fullUrl = `${baseUrl}/api/rent-receipt`
 
     beforeEach(() => {
-        // stub VITE_API_URL
         ;(import.meta.env as any).VITE_API_URL = baseUrl
         global.fetch = vi.fn()
     })
@@ -20,7 +19,7 @@ describe('generateReceipt', () => {
 
     it('appelle fetch avec la bonne URL, méthode et headers, et renvoie le JSON', async () => {
         const mockResponse: GenerateResponse = { pdfUrl: 'http://url/to/receipt.pdf' }
-        // @ts-ignore
+        // @ts-expect-error mock global.fetch
         global.fetch.mockResolvedValueOnce({
             ok: true,
             json: vi.fn().mockResolvedValueOnce(mockResponse),
@@ -41,7 +40,7 @@ describe('generateReceipt', () => {
     })
 
     it('jette une erreur "Not authenticated" si le status est 401', async () => {
-        // @ts-ignore
+        // @ts-expect-error mock global.fetch
         global.fetch.mockResolvedValueOnce({
             ok: false,
             status: 401,
@@ -55,7 +54,7 @@ describe('generateReceipt', () => {
     })
 
     it('jette une erreur générique pour un autre status HTTP', async () => {
-        // @ts-ignore
+        // @ts-expect-error mock global.fetch
         global.fetch.mockResolvedValueOnce({
             ok: false,
             status: 500,

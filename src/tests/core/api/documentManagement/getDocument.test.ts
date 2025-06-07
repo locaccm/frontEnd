@@ -1,4 +1,3 @@
-// __tests__/fetchDocuments.test.ts
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import {DocumentInfo, fetchDocuments} from "../../../../core/api/documentManagement/getDocument.js";
 
@@ -23,7 +22,7 @@ describe('fetchDocuments', () => {
                 { name: 'noid_file.txt',     url: 'u2', created: '2025-06-02T00:00:00Z' }
             ]
         }
-        // @ts-ignore
+        // @ts-expect-error mock global.fetch
         global.fetch.mockResolvedValueOnce({
             ok: true,
             json: vi.fn().mockResolvedValueOnce(apiPayload),
@@ -48,7 +47,7 @@ describe('fetchDocuments', () => {
     })
 
     it('jette "Not authenticated" si status 401', async () => {
-        // @ts-ignore
+        // @ts-expect-error mock global.fetch
         global.fetch.mockResolvedValueOnce({ ok: false, status: 401 })
 
         await expect(fetchDocuments(jwt)).rejects.toThrowError('Not authenticated')
@@ -56,7 +55,7 @@ describe('fetchDocuments', () => {
     })
 
     it('jette une erreur générique pour un autre status', async () => {
-        // @ts-ignore
+        // @ts-expect-error mock global.fetch
         global.fetch.mockResolvedValueOnce({ ok: false, status: 500 })
 
         await expect(fetchDocuments(jwt))

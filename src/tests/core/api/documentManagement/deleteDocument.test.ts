@@ -18,7 +18,7 @@ describe('deleteDocument', () => {
     })
 
     it('appelle fetch avec DELETE et ne jette pas si response.ok', async () => {
-        // @ts-ignore
+        // @ts-expect-error mock global.fetch
         global.fetch.mockResolvedValueOnce({
             ok: true,
         })
@@ -37,7 +37,7 @@ describe('deleteDocument', () => {
 
     it('jette l’erreur du champ message du JSON si présent', async () => {
         const serverMsg = 'Suppression impossible'
-        // @ts-ignore
+        // @ts-expect-error mock global.fetch
         global.fetch.mockResolvedValueOnce({
             ok: false,
             status: 400,
@@ -53,7 +53,7 @@ describe('deleteDocument', () => {
 
     it('jette l’erreur du champ error du JSON si présent', async () => {
         const serverErr = 'Token invalide'
-        // @ts-ignore
+        // @ts-expect-error mock global.fetch
         global.fetch.mockResolvedValueOnce({
             ok: false,
             status: 401,
@@ -68,7 +68,7 @@ describe('deleteDocument', () => {
     })
 
     it('jette un message générique si le JSON échoue ou ne contient pas message/error', async () => {
-        // @ts-ignore
+        // @ts-expect-error mock global.fetch
         global.fetch.mockResolvedValueOnce({
             ok: false,
             status: 404,
