@@ -4,6 +4,7 @@ import Signin from "../pages/authentication/Signin/Signin.js";
 import HousingManagement from "../pages/housingManagement/housingManagement.js";
 import ProfileManagement from "../pages/profileManagement/profileManagement.js";
 import WealthManagement from "../pages/wealthManagement/WealthManagementPage.js";
+import DocumentManagement from "../pages/documentManagement/documentManagement.js";
 
 const AppRoutes = () => {
   return (
@@ -14,6 +15,7 @@ const AppRoutes = () => {
         <Route path="/lease" element={<HousingManagement />} />
         <Route path="/profile" element={<ProfileManagement />} />
         <Route path="/wealth-management" element={<WealthManagement />} />
+        <Route path="/document-management/:leaseId" element={<DocumentManagement leaseId={0} jwt={""} onClose={() => {} } />} />
       </Routes>
     </BrowserRouter>
   );
