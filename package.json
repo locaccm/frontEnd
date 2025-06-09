@@ -4,13 +4,13 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "tsc && vite",
     "start:server": "tsc && node ./server/server.js",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "lint": "eslint .",
     "prettier": "npx prettier . --write",
-    "test": "vitest run",
+    "test": "tsc && vitest run",
     "test:ui": "vitest"
   },
   "dependencies": {
