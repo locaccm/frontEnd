@@ -22,7 +22,12 @@ const ProfileForm = () => {
         bio: "",
     });
 
-    const userId = 1; // Temporaire en DEV
+    //const userId = 1;
+    const userId = sessionStorage.getItem("userId");
+
+    if (!userId) {
+        return <div>Utilisateur non connecté</div>;
+    }
 
     useEffect(() => {
         fetch(`${import.meta.env.VITE_PROFILE_URL}profiles/${userId}`)
@@ -54,16 +59,23 @@ const ProfileForm = () => {
         formData.append("file", file);
 
         try {
-            const res = await fetch(`${import.meta.env.VITE_BUCKET_UPLOAD_URL}/`, {
-                //MAKE BUCKET UPLOAD
+            const res = await fetch(`${import.meta.env.VITE_BUCKET_UPLOAD_URL}/upload/images`, {
+                method: "POST",
+                body: formData,
             });
 
+            if (!res.ok) {
+                throw new Error("Upload échoué");
+            }
+
             const data = await res.json();
-            setProfile((prev) => ({ ...prev, photoUrl: data.url }));
+            setProfile((prev) => ({ ...prev, photoUrl: data.path }));
         } catch (err) {
+            console.error(err);
             alert("Erreur lors de l'upload de l'image");
         }
     };
+
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -80,6 +92,7 @@ const ProfileForm = () => {
         if (res.ok) alert("Profil mis à jour !");
         else alert("Erreur lors de la mise à jour");
     };
+
 
     return (
         <form className={styles.form_container} onSubmit={handleSubmit}>
@@ -131,9 +144,16 @@ const ProfileForm = () => {
                 onChange={handleChange}
                 className={styles.input}
             />
-            <div className={styles.image_upload}>
-                {profile.photoUrl && <img src={profile.photoUrl} alt="Profile" />}
-                <input type="file" accept="image/*" onChange={handlePhotoChange} />
+            <div className={`${styles.image_upload}`}>
+                {profile.photoUrl && (
+                    <img
+                        src={`${import.meta.env.VITE_BUCKET_UPLOAD_URL}/files/${profile.photoUrl}`}
+                        alt="Profile"
+                        className={styles.profile_image}
+                    />
+                )}
+                <input id="profile-upload" type="file" accept="image/*" onChange={handlePhotoChange} aria-label="photo de profil" />
+
             </div>
             <button type="submit" className={styles.green_btn}>
                 Enregistrer
