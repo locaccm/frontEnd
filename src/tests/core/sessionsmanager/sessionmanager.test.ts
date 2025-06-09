@@ -8,7 +8,6 @@ import {
     initUserProfileSession,
 } from "../../../core/session/SessionsManager.js";
 
-// 📦 Mock sessionStorage
 vi.stubGlobal("sessionStorage", {
     getItem: vi.fn((key: string) => {
         const data: Record<string, string> = {
@@ -30,7 +29,6 @@ vi.stubGlobal("sessionStorage", {
     clear: vi.fn(),
 });
 
-// 📦 Mock import.meta.env
 vi.stubGlobal("import.meta", {
     env: {
         VITE_PROFILE_URL: "http://localhost:4000/",
