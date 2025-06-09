@@ -34,20 +34,20 @@ export const setUserProfileData = (data: {
   if (data.address) sessionStorage.setItem("userAddress", data.address);
 };
 
+export const getEnvVar = (key: string): string =>
+    (import.meta.env && import.meta.env[key]) || "http://localhost:3000/";
+
 export const initUserProfileSession = async () => {
   const userId = sessionStorage.getItem("userId");
   const token = sessionStorage.getItem("token");
   if (!userId) return;
 
   try {
-    const res = await fetch(
-      `${import.meta.env.VITE_PROFILE_URL}profiles/${userId}`,
-      {
-        headers: {
-          Authorization: token ? `Bearer ${token}` : "",
-        },
+    const res = await fetch(`${getEnvVar("VITE_PROFILE_URL")}profiles/${userId}`, {
+      headers: {
+        Authorization: token ? `Bearer ${token}` : "",
       },
-    );
+    });
     if (res.ok) {
       const profile = await res.json();
       setUserProfileData(profile);

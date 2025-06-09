@@ -1,49 +1,34 @@
-import { describe, it, expect, vi, beforeEach, beforeAll } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import * as sessionManager from "../../../core/session/SessionsManager.js";
 
-beforeAll(() => {
-    vi.stubGlobal("import.meta", {
-        env: {
-            VITE_PROFILE_URL: "http://localhost:3000/",
-        },
-    });
+const {
+    getUserId,
+    getToken,
+    getEmail,
+    getUserProfileData,
+    setUserProfileData,
+    initUserProfileSession,
+} = sessionManager;
 
-    vi.stubGlobal("sessionStorage", {
-        getItem: vi.fn((key: string) => {
-            const data: Record<string, string> = {
-                userId: "1",
-                token: "abc",
-                userEmail: "john@example.com",
-                userFirstName: "Jean",
-                userLastName: "Dupont",
-                userBirthDate: "1990-01-01",
-                userPhotoUrl: "photo.jpg",
-                userBio: "Dév passionné",
-                userTel: "0600000000",
-                userAddress: "1 rue de Paris",
-            };
-            return data[key] ?? null;
-        }),
-        setItem: vi.fn(),
-        removeItem: vi.fn(),
-        clear: vi.fn(),
-    });
-});
-
-let getUserId: any;
-let getToken: any;
-let getEmail: any;
-let getUserProfileData: any;
-let setUserProfileData: any;
-let initUserProfileSession: any;
-
-beforeAll(async () => {
-    const mod = await import("../../../core/session/SessionsManager.js");
-    getUserId = mod.getUserId;
-    getToken = mod.getToken;
-    getEmail = mod.getEmail;
-    getUserProfileData = mod.getUserProfileData;
-    setUserProfileData = mod.setUserProfileData;
-    initUserProfileSession = mod.initUserProfileSession;
+vi.stubGlobal("sessionStorage", {
+    getItem: vi.fn((key: string) => {
+        const data: Record<string, string> = {
+            userId: "1",
+            token: "abc",
+            userEmail: "john@example.com",
+            userFirstName: "Jean",
+            userLastName: "Dupont",
+            userBirthDate: "1990-01-01",
+            userPhotoUrl: "photo.jpg",
+            userBio: "Dév passionné",
+            userTel: "0600000000",
+            userAddress: "1 rue de Paris",
+        };
+        return data[key] ?? null;
+    }),
+    setItem: vi.fn(),
+    removeItem: vi.fn(),
+    clear: vi.fn(),
 });
 
 describe("sessionManager", () => {
@@ -101,6 +86,8 @@ describe("sessionManager", () => {
             tel: "0601020304",
             address: "Test Street",
         };
+
+        vi.spyOn(sessionManager, "getEnvVar").mockReturnValue("http://localhost:3000/");
 
         const fetchMock = vi.fn().mockResolvedValue({
             ok: true,
