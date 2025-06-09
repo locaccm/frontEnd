@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "lint": "eslint .",
     "prettier": "npx prettier . --write",
-    "test": "vitest run",
+    "test": "tsc && vitest run",
     "test:ui": "vitest"
   },
   "dependencies": {

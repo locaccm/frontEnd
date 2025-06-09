@@ -29,11 +29,14 @@ vi.stubGlobal("sessionStorage", {
     clear: vi.fn(),
 });
 
-vi.stubGlobal("import.meta", {
-    env: {
-        VITE_PROFILE_URL: "http://localhost:4000/",
-    },
+beforeAll(() => {
+    vi.stubGlobal("import.meta", {
+        env: {
+            VITE_PROFILE_URL: "http://localhost:4000/",
+        },
+    });
 });
+
 
 describe("sessionManager", () => {
     beforeEach(() => {
