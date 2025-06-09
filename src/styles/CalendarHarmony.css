@@ -1,0 +1,75 @@
+/* Fichier d'harmonisation des couleurs pour le calendrier */
+
+/* Palette de couleurs harmonisées */
+:root {
+  --primary-gradient: linear-gradient(to right, #4a6da7, #6a8cca);
+  --primary-color: #4a6da7;
+  --primary-light: rgba(74, 109, 167, 0.2);
+  --primary-hover: rgba(255, 255, 255, 0.3);
+  --error-color: #f44336;
+}
+
+/* Harmonisation des boutons de navigation */
+.day-navigation,
+.week-navigation {
+  background: var(--primary-gradient);
+  color: white;
+  border-radius: 10px 10px 0 0;
+}
+
+.day-navigation button,
+.week-navigation button {
+  background-color: rgba(255, 255, 255, 0.2);
+  transition: background-color 0.2s ease;
+}
+
+.day-navigation button:hover,
+.week-navigation button:hover {
+  background-color: var(--primary-hover);
+}
+
+/* Harmonisation des indicateurs */
+.today-indicator {
+  background: var(--primary-gradient);
+  color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.other-month-indicator {
+  background-color: var(--error-color);
+}
+
+/* Harmonisation des sélecteurs de vue */
+.view-button.active {
+  background: var(--primary-gradient);
+}
+
+/* Harmonisation des indicateurs de chargement */
+.loading-indicator {
+  background: var(--primary-gradient);
+  color: white;
+}
+
+/* Style harmonisé pour l'heure actuelle */
+.hour-row.current-time::before {
+  background-color: var(--error-color);
+}
+
+/* Harmonisation des entêtes */
+.week-day-header {
+  background: linear-gradient(to bottom, #f5f7fa, #eef2f6);
+  border-radius: 6px 6px 0 0;
+}
+
+/* Animation commune */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.day-view,
+.week-view,
+.month-view,
+.year-view {
+  animation: fadeIn 0.3s ease;
+}

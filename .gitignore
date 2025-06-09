@@ -23,3 +23,20 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Env files (local overrides, not in repo)
+.env
+.env.*
+!.env.example
+
+# Coverage directory
+coverage/
+
+# TypeScript build info
+*.tsbuildinfo
+
+# Vite cache
+.vite/
+
+# ESLint cache
+.eslintcache
