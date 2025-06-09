@@ -1,12 +1,18 @@
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import ProfileForm from "../../../components/profilManagement/ProfileForm.js";
-import { vi, describe, expect, beforeEach, Mock } from "vitest";
+import { vi, describe, expect, beforeEach } from "vitest";
 import "@testing-library/jest-dom";
-global.fetch = vi.fn();
+
+Object.defineProperty(import.meta, "env", {
+  value: {
+    VITE_PROFILE_URL: "http://localhost:4000/",
+    VITE_BUCKET_UPLOAD_URL: "http://localhost:4001",
+  },
+});
 
 vi.stubGlobal("sessionStorage", {
-  getItem: vi.fn((key) => {
+  getItem: vi.fn((key: string) => {
     if (key === "userId") return "1";
     if (key === "token") return "mock-token";
     return null;
@@ -16,13 +22,8 @@ vi.stubGlobal("sessionStorage", {
   clear: vi.fn(),
 });
 
-// ✅ Mock de import.meta.env
-vi.stubGlobal("import.meta", {
-  env: {
-    VITE_PROFILE_URL: "http://localhost:4000/",
-    VITE_BUCKET_UPLOAD_URL: "http://localhost:4001",
-  },
-});
+const mockFetch = vi.fn();
+vi.stubGlobal("fetch", mockFetch);
 
 const mockProfile = {
   firstName: "Jean",
@@ -36,14 +37,14 @@ const mockProfile = {
 
 describe("ProfileForm", () => {
   beforeEach(() => {
-    (fetch as ReturnType<typeof vi.fn>).mockClear();
+    mockFetch.mockClear();
   });
 
   test("charge et affiche les données du profil", async () => {
-    (fetch as any).mockResolvedValueOnce({
+    mockFetch.mockResolvedValueOnce({
       ok: true,
       json: async () => mockProfile,
-    });
+    } as Response);
 
     render(<ProfileForm />);
 
@@ -55,27 +56,26 @@ describe("ProfileForm", () => {
   });
 
   test("met à jour le champ bio", async () => {
-    (fetch as any).mockResolvedValueOnce({
+    mockFetch.mockResolvedValueOnce({
       ok: true,
       json: async () => mockProfile,
-    });
+    } as Response);
 
     render(<ProfileForm />);
-
     const bioField = await screen.findByPlaceholderText("Bio");
     fireEvent.change(bioField, { target: { value: "Nouvelle bio" } });
     expect(bioField).toHaveValue("Nouvelle bio");
   });
 
   test("envoie les données du profil en PUT", async () => {
-    (fetch as any)
+    mockFetch
         .mockResolvedValueOnce({
           ok: true,
           json: async () => mockProfile,
-        })
+        } as Response)
         .mockResolvedValueOnce({
           ok: true,
-        });
+        } as Response);
 
     render(<ProfileForm />);
 
@@ -83,7 +83,7 @@ describe("ProfileForm", () => {
     fireEvent.click(button);
 
     await waitFor(() => {
-      expect(fetch).toHaveBeenCalledWith(
+      expect(mockFetch).toHaveBeenCalledWith(
           expect.stringContaining("profiles/1"),
           expect.objectContaining({
             method: "PUT",
@@ -97,16 +97,15 @@ describe("ProfileForm", () => {
   });
 
   test("affiche une erreur si l'upload échoue", async () => {
-    (fetch as any).mockResolvedValueOnce({
+    mockFetch.mockResolvedValueOnce({
       ok: true,
       json: async () => mockProfile,
-    });
+    } as Response);
 
     render(<ProfileForm />);
-
     const input = await screen.findByLabelText(/photo de profil/i);
 
-    (fetch as any).mockRejectedValueOnce(new Error("upload failed"));
+    mockFetch.mockRejectedValueOnce(new Error("upload failed"));
 
     const file = new File(["dummy content"], "profile.png", {
       type: "image/png",
@@ -115,7 +114,7 @@ describe("ProfileForm", () => {
     fireEvent.change(input, { target: { files: [file] } });
 
     await waitFor(() => {
-      expect(fetch).toHaveBeenCalled();
+      expect(mockFetch).toHaveBeenCalled();
     });
   });
 });
