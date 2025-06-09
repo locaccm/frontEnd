@@ -24,34 +24,35 @@ const ProfileForm = () => {
   });
 
   //const userId = 1; In DEV MODE
-  const userId = sessionStorage.getItem("userId");
+    const userId = sessionStorage.getItem("userId");
 
-  if (!userId) {
-    alert("No user found.");
-    return;
-  }
+    useEffect(() => {
+        if (!userId) return;
+        const token = sessionStorage.getItem("token");
+        fetch(`${import.meta.env.VITE_PROFILE_URL}profiles/${userId}`, {
+            headers: {
+                Authorization: token ? `Bearer ${token}` : "",
+            },
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                const formattedBirthDate = data.birthDate
+                    ? new Date(data.birthDate).toISOString().split("T")[0]
+                    : "";
 
-  useEffect(() => {
-    const token = sessionStorage.getItem("token");
-    fetch(`${import.meta.env.VITE_PROFILE_URL}profiles/${userId}`, {
-      headers: {
-        Authorization: token ? `Bearer ${token}` : "",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        const formattedBirthDate = data.birthDate
-          ? new Date(data.birthDate).toISOString().split("T")[0]
-          : "";
+                setProfile({
+                    ...data,
+                    birthDate: formattedBirthDate,
+                });
+            });
+    }, [userId]);
 
-        setProfile({
-          ...data,
-          birthDate: formattedBirthDate,
-        });
-      });
-  }, []);
+    if (!userId) {
+        return <div>Utilisateur non connecté</div>;
+    }
 
-  const handleChange = (
+
+    const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
