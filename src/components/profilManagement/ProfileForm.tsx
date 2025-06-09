@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import styles from "./styles.module.css";
+import {setUserProfileData} from "../../core/session/SessionsManager.js";
 
 type UserProfile = {
     firstName: string;
@@ -22,15 +23,21 @@ const ProfileForm = () => {
         bio: "",
     });
 
-    //const userId = 1;
+    //const userId = 1; In DEV MODE
     const userId = sessionStorage.getItem("userId");
 
     if (!userId) {
-        return <div>Utilisateur non connecté</div>;
+        alert("No user found.");
+        return;
     }
 
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_PROFILE_URL}profiles/${userId}`)
+        const token = sessionStorage.getItem("token");
+        fetch(`${import.meta.env.VITE_PROFILE_URL}profiles/${userId}`, {
+            headers: {
+                Authorization: token ? `Bearer ${token}` : "",
+            },
+        })
             .then((res) => res.json())
             .then((data) => {
                 const formattedBirthDate = data.birthDate
@@ -79,18 +86,29 @@ const ProfileForm = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
+        const token = sessionStorage.getItem("token");
+        if (!token) {
+            alert("Vous devez être connecté pour mettre à jour votre profil.");
+            return;
+        }
         const res = await fetch(
             `${import.meta.env.VITE_PROFILE_URL}profiles/${userId}`,
             {
                 method: "PUT",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: token ? `Bearer ${token}` : "",
+                },
                 body: JSON.stringify(profile),
             }
         );
 
-        if (res.ok) alert("Profil mis à jour !");
-        else alert("Erreur lors de la mise à jour");
+        if (res.ok) {
+            alert("Profil mis à jour !");
+            setUserProfileData(profile);
+        } else {
+            alert("Erreur lors de la mise à jour");
+        }
     };
 
 
