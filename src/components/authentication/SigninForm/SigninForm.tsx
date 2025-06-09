@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styles from "./styles.module.css";
-import {initUserProfileSession} from "../../../core/session/SessionsManager.js";
+import { initUserProfileSession } from "../../../core/session/SessionsManager.js";
 
 type SigninResponse = {
   token: string;
@@ -51,7 +51,6 @@ const SigninForm = () => {
           sessionStorage.setItem("userEmail", body.user.USEC_MAIL);
           //sessionStorage.setItem("userBirthDate", body.user.USED_BIRTH);
           await initUserProfileSession();
-
         } else {
           alert("Erreur lors de la connexion");
         }

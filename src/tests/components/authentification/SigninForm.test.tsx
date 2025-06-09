@@ -26,10 +26,14 @@ Object.defineProperty(window, "sessionStorage", {
   value: sessionStorageMock,
 });
 
+import * as SessionManager from "../../../core/session/SessionsManager.js";
+const initUserProfileMock = vi.spyOn(SessionManager, "initUserProfileSession").mockResolvedValue();
+
 beforeEach(() => {
   mockFetch.mockReset();
   alertMock.mockClear();
   sessionStorage.clear();
+  initUserProfileMock.mockClear();
 });
 
 describe("SigninForm", () => {
@@ -75,10 +79,8 @@ describe("SigninForm", () => {
 
     expect(sessionStorage.getItem("token")).toBe("fake-token");
     expect(sessionStorage.getItem("userId")).toBe("1");
-    expect(sessionStorage.getItem("userFirstName")).toBe("John");
-    expect(sessionStorage.getItem("userLastName")).toBe("Doe");
     expect(sessionStorage.getItem("userEmail")).toBe("john@example.com");
-    expect(sessionStorage.getItem("userBirthDate")).toBe("2000-01-01");
+    expect(initUserProfileMock).toHaveBeenCalled();
   });
 
   it("shows alert on fetch error", async () => {
