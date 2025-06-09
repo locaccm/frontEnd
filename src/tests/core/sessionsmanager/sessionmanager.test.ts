@@ -1,42 +1,50 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import {
-    getUserId,
-    getToken,
-    getEmail,
-    getUserProfileData,
-    setUserProfileData,
-    initUserProfileSession,
-} from "../../../core/session/SessionsManager.js";
-
-vi.stubGlobal("sessionStorage", {
-    getItem: vi.fn((key: string) => {
-        const data: Record<string, string> = {
-            userId: "1",
-            token: "abc",
-            userEmail: "john@example.com",
-            userFirstName: "Jean",
-            userLastName: "Dupont",
-            userBirthDate: "1990-01-01",
-            userPhotoUrl: "photo.jpg",
-            userBio: "Dév passionné",
-            userTel: "0600000000",
-            userAddress: "1 rue de Paris",
-        };
-        return data[key] ?? null;
-    }),
-    setItem: vi.fn(),
-    removeItem: vi.fn(),
-    clear: vi.fn(),
-});
+import { describe, it, expect, vi, beforeEach, beforeAll } from "vitest";
 
 beforeAll(() => {
     vi.stubGlobal("import.meta", {
         env: {
-            VITE_PROFILE_URL: "http://localhost:4000/",
+            VITE_PROFILE_URL: "http://localhost:3000/",
         },
+    });
+
+    vi.stubGlobal("sessionStorage", {
+        getItem: vi.fn((key: string) => {
+            const data: Record<string, string> = {
+                userId: "1",
+                token: "abc",
+                userEmail: "john@example.com",
+                userFirstName: "Jean",
+                userLastName: "Dupont",
+                userBirthDate: "1990-01-01",
+                userPhotoUrl: "photo.jpg",
+                userBio: "Dév passionné",
+                userTel: "0600000000",
+                userAddress: "1 rue de Paris",
+            };
+            return data[key] ?? null;
+        }),
+        setItem: vi.fn(),
+        removeItem: vi.fn(),
+        clear: vi.fn(),
     });
 });
 
+let getUserId: any;
+let getToken: any;
+let getEmail: any;
+let getUserProfileData: any;
+let setUserProfileData: any;
+let initUserProfileSession: any;
+
+beforeAll(async () => {
+    const mod = await import("../../../core/session/SessionsManager.js");
+    getUserId = mod.getUserId;
+    getToken = mod.getToken;
+    getEmail = mod.getEmail;
+    getUserProfileData = mod.getUserProfileData;
+    setUserProfileData = mod.setUserProfileData;
+    initUserProfileSession = mod.initUserProfileSession;
+});
 
 describe("sessionManager", () => {
     beforeEach(() => {
@@ -46,7 +54,7 @@ describe("sessionManager", () => {
     it("get functions should return correct values from sessionStorage", () => {
         expect(getUserId()).toBe("1");
         expect(getToken()).toBe("abc");
-        expect(getEmail()).toBe("john@example.com"); // <- adapte si stocké
+        expect(getEmail()).toBe("john@example.com");
     });
 
     it("getUserProfileData should return full profile from sessionStorage", () => {
