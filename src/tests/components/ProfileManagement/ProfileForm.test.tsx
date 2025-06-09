@@ -7,93 +7,93 @@ import "@testing-library/jest-dom";
 global.fetch = vi.fn();
 
 const mockProfile = {
-    firstName: "Jean",
-    lastName: "Dupont",
-    address: "123 rue de Paris",
-    birthDate: "1990-05-15T00:00:00.000Z",
-    tel: "0601020304",
-    photoUrl: "images/profil.jpg",
-    bio: "Développeur passionné",
+  firstName: "Jean",
+  lastName: "Dupont",
+  address: "123 rue de Paris",
+  birthDate: "1990-05-15T00:00:00.000Z",
+  tel: "0601020304",
+  photoUrl: "images/profil.jpg",
+  bio: "Développeur passionné",
 };
 
 describe("ProfileForm", () => {
-    beforeEach(() => {
-        (fetch as ReturnType<typeof vi.fn>).mockClear();
+  beforeEach(() => {
+    (fetch as ReturnType<typeof vi.fn>).mockClear();
+  });
+
+  test("charge et affiche les données du profil", async () => {
+    (fetch as Mock).mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockProfile,
     });
 
-    test("charge et affiche les données du profil", async () => {
-        (fetch as Mock).mockResolvedValueOnce({
-            ok: true,
-            json: async () => mockProfile,
-        });
+    render(<ProfileForm />);
 
-        render(<ProfileForm />);
+    expect(await screen.findByDisplayValue("Jean")).toBeInTheDocument();
+    expect(screen.getByDisplayValue("Dupont")).toBeInTheDocument();
+    expect(screen.getByDisplayValue("123 rue de Paris")).toBeInTheDocument();
+    expect(screen.getByDisplayValue("1990-05-15")).toBeInTheDocument();
+    expect(screen.getByDisplayValue("0601020304")).toBeInTheDocument();
+  });
 
-        expect(await screen.findByDisplayValue("Jean")).toBeInTheDocument();
-        expect(screen.getByDisplayValue("Dupont")).toBeInTheDocument();
-        expect(screen.getByDisplayValue("123 rue de Paris")).toBeInTheDocument();
-        expect(screen.getByDisplayValue("1990-05-15")).toBeInTheDocument();
-        expect(screen.getByDisplayValue("0601020304")).toBeInTheDocument();
+  test("met à jour le champ bio", async () => {
+    (fetch as Mock).mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockProfile,
     });
 
-    test("met à jour le champ bio", async () => {
-        (fetch as Mock).mockResolvedValueOnce({
-            ok: true,
-            json: async () => mockProfile,
-        });
+    render(<ProfileForm />);
 
-        render(<ProfileForm />);
+    const bioField = await screen.findByPlaceholderText("Bio");
+    fireEvent.change(bioField, { target: { value: "Nouvelle bio" } });
+    expect(bioField).toHaveValue("Nouvelle bio");
+  });
 
-        const bioField = await screen.findByPlaceholderText("Bio");
-        fireEvent.change(bioField, { target: { value: "Nouvelle bio" } });
-        expect(bioField).toHaveValue("Nouvelle bio");
+  test("envoie les données du profil en PUT", async () => {
+    (fetch as Mock)
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => mockProfile,
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+      });
+
+    render(<ProfileForm />);
+
+    const button = await screen.findByText("Enregistrer");
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(fetch).toHaveBeenCalledWith(
+        expect.stringContaining("profiles/1"),
+        expect.objectContaining({
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+        }),
+      );
+    });
+  });
+
+  test("affiche une erreur si l'upload échoue", async () => {
+    (fetch as Mock).mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockProfile,
     });
 
-    test("envoie les données du profil en PUT", async () => {
-        (fetch as Mock)
-            .mockResolvedValueOnce({
-                ok: true,
-                json: async () => mockProfile,
-            })
-            .mockResolvedValueOnce({
-                ok: true,
-            });
+    render(<ProfileForm />);
 
-        render(<ProfileForm />);
+    const input = await screen.findByLabelText(/photo de profil/i);
+    (fetch as Mock).mockRejectedValueOnce(new Error("upload failed"));
 
-        const button = await screen.findByText("Enregistrer");
-        fireEvent.click(button);
-
-        await waitFor(() => {
-            expect(fetch).toHaveBeenCalledWith(
-                expect.stringContaining("profiles/1"),
-                expect.objectContaining({
-                    method: "PUT",
-                    headers: { "Content-Type": "application/json" },
-                })
-            );
-        });
+    const file = new File(["dummy content"], "profile.png", {
+      type: "image/png",
     });
 
-    test("affiche une erreur si l'upload échoue", async () => {
-        (fetch as Mock).mockResolvedValueOnce({
-            ok: true,
-            json: async () => mockProfile,
-        });
+    fireEvent.change(input, { target: { files: [file] } });
 
-        render(<ProfileForm />);
-
-        const input = await screen.findByLabelText(/photo de profil/i);
-        (fetch as Mock).mockRejectedValueOnce(new Error("upload failed"));
-
-        const file = new File(["dummy content"], "profile.png", {
-            type: "image/png",
-        });
-
-        fireEvent.change(input, { target: { files: [file] } });
-
-        await waitFor(() => {
-            expect(fetch).toHaveBeenCalled();
-        });
+    await waitFor(() => {
+      expect(fetch).toHaveBeenCalled();
     });
+  });
 });
