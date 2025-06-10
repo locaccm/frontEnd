@@ -5,7 +5,7 @@ import {
   fireEvent,
   waitFor
 } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";        // <--- importer MemoryRouter
+import { MemoryRouter } from "react-router-dom";
 import { vi } from "vitest";
 
 import AccommodationTable from "../../../components/wealthManagement/AccommodationTable.js";
