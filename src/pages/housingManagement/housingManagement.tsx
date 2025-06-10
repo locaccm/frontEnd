@@ -19,7 +19,7 @@ const HousingManagement = () => {
 
   const [leases, setLeases] = useState<Lease[]>([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [editingLease, setEditingLease] = useState<Lease | null>(null);
 
