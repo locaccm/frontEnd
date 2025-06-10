@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { Lease } from "../../pages/housingManagement/housingManagement.js";
+import { useLeaseActions } from "../../hooks/housingManagement/useLeaseActions.js";
+import { LeaseFormData } from "../../types/housingManagement/housingManagement.js";
 
 interface LeaseFormProps {
   lease: Lease | null;
@@ -7,8 +9,10 @@ interface LeaseFormProps {
 }
 
 const LeaseForm = ({ lease, onClose }: LeaseFormProps) => {
-  const [formData, setFormData] = useState<Lease>({
-    LEAN_ID: 0,             
+  const { createLease, updateLease } = useLeaseActions();
+
+  const [formData, setFormData] = useState<LeaseFormData>({
+    LEAN_ID: 0,
     LEAD_START: "",
     LEAD_END: "",
     LEAN_RENT: "0",
@@ -23,9 +27,9 @@ const LeaseForm = ({ lease, onClose }: LeaseFormProps) => {
     if (lease) {
       setFormData({
         ...lease,
-        LEAD_START: lease.LEAD_START ? lease.LEAD_START.split('T')[0] : "",
-        LEAD_END: lease.LEAD_END ? lease.LEAD_END.split('T')[0] : "",
-        LEAD_PAYMENT: lease.LEAD_PAYMENT ? lease.LEAD_PAYMENT.split('T')[0] : "",
+        LEAD_START: lease.LEAD_START ? lease.LEAD_START.split("T")[0] : "",
+        LEAD_END: lease.LEAD_END ? lease.LEAD_END.split("T")[0] : "",
+        LEAD_PAYMENT: lease.LEAD_PAYMENT ? lease.LEAD_PAYMENT.split("T")[0] : "",
         LEAN_RENT: lease.LEAN_RENT.toString(),
         LEAN_CHARGES: lease.LEAN_CHARGES.toString(),
       });
@@ -36,9 +40,10 @@ const LeaseForm = ({ lease, onClose }: LeaseFormProps) => {
     const target = e.target as HTMLInputElement;
     const { name, value, type } = target;
     const newValue =
-      type === "checkbox" ? target.checked : name === "LEAN_RENT" || name === "LEAN_CHARGES" || name === "USEN_ID" || name === "ACCN_ID"
-        ? Number(value)
-        : value;
+      type === "checkbox" ? target.checked
+      : name === "LEAN_RENT" || name === "LEAN_CHARGES" || name === "USEN_ID" || name === "ACCN_ID"
+      ? value
+      : value;
 
     setFormData((prev) => ({
       ...prev,
@@ -48,43 +53,31 @@ const LeaseForm = ({ lease, onClose }: LeaseFormProps) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     try {
       const cleanData = {
-        LEAD_START: formData.LEAD_START ? formData.LEAD_START.split('T')[0] : null,
-        LEAD_END: formData.LEAD_END ? formData.LEAD_END.split('T')[0] : null,
+        LEAD_START: formData.LEAD_START ?? "",
+        LEAD_END: formData.LEAD_END ?? "",
         LEAN_RENT: Number(formData.LEAN_RENT),
         LEAN_CHARGES: Number(formData.LEAN_CHARGES),
-        LEAD_PAYMENT: formData.LEAD_PAYMENT ? formData.LEAD_PAYMENT.split('T')[0] : null,
+        LEAD_PAYMENT: formData.LEAD_PAYMENT ?? "",
         LEAB_ACTIVE: formData.LEAB_ACTIVE,
-        USEN_ID: formData.USEN_ID && formData.USEN_ID > 0 ? formData.USEN_ID : null,
-        ACCN_ID: formData.ACCN_ID && formData.ACCN_ID > 0 ? formData.ACCN_ID : null,
+        ACCN_ID: formData.ACCN_ID ?? 0,
       };
 
-      const method = lease && lease.LEAN_ID ? 'PUT' : 'POST';
-      const url = lease && lease.LEAN_ID
-        ? `${import.meta.env.VITE_HOUSING_URL}/lease/${lease.LEAN_ID}`
-        : `${import.meta.env.VITE_HOUSING_URL}/lease`;
-
-      const res = await fetch(url, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(cleanData),
-      });
-      
-      if (!res.ok) {
-        const errorText = await res.text();
-        throw new Error(errorText || 'Erreur serveur inconnue');
-      }
-
-      onClose();
+      const success = lease
+        ? await updateLease(lease.LEAN_ID, { ...cleanData, USEN_ID: formData.USEN_ID ?? 0 })
+        : await createLease(cleanData);
+      if (success) onClose();
     } catch (error) {
       console.error(error);
     }
   };
 
+
   return (
     <form aria-label="lease form" onSubmit={handleSubmit} style={{ marginTop: "2rem", border: "1px solid #ccc", padding: "1rem" }}>
+      <p>Votre ID utilisateur est : {sessionStorage.getItem("userId")}</p>
+
       <h2>{lease ? "Modifier un bail" : "Ajouter un nouveau bail"}</h2>
 
       <label>
