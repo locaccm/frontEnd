@@ -41,8 +41,6 @@ const LeaseForm = ({ lease, onClose }: LeaseFormProps) => {
     const { name, value, type } = target;
     const newValue =
       type === "checkbox" ? target.checked
-      : name === "LEAN_RENT" || name === "LEAN_CHARGES" || name === "USEN_ID" || name === "ACCN_ID"
-      ? value
       : value;
 
     setFormData((prev) => ({
