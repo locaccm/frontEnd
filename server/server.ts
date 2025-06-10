@@ -10,7 +10,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:5173", // autorise ton front Vite
+    origin: "http://localhost:5173",
   }),
 );
 
@@ -39,7 +39,6 @@ app.get(
         return;
       }
 
-      // Détection automatique du type MIME
       const mimeType = mime.getType(filename) || "application/octet-stream";
       res.setHeader("Content-Type", mimeType);
 
@@ -94,5 +93,4 @@ app.post(
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
-  console.log(`Proxy GCS lancé sur le port ${PORT}`);
 });

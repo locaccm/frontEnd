@@ -1,10 +1,8 @@
-/* Adaptation du CSS pour correspondre au style fourni initialement */
-
 .form_container {
   max-width: 500px;
   margin: 20px auto;
   padding: 20px;
-  background: #CEC0AD;
+  background: #cec0ad;
   border-radius: 12px;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
   text-align: center;
@@ -55,7 +53,7 @@
 }
 
 .green_btn {
-  background: #F5F1E3;
+  background: #f5f1e3;
   color: #333;
   font-size: 18px;
   padding: 12px;
