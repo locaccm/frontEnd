@@ -1,4 +1,4 @@
-import { describe, it, vi, expect, beforeEach } from "vitest";
+import { describe, it, vi, expect, beforeEach, Mock } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import LeaseForm from "../../../components/housingManagement/LeaseForm.js";
 import { Lease } from "../../../pages/housingManagement/housingManagement.js";
@@ -10,7 +10,7 @@ vi.mock("../../../hooks/housingManagement/useLeaseActions", () => ({
 const mockCreateLease = vi.fn();
 const mockUpdateLease = vi.fn();
 
-const mockUseLeaseActions = useLeaseActions as unknown as jest.Mock;
+const mockUseLeaseActions = useLeaseActions as Mock;
 
 beforeEach(() => {
   vi.clearAllMocks();
