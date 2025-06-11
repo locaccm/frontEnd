@@ -5,7 +5,7 @@ import HousingManagement from "../pages/housingManagement/housingManagement.js";
 import ProfileManagement from "../pages/profileManagement/profileManagement.js";
 import WealthManagement from "../pages/wealthManagement/WealthManagementPage.js";
 import DocumentManagement from "../pages/documentManagement/documentManagement.js";
-import ChatBubble from "../pages/chatManagement/ChatManagement.js";
+import ChatBubble from "../pages/chatManagement/chatManagement.js";
 
 const AppRoutes = () => {
   return (
