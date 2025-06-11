@@ -5,11 +5,13 @@ import HousingManagement from "../pages/housingManagement/housingManagement.js";
 import ProfileManagement from "../pages/profileManagement/profileManagement.js";
 import WealthManagement from "../pages/wealthManagement/WealthManagementPage.js";
 import DocumentManagement from "../pages/documentManagement/documentManagement.js";
+import ChatBubble from "../pages/chatManagement/ChatManagement.js";
 
 const AppRoutes = () => {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/chat" element={<ChatBubble />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/lease" element={<HousingManagement />} />
