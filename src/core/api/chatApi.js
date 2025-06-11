@@ -2,7 +2,6 @@ const API_BASE = `${import.meta.env.VITE_CHAT_URL}/api`;
 function getToken() {
     return sessionStorage.getItem("token");
 }
-// Récupère un user par ID : d'abord owner, puis tenant si pas trouvé
 export async function getUserById(id) {
     let res = await fetch(`${API_BASE}/owners/${id}`, {
         headers: { Authorization: `Bearer ${getToken()}` },

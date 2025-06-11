@@ -18,7 +18,6 @@ function getToken(): string | null {
   return sessionStorage.getItem("token");
 }
 
-// Récupère un user par ID : d'abord owner, puis tenant si pas trouvé
 export async function getUserById(id: number): Promise<User> {
   let res = await fetch(`${API_BASE}/owners/${id}`, {
     headers: { Authorization: `Bearer ${getToken()}` },
