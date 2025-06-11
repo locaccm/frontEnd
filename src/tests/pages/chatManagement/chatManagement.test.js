@@ -2,14 +2,14 @@ import { jsx as _jsx } from "react/jsx-runtime";
 import { describe, it, beforeEach, expect, vi } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import ChatManagement from "../../../pages/chatManagement/chatManagement.js";
-vi.mock("../../../core/api/chatApi.js", () => ({
+vi.mock("../../../core/api/chatManagement/chatApi.js", () => ({
     getUserById: vi.fn(),
     getTenantsByOwner: vi.fn(),
     getOwnerByTenant: vi.fn(),
     getMessages: vi.fn(),
     sendMessage: vi.fn(),
 }));
-import { getUserById, getTenantsByOwner, getMessages, sendMessage, } from "../../../core/api/chatApi.js";
+import { getUserById, getTenantsByOwner, getMessages, sendMessage, } from "../../../core/api/chatManagement/chatApi.js";
 const mockedGetUserById = getUserById;
 const mockedGetTenantsByOwner = getTenantsByOwner;
 const mockedGetMessages = getMessages;

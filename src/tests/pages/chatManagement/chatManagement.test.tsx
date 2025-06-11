@@ -3,7 +3,7 @@ import type { Mock } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import ChatManagement from "../../../pages/chatManagement/chatManagement.js";
 
-vi.mock("../../../core/api/chatApi.js", () => ({
+vi.mock("../../../core/api/chatManagement/chatApi.js", () => ({
   getUserById: vi.fn(),
   getTenantsByOwner: vi.fn(),
   getOwnerByTenant: vi.fn(),
@@ -16,7 +16,7 @@ import {
   getTenantsByOwner,
   getMessages,
   sendMessage,
-} from "../../../core/api/chatApi.js";
+} from "../../../core/api/chatManagement/chatApi.js";
 
 const mockedGetUserById = getUserById as Mock;
 const mockedGetTenantsByOwner = getTenantsByOwner as Mock;

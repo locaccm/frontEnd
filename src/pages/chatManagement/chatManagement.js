@@ -1,6 +1,6 @@
 import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
 import { useEffect, useState, useRef } from "react";
-import { getUserById, getTenantsByOwner, getOwnerByTenant, getMessages, sendMessage, } from "../../core/api/chatApi.js";
+import { getUserById, getTenantsByOwner, getOwnerByTenant, getMessages, sendMessage, } from "../../core/api/chatManagement/chatApi";
 import "../../styles/Chat.css";
 function formatName(fname, lname) {
     const formattedFname = fname.charAt(0).toUpperCase() + fname.slice(1).toLowerCase();

@@ -4,7 +4,7 @@ import {
   getOwnerByTenant,
   getMessages,
   sendMessage,
-} from "../../../core/api/chatApi.js";
+} from "../../../../core/api/chatManagement/chatApi.js";
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 

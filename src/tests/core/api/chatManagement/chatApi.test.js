@@ -1,4 +1,4 @@
-import { getUserById, getTenantsByOwner, getOwnerByTenant, getMessages, sendMessage, } from "../../../core/api/chatApi.js";
+import { getUserById, getTenantsByOwner, getOwnerByTenant, getMessages, sendMessage, } from "../../../../core/api/chatManagement/chatApi.js";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 vi.stubGlobal("sessionStorage", {
     getItem: vi.fn(() => "mocked-token"),

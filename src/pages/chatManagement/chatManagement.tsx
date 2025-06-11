@@ -7,7 +7,7 @@ import {
   sendMessage,
   User,
   Message,
-} from "../../core/api/chatApi.js";
+} from "../../core/api/chatManagement/chatApi.js";
 import "../../styles/Chat.css";
 
 function formatName(fname: string, lname: string) {
