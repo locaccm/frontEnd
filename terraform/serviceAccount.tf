@@ -5,6 +5,7 @@ module "service_account_frontend-service" {
   project_id   = "intricate-pad-455413-f7"
   roles        = [
     "roles/cloudsql.client",
-    "roles/storage.objectViewer"
+    "roles/storage.objectViewer",
+    "roles/artifactregistry.reader"
   ]
 }
