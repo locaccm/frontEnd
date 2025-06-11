@@ -1,90 +1,96 @@
-import React from "react";
-import { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from 'react';
 import AccommodationTable from "../../components/wealthManagement/AccommodationTable.js";
 import CreateAccommodationModal from "../../components/wealthManagement/CreateAccommodationModal.js";
-import UpdateAccommodationModal from "../../components/wealthManagement/UpdateAccommodationModal.js";
 import DeleteConfirmationModal from "../../components/wealthManagement/DeleteConfirmationModal.js";
-import { AccommodationInput, Accommodation } from "../../types/wealthManagement/wealthManagement.js";
+import UpdateAccommodationModal from "../../components/wealthManagement/UpdateAccommodationModal.js";
+import DocumentManagement from "../documentManagement/documentManagement.js";
+import MyDocuments from "../documentManagement/MyDocuments.js";
 
 const WealthManagementPage: React.FC = () => {
-  const [showCreateModal, setShowCreateModal] = useState(false);
-  const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [showCreateModal, setShowCreateModal]   = useState(false);
+  const [showUpdateModal, setShowUpdateModal]   = useState(false);
   const [accommodationToEdit, setAccommodationToEdit] = useState<{
     id: number;
-    data: AccommodationInput;
+    data: any;
   } | null>(null);
   const [accommodationToDelete, setAccommodationToDelete] = useState<number | null>(null);
+
   const [refreshKey, setRefreshKey] = useState(0);
+  const handleCreateSuccess = useCallback(() => setRefreshKey(k => k + 1), []);
+  const handleUpdateSuccess = useCallback(() => setRefreshKey(k => k + 1), []);
+  const handleDeleteSuccess = useCallback(() => setRefreshKey(k => k + 1), []);
 
-  const handleCreateClick = () => {
-    setShowCreateModal(true);
+  const [showDocManager, setShowDocManager] = useState(false);
+  const [leaseIdForDoc, setLeaseIdForDoc]   = useState<number | null>(null);
+
+  const [jwt, setJwt] = useState<string | null>(null);
+
+  useEffect(() => {
+    const token = sessionStorage.getItem('token');
+    setJwt(token);
+  }, []);
+
+  const handleGenerateClick = (leaseId: number) => {
+    setLeaseIdForDoc(leaseId);
+    setShowDocManager(true);
   };
-
-  const handleCreateSuccess = useCallback(() => {
-    setRefreshKey((prev) => prev + 1);
-  }, []);
-
-  const handleEdit = (acc: Accommodation) => {
-    setAccommodationToEdit({
-      id: acc.ACCN_ID,
-      data: {
-        ACCC_NAME: acc.ACCC_NAME,
-        ACCC_TYPE: acc.ACCC_TYPE,
-        ACCC_ADDRESS: acc.ACCC_ADDRESS,
-        ACCC_DESC: acc.ACCC_DESC,
-        ACCB_AVAILABLE: acc.ACCB_AVAILABLE,
-      },
-    });
-    setShowUpdateModal(true);
-  };
-
-  const handleUpdateSuccess = useCallback(() => {
-    setRefreshKey((prev) => prev + 1);
-  }, []);
-  
-  const handleDeleteSuccess = useCallback(() => {
-    setRefreshKey((prev) => prev + 1);
-  }, []);
 
   return (
-    <div style={{ padding: "2rem" }}>
-      <h1>Gestion des logements</h1>
-      <AccommodationTable
-        key={refreshKey}
-        onCreate={handleCreateClick}
-        onEdit={handleEdit}
-        onDelete={(id) => setAccommodationToDelete(id)}
-      />
+      <div style={{ padding: '2rem' }}>
+        <h1>Gestion des logements</h1>
 
-      {showCreateModal && (
-        <CreateAccommodationModal
-          onClose={() => setShowCreateModal(false)}
-          onSuccess={handleCreateSuccess}
-        />
-      )}
-      
-      {showUpdateModal && accommodationToEdit && (
-        <UpdateAccommodationModal
-          accommodationId={accommodationToEdit.id}
-          initialData={accommodationToEdit.data}
-          onClose={() => {
-            setShowUpdateModal(false);
-            setAccommodationToEdit(null);
-          }}
-          onSuccess={handleUpdateSuccess}
-        />
-      )}
-      
-      {accommodationToDelete !== null && (
-        <DeleteConfirmationModal
-          isOpen={true}
-          accommodationId={accommodationToDelete}
-          onClose={() => setAccommodationToDelete(null)}
-          onSuccess={handleDeleteSuccess}
-        />
-      )}
+        <button onClick={() => setShowCreateModal(true)}>
+          Ajouter un logement
+        </button>
 
-    </div>
+        <AccommodationTable
+            key={refreshKey}
+            onCreate={() => setShowCreateModal(true)}
+            onEdit={acc => {
+              setAccommodationToEdit({ id: acc.ACCN_ID, data: acc });
+              setShowUpdateModal(true);
+            }}
+            onDelete={id => setAccommodationToDelete(id)}
+            onGenerate={handleGenerateClick}
+        />
+
+        {showCreateModal && (
+            <CreateAccommodationModal
+                onClose={() => setShowCreateModal(false)}
+                onSuccess={handleCreateSuccess}
+            />
+        )}
+        {showUpdateModal && accommodationToEdit && (
+            <UpdateAccommodationModal
+                accommodationId={accommodationToEdit.id}
+                initialData={accommodationToEdit.data}
+                onClose={() => {
+                  setShowUpdateModal(false);
+                  setAccommodationToEdit(null);
+                }}
+                onSuccess={handleUpdateSuccess}
+            />
+        )}
+        {accommodationToDelete !== null && (
+            <DeleteConfirmationModal
+                isOpen
+                accommodationId={accommodationToDelete}
+                onClose={() => setAccommodationToDelete(null)}
+                onSuccess={handleDeleteSuccess}
+            />
+        )}
+
+        {showDocManager && leaseIdForDoc !== null && jwt && (
+            <DocumentManagement
+                leaseId={leaseIdForDoc}
+                jwt={jwt}
+                onClose={() => setShowDocManager(false)}
+            />
+        )}
+
+        {"Display Documents"}
+        {jwt && <MyDocuments jwt={jwt} />}
+      </div>
   );
 };
 
