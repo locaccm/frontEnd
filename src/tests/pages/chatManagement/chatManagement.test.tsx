@@ -115,10 +115,8 @@ it("sends a message", async () => {
     },
   ]);
 
-  // Lors de la sélection du contact
   mockedGetMessages.mockResolvedValueOnce([]);
 
-  // Après envoi du message
   mockedSendMessage.mockResolvedValue({});
   mockedGetMessages.mockResolvedValueOnce([
     { MESN_SENDER: 1, MESC_CONTENT: "Hello Bob" },
