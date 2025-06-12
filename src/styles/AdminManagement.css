@@ -58,7 +58,7 @@
   }
   
   .user-table {
-    width: 60%;
+    width: 100%;
     margin: 0 auto; 
     border-collapse: collapse;
     background-color: #fff;
@@ -383,5 +383,96 @@
   
   .accommodation-actions button:hover {
     background-color: #b4a28d;
+  }
+  /* --- Responsive styles --- */
+@media (max-width: 1024px) {
+    .app-container {
+      padding: 1rem;
+    }
+    .sidebar {
+      width: 60vw;
+      padding: 1rem;
+    }
+    .tabs button {
+      padding: 0.5rem 1.2rem;
+      font-size: 0.98rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .custom-header {
+      flex-direction: column;
+      padding: 12px 8px;
+      gap: 0.7rem;
+      align-items: flex-start;
+    }
+    .logo-image {
+      height: 40px;
+      margin-right: 7px;
+    }
+    .header-buttons button {
+      padding: 6px 12px;
+      font-size: 0.97rem;
+    }
+    .app-container {
+      padding: 0.5rem;
+      font-size: 0.96rem;
+    }
+    .user-table th, .user-table td {
+      padding: 0.6rem;
+      font-size: 0.95rem;
+    }
+    .sidebar {
+      width: 90vw;
+      padding: 0.5rem 0.5rem 2.5rem 0.5rem;
+      border-radius: 0;
+      box-shadow: -2px 0 10px rgba(0,0,0,0.15);
+    }
+    .tabs button {
+      margin-right: 0.2rem;
+      padding: 0.5rem 0.8rem;
+      font-size: 0.95rem;
+    }
+    #Close_button {
+      top: 0.4rem;
+      right: 0.4rem;
+      font-size: 1.2rem;
+    }
+  }
+  
+  @media (max-width: 500px) {
+    .sidebar {
+      width: 100vw;
+      min-width: 0;
+      left: 0;
+      right: 0;
+      padding: 0.5rem 0.3rem 2.5rem 0.3rem;
+      border-radius: 0;
+      max-width: 100vw;
+      box-shadow: -1px 0 8px rgba(0,0,0,0.09);
+    }
+    .sidebar .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-bottom: 1rem;
+    }
+    .tabs button {
+      flex: 1 1 40%;
+      margin-bottom: 0.5rem;
+      font-size: 0.93rem;
+      padding: 0.45rem 0.4rem;
+    }
+    .sidebar input,
+    .sidebar textarea {
+      font-size: 1rem;
+      padding: 0.4rem;
+    }
+    .accommodation-item, .event-item, .message-item, li {
+      flex-direction: column;
+      gap: 0.4rem;
+      padding: 0.6rem;
+      font-size: 0.97rem;
+    }
   }
   
