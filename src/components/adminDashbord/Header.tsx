@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../assets/Logo_LacaCCM.png'; 
+import logo from '../../assets/images/Logo_LacaCCM.png'; 
 const Header: React.FC = () => {
   return (
     <div className="custom-header">
