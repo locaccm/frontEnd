@@ -1,6 +1,6 @@
 // src/components/UserInfo.tsx
 import React, { useEffect, useState } from 'react';
-import api from '../services/api.js';
+import api from '../../infrastructre/services/adminApi.js';
 
 interface UserDetail {
     USEC_LNAME: string;

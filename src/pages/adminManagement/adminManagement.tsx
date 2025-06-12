@@ -2,7 +2,7 @@
 // App.tsx
 import React, { useEffect, useState } from 'react';
 import api from '../../infrastructre/services/adminApi.js';
-import './styles/App.css';
+import '../../styles/adminManagement.css';
 import Sidebar from '../../components/adminDashbord/Sidebar.js';
 import Header from '../../components/adminDashbord/Header.js';
 interface User {

@@ -1,6 +1,6 @@
 // src/components/Accommodations.tsx
 import React, { useEffect, useState } from 'react';
-import api from '../services/api.js';
+import api from '../../infrastructre/services/adminApi.js';
 
 interface Accommodation {
   ACCN_ID: number;
