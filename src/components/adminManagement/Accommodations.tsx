@@ -1,7 +1,7 @@
-// src/components/Accommodations.tsx
 import React, { useEffect, useState } from 'react';
 import api from '../../infrastructre/services/adminApi.js';
 
+// Defines the structure of an accommodation
 interface Accommodation {
   ACCN_ID: number;
   ACCC_NAME: string;
@@ -21,28 +21,36 @@ interface Accommodation {
   }[];
 }
 
+// Component expects a userId as a prop
 const Accommodations: React.FC<{ userId: number }> = ({ userId }) => {
+  // Holds the list of accommodations
   const [accommodations, setAccommodations] = useState<Accommodation[]>([]);
+  // For new accommodation creation
   const [newAccommodation, setNewAccommodation] = useState({
     ACCC_NAME: '', ACCC_TYPE: '', ACCC_ADDRESS: '', ACCC_DESC: ''
   });
+  // For editing
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editedData, setEditedData] = useState({
     ACCC_NAME: '', ACCC_TYPE: '', ACCC_ADDRESS: '', ACCC_DESC: ''
   });
 
+  // Loads the accommodations from the API for the given user
   const load = async () => {
     const res = await api.get(`/accommodations?userId=${userId}`);
     setAccommodations(res.data);
   };
 
+  // Whenever userId changes, reload the list
   useEffect(() => { load(); }, [userId]);
 
+  // Deletes an accommodation by ID
   const handleDelete = async (id: number) => {
     await api.delete(`/accommodations/${id}`);
     load();
   };
 
+  // Puts the selected accommodation into edit mode and pre-fills the fields
   const handleEditToggle = (acc: Accommodation) => {
     setEditingId(acc.ACCN_ID);
     setEditedData({
@@ -53,6 +61,7 @@ const Accommodations: React.FC<{ userId: number }> = ({ userId }) => {
     });
   };
 
+  // Saves the modifications of the edited accommodation
   const handleEditSave = async () => {
     if (editingId) {
       await api.put(`/accommodations/${editingId}`, {
@@ -67,7 +76,9 @@ const Accommodations: React.FC<{ userId: number }> = ({ userId }) => {
     }
   };
 
+  // Handles the creation of a new accommodation
   const handleCreate = async () => {
+    // Prevent if any field is empty
     if (!newAccommodation.ACCC_NAME || !newAccommodation.ACCC_TYPE || !newAccommodation.ACCC_ADDRESS || !newAccommodation.ACCC_DESC) return;
     await api.post('/accommodations', newAccommodation);
     setNewAccommodation({ ACCC_NAME: '', ACCC_TYPE: '', ACCC_ADDRESS: '', ACCC_DESC: '' });
@@ -79,9 +90,11 @@ const Accommodations: React.FC<{ userId: number }> = ({ userId }) => {
       <h3 className="section-title">Logements 🏡</h3>
       <ul className="accommodation-list">
         {accommodations.map(acc => {
+          // Finds the current tenant, either from leases or directly
           const currentTenant = acc.leases?.[0]?.user || acc.tenant;
           return (
             <li key={acc.ACCN_ID} className="accommodation-item">
+              {/* If in edit mode for this item, show input fields */}
               {editingId === acc.ACCN_ID ? (
                 <div className="accommodation-edit-form">
                   <input value={editedData.ACCC_NAME} onChange={(e) => setEditedData({ ...editedData, ACCC_NAME: e.target.value })} />
@@ -91,19 +104,20 @@ const Accommodations: React.FC<{ userId: number }> = ({ userId }) => {
                   <button onClick={handleEditSave}>Sauvegarder</button>
                 </div>
               ) : (
+                // Otherwise, just display info
                 <div className="accommodation-info">
                   <strong>{acc.ACCC_NAME}</strong> ({acc.ACCC_TYPE}) — {acc.ACCC_ADDRESS}<br />
                   <em>{acc.ACCC_DESC}</em><br />
                   {acc.ACCB_AVAILABLE ? (
-  <span className="available">Disponible </span>
-) : (
-  <span className="not-available">
-    Occupé par {currentTenant?.USEC_FNAME || '—'} {currentTenant?.USEC_LNAME || ''}
-  </span>
-)}
-
+                    <span className="available">Disponible </span>
+                  ) : (
+                    <span className="not-available">
+                      Occupé par {currentTenant?.USEC_FNAME || '—'} {currentTenant?.USEC_LNAME || ''}
+                    </span>
+                  )}
                 </div>
               )}
+              {/* Edit and Delete buttons */}
               <div className="accommodation-actions">
                 {editingId === acc.ACCN_ID ? null : (
                   <button onClick={() => handleEditToggle(acc)}>Modifier</button>
@@ -115,6 +129,7 @@ const Accommodations: React.FC<{ userId: number }> = ({ userId }) => {
         })}
       </ul>
 
+      {/* New accommodation creation form */}
       <h4>Ajouter un logement</h4>
       <input
         type="text"

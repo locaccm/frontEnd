@@ -3,8 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../infrastructre/services/adminApi.js';
 import '../../styles/adminManagement.css';
-import Sidebar from '../../components/adminDashbord/Sidebar.js';
-import Header from '../../components/adminDashbord/Header.js';
+import Sidebar from '../../components/adminManagement/Sidebar.js';
+import Header from '../../components/adminManagement/Header.js';
 interface User {
   USEN_ID: number;
   USEC_TYPE: string;
