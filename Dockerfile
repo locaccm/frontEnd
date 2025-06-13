@@ -53,7 +53,7 @@ RUN npm run build
 #EXPOSE 4000
 
 # 9. Expose frontend Vite development server port
-EXPOSE 5173
+EXPOSE 4173
 
 # 10. Install concurrently to run multiple commands in parallel
 
