@@ -56,7 +56,7 @@ WORKDIR /app
 COPY --from=builder /app /app
 
 # On installe uniquement les dépendances de prod
-RUN npm install --omit=dev
+RUN npm install
 
 ENV PORT=8080
 EXPOSE 8080
