@@ -49,6 +49,10 @@ h1 {
   text-align: center;
 }
 
+.content {
+  margin-left: 20vw;
+}
+
 /* Sidebar */
 .sidebar {
   position: fixed;
@@ -131,7 +135,7 @@ h1 {
 
 /* === CONTAINERS === */
 .container {
-  margin-left: 22%;
+  margin-left: 6%;
   width: calc(100% - 22%);
   max-width: 1200px;
   background-color: #cec0ad;
@@ -481,5 +485,151 @@ button {
     height: 3em;
   }
 }
+
+/* === WealthManagementPage STYLES === */
+.wealth-page {
+  background-color: #e1ded1;
+  padding: 2rem;
+  min-height: 100vh;
+  color: #333;
+}
+
+.wealth-page h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #5a4e3c;
+  margin-bottom: 1.5rem;
+}
+
+/* Section container */
+.accommodation-section {
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+}
+
+/* Button override for local scope if needed */
+.wealth-page .button-primary {
+  background-color: #f4f0e2;
+  border: 1px solid #cec0ad;
+  color: #000;
+  margin: 2em;
+}
+
+.wealth-page .button-primary:hover {
+  background-color: #b59b85;
+}
+
+/* Document section */
+.document-block {
+  background-color: #cec0ad;
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-top: 2rem;
+}
+
+/* Modals override */
+.wealth-page .dialog {
+  background-color: #f4f0e2;
+  color: #222;
+}
+
+/* Tables */
+.accommodation-table {
+  width: 100%;
+  background-color: #fefaf3;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 1rem;
+}
+
+.accommodation-table th {
+  background-color: #cec0ad;
+  color: #333;
+  padding: 0.75rem;
+}
+
+.accommodation-table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .wealth-page {
+    padding: 1rem;
+  }
+}
+
+.form_container {
+  background-color: #fff;
+  padding: clamp(1rem, 4vw, 2rem);
+  border-radius: 1.2rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  font-size: 1.1em;
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1em;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #d8b9a0;
+  box-shadow: 0 0 0 2px rgba(216, 185, 160, 0.3);
+}
+
+.image_upload {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.profile_image {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #d8b9a0;
+}
+
+.green_btn {
+  background-color: #f4f0e2;
+  color: black;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.green_btn:hover {
+  background-color: #b59b85;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 480px) {
+  .form_container {
+    padding: 1rem;
+    font-size: 0.95em;
+  }
+
+  .green_btn {
+    width: 100%;
+  }
+}
+
 
 

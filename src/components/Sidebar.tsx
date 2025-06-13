@@ -1,34 +1,26 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import "../assets/styles/styles.css";
-
-interface SidebarProps {
-    setActivePage: (page: string) => void;
-}
 
 const imgProfile = "/img/profile.jpg";
 
-const Sidebar: React.FC<SidebarProps> = ({ setActivePage }) => {
-    // preventDefault to avoid page reload on <a href="#">
-    const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, page: string) => {
-        e.preventDefault();
-        setActivePage(page);
-    };
+const Sidebar: React.FC = () => {
+  return (
+    <div className="sidebar">
+      <NavLink to="/profile" className={({ isActive }) => isActive ? "active" : ""}>
+        <img src={imgProfile} alt="Profile" className="profile-pic" />
+      </NavLink>
 
-    return (
-        <div className="sidebar">
-        <a href="#" onClick={(e) => handleClick(e, "profile")}>
-            <img src={imgProfile} alt="Profile" className="profile-pic" />
-        </a>
-
-        <nav>
-            <a href="#" onClick={(e) => handleClick(e, "properties")}>Properties</a>
-            <a href="#" onClick={(e) => handleClick(e, "leases")}>Leases</a>
-            <a href="#" onClick={(e) => handleClick(e, "calendar")}>Calendar</a>
-            <a href="#" onClick={(e) => handleClick(e, "document")}>Documents</a>
-            <a href="#" onClick={(e) => handleClick(e, "contact")}>Contacts</a>
-        </nav>
-        </div>
-    );
+      <nav>
+        <NavLink to="/wealth-management" className={({ isActive }) => isActive ? "active" : ""}>Wealth-management</NavLink>
+        <NavLink to="/properties" className={({ isActive }) => isActive ? "active" : ""}>Properties</NavLink>
+        <NavLink to="/leases" className={({ isActive }) => isActive ? "active" : ""}>Leases</NavLink>
+        <NavLink to="/calendar" className={({ isActive }) => isActive ? "active" : ""}>Calendar</NavLink>
+        <NavLink to="/document-management" className={({ isActive }) => isActive ? "active" : ""}>Documents</NavLink>
+        <NavLink to="/contacts" className={({ isActive }) => isActive ? "active" : ""}>Contacts</NavLink>
+      </nav>
+    </div>
+  );
 };
 
 export default Sidebar;

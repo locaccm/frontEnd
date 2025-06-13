@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import styles from "./styles.module.css";
+import "../../assets/styles/styles.css";
 import { setUserProfileData } from "../../core/session/SessionsManager.js";
 
 type UserProfile = {
@@ -115,7 +115,7 @@ const ProfileForm = () => {
   };
 
   return (
-    <form className={styles.form_container} onSubmit={handleSubmit}>
+    <form className="form_container" onSubmit={handleSubmit}>
       <h1>Mon Profil</h1>
       <input
         type="text"
@@ -123,7 +123,7 @@ const ProfileForm = () => {
         placeholder="Prénom"
         value={profile.firstName}
         onChange={handleChange}
-        className={styles.input}
+        className="input"
       />
       <input
         type="text"
@@ -131,14 +131,14 @@ const ProfileForm = () => {
         placeholder="Nom"
         value={profile.lastName}
         onChange={handleChange}
-        className={styles.input}
+        className="input"
       />
       <input
         type="date"
         name="birthDate"
         value={profile.birthDate}
         onChange={handleChange}
-        className={styles.input}
+        className="input"
       />
 
       <input
@@ -147,7 +147,7 @@ const ProfileForm = () => {
         placeholder="Téléphone"
         value={profile.tel}
         onChange={handleChange}
-        className={styles.input}
+        className="input"
       />
       <input
         type="text"
@@ -155,21 +155,21 @@ const ProfileForm = () => {
         placeholder="Adresse"
         value={profile.address}
         onChange={handleChange}
-        className={styles.input}
+        className="input"
       />
       <textarea
         name="bio"
         placeholder="Bio"
         value={profile.bio}
         onChange={handleChange}
-        className={styles.input}
+        className="input"
       />
-      <div className={`${styles.image_upload}`}>
+      <div className="image_upload">
         {profile.photoUrl && (
           <img
             src={`${import.meta.env.VITE_BUCKET_UPLOAD_URL}/files/${profile.photoUrl}`}
             alt="Profile"
-            className={styles.profile_image}
+            className="profile_image"
           />
         )}
         <input
@@ -180,7 +180,7 @@ const ProfileForm = () => {
           aria-label="photo de profil"
         />
       </div>
-      <button type="submit" className={styles.green_btn}>
+      <button type="submit" className="green_btn">
         Enregistrer
       </button>
     </form>
