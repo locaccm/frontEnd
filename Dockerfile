@@ -50,13 +50,13 @@ COPY . .
 RUN npm run build
 
 # 8. Expose backend port
-EXPOSE 4000
+#EXPOSE 4000
 
 # 9. Expose frontend Vite development server port
 EXPOSE 5173
 
 # 10. Install concurrently to run multiple commands in parallel
-RUN npm install --save-dev concurrently
+RUN #npm install --save-dev concurrently
 
 # 11. Run backend server and frontend development server concurrently
-CMD ["npx", "concurrently", "\"npm run start:server\"", "\"npm run start\""]
+CMD ["npm", "run", "build"]
