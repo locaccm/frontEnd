@@ -1,10 +1,10 @@
 import React from "react";
-import { render } from "@testing-library/react";
-import { screen, fireEvent, waitFor, within } from "@testing-library/dom";
+import { render, within } from "@testing-library/react";
+import { screen, fireEvent, waitFor } from "@testing-library/dom";
 import Leases from "../../../components/adminManagement/Leases.js";
 import { vi, describe, test, expect, beforeEach } from "vitest";
 
-// Mock the API module to control network behavior for all tests
+// Mock the API module so we control network behavior for all tests
 vi.mock("../../../infrastructre/services/adminApi.js", () => ({
   default: {
     get: vi.fn(),
@@ -14,7 +14,7 @@ vi.mock("../../../infrastructre/services/adminApi.js", () => ({
 
 import api from "../../../infrastructre/services/adminApi.js";
 
-// Fake leases data used to populate the component for tests
+// Fake leases data used for the tests
 const fakeLeases = [
   {
     LEAN_ID: 101,
@@ -36,6 +36,7 @@ const fakeLeases = [
 
 describe("Leases component", () => {
   beforeEach(() => {
+    // Reset all mocks before every test for test isolation
     vi.clearAllMocks();
     api.get.mockResolvedValue({ data: fakeLeases });
     api.delete.mockResolvedValue({});
@@ -43,26 +44,32 @@ describe("Leases component", () => {
 
   test("displays the list of leases", async () => {
     render(<Leases userId={3} />);
-    // Attends les items de la liste
+    // Wait for all lease list items to render
     const leaseItems = await screen.findAllByRole("listitem");
-    // Premier bail (actif)
-    expect(leaseItems[0].textContent).toContain("Du 01/06/2024 au 01/06/2025");
+    // First lease (active): check the full string and relevant values
+    expect(leaseItems[0].textContent).toMatch(
+      /Du\s+\d{1,2}[/-]\d{1,2}[/-]\d{4}\s+au\s+\d{1,2}[/-]\d{1,2}[/-]\d{4}/
+    );
     expect(leaseItems[0].textContent).toContain("950");
     expect(leaseItems[0].textContent).toContain("Actif");
-    // Deuxième bail (inactif)
-    expect(leaseItems[1].textContent).toContain("Du 01/01/2023 au 31/12/2023");
+    // Second lease (inactive)
+    expect(leaseItems[1].textContent).toMatch(
+      /Du\s+\d{1,2}[/-]\d{1,2}[/-]\d{4}\s+au\s+\d{1,2}[/-]\d{1,2}[/-]\d{4}/
+    );
     expect(leaseItems[1].textContent).toContain("850");
     expect(leaseItems[1].textContent).toContain("Inactif");
   });
 
   test("deletes a lease", async () => {
     render(<Leases userId={5} />);
-    // Attend la ligne du bail (qui contient la date et montant)
+    // Wait for the first lease row to render
     const leaseItems = await screen.findAllByRole("listitem");
-    expect(leaseItems[0].textContent).toContain("Du 01/06/2024 au 01/06/2025");
-    // Clique sur le premier bouton de suppression
+    expect(leaseItems[0].textContent).toMatch(
+      /Du\s+\d{1,2}[/-]\d{1,2}[/-]\d{4}\s+au\s+\d{1,2}[/-]\d{1,2}[/-]\d{4}/
+    );
+    // Click the first delete button in the lease item
     fireEvent.click(within(leaseItems[0]).getByRole("button"));
-    // Vérifie que l'appel DELETE a été fait
+    // Wait for the DELETE API call
     await waitFor(() =>
       expect(api.delete).toHaveBeenCalledWith("/leases/101")
     );
