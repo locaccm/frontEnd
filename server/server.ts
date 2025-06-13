@@ -9,9 +9,11 @@ import cors from "cors";
 const app = express();
 
 app.use(
-  cors({
-    origin: "http://localhost:5173",
-  }),
+    cors({
+        origin: process.env.NODE_ENV === "production"
+            ? "https://frontend-service-782869810736.europe-west1.run.app"
+            : "http://localhost:5173",
+    }),
 );
 
 const storage =
@@ -99,6 +101,6 @@ app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "../dist/index.html"));
 });
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
 });
