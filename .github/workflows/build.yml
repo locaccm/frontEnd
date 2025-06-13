@@ -47,3 +47,46 @@ jobs:
 
       - name: Run ESLint
         run: npx eslint .
+
+  docker-build:
+    name: Docker Build and Push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2
+
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+          project_id: intricate-pad-455413-f7
+
+      - name: Configure Docker to use gcloud as a credential helper
+        run: |
+          gcloud auth configure-docker europe-west1-docker.pkg.dev
+
+      - name: Build Docker image
+        run: |
+          docker build \
+          --build-arg DATABASE_URL=${{ secrets.DATABASE_URL_PRE_PROD  }} \
+          --build-arg VITE_AUTH_URL=${{ secrets.VITE_AUTH_URL }} \
+          --build-arg VITE_HOUSING_URL=${{ secrets.VITE_HOUSING_URL }} \
+          --build-arg VITE_PROFILE_URL=${{ secrets.VITE_PROFILE_URL }} \
+          --build-arg VITE_BUCKET_UPLOAD_URL=${{ secrets.VITE_BUCKET_UPLOAD_URL }} \
+          --build-arg VITE_WEALTH_MANAGEMENT_URL=${{ secrets.VITE_WEALTH_MANAGEMENT_URL }} \
+          #            --build-arg VITE_DASHBOARD_MANAGEMENT_URL=${{ secrets.VITE_DASHBOARD_MANAGEMENT_URL }} \
+          #            --build-arg VITE_CALENDAR_URL=${{ secrets.VITE_CALENDAR_URL }} \
+          --build-arg VITE_DOCUMENT_URL=${{ secrets.VITE_DOCUMENT_URL }} \
+          #            --build-arg VITE_ADMIN_URL=${{ secrets.VITE_ADMIN_URL }} \
+          --build-arg VITE_CHAT_URL=${{ secrets.VITE_CHAT_URL }} \
+          
+          -t frontend-service:latest .
+
+      - name: Tag & Push to Artifact Registry
+        run: |
+          docker tag frontend-service:latest europe-west1-docker.pkg.dev/intricate-pad-455413-f7/locaccm-repo-docker/frontend-service:latest
+          docker push europe-west1-docker.pkg.dev/intricate-pad-455413-f7/locaccm-repo-docker/frontend-service:latest
+
