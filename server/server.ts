@@ -5,14 +5,18 @@ import mime from "mime";
 import multer from "multer";
 import { v4 as uuidv4 } from "uuid";
 import cors from "cors";
+import fs from "fs";
 
 const app = express();
 
 app.use(
-  cors({
-    origin: "http://localhost:5173",
-  }),
+    cors({
+        origin: process.env.NODE_ENV === "production"
+            ? "https://frontend-service-782869810736.europe-west1.run.app"
+            : "http://localhost:5173",
+    }),
 );
+
 
 const storage = process.env.NODE_ENV === "production"
     ? new Storage() // In production, no credentials file is needed
@@ -90,7 +94,18 @@ app.post(
     }
   },
 );
+app.use(express.static(path.join(__dirname, "../dist")));
 
-const PORT = process.env.PORT || 4000;
+app.get("*", (req, res) => {
+    const indexPath = path.join(__dirname, "../dist/index.html");
+    if (fs.existsSync(indexPath)) {
+        res.sendFile(indexPath);
+    } else {
+        res.status(500).send("index.html non trouvé");
+    }
+});
+
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
+    console.log(`Serveur lancé sur le port ${PORT}`);
 });
