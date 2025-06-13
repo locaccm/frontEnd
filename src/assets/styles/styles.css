@@ -22,7 +22,6 @@
 /* === BASE RESET === */
 body {
   margin: 0;
-  display: flex;
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
@@ -50,6 +49,72 @@ h1 {
   text-align: center;
 }
 
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 20vw;
+  background-color: #D8B9A0;
+  color: black;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+/* Sidebar title */
+.sidebar h1 {
+  font-size: 3em;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+/* Profile picture */
+.profile-pic {
+  width: 10vw;
+  height: 10vw;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 20px;
+  border: 3px solid white;
+}
+
+/* Navigation */
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  align-items: center;
+}
+
+/* Navigation links */
+.sidebar a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  width: 100%;
+  padding: 12px;
+  text-decoration: none;
+  color: black;
+  border-radius: 8px;
+  transition: background 0.3s ease;
+  font-size: 2em;
+}
+
+/* Hover effect */
+.sidebar a:hover {
+  background-color: #bfa188;
+}
+
 /* === LOGO === */
 .logo {
   height: clamp(3em, 8vw, 6em);
@@ -66,9 +131,9 @@ h1 {
 
 /* === CONTAINERS === */
 .container {
-  width: 100%;
+  margin-left: 22%;
+  width: calc(100% - 22%);
   max-width: 1200px;
-  margin: 2em auto 0 auto;
   background-color: #cec0ad;
   padding: clamp(1rem, 4vw, 2.5rem);
   border-radius: 1.5em;
@@ -76,6 +141,7 @@ h1 {
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
 }
 
+/* Form containers */
 .form-container,
 .lease-form {
   background-color: #fff;
@@ -89,32 +155,98 @@ h1 {
 
 /* === TABLES === */
 .table-responsive {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
+  overflow-x: visible; /* pas de scroll horizontal */
+  max-width: 100%;
 }
+
 .table {
   width: 100%;
+  max-width: 100%;
   border-collapse: collapse;
   margin-top: 30px;
   background-color: white;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  min-width: 500px;
+  table-layout: auto; /* taille auto */
 }
+
 .table th,
 .table td {
-  padding: 1.25rem;
+  padding: 0.75rem 1rem;
   text-align: left;
   border: 1px solid #ddd;
+  white-space: normal; /* permet le retour à la ligne */
+  word-wrap: break-word;
+  font-size: 1em;
 }
+
 .table th {
   background-color: #d8b9a0;
   color: white;
   font-weight: 700;
 }
+
 .table tr:hover {
   background-color: #f9f9f9;
 }
+
+/* Ajustement pour petit écran */
+@media (max-width: 768px) {
+  .table th,
+  .table td {
+    font-size: 0.8em;
+    padding: 0.5rem 0.75rem;
+  }
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 1024px) {
+  .container {
+    margin-left: 0;
+    padding: 1rem;
+  }
+}
+
+/* Sidebar responsive pour tablettes et mobiles */
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    padding: 0 1rem;
+    flex-direction: row;
+    justify-content: space-around;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+  }
+
+  .sidebar h1,
+  .profile-pic {
+    display: none;
+  }
+
+  .sidebar nav {
+    flex-direction: row;
+    gap: 1rem;
+    width: auto;
+    align-items: center;
+  }
+
+  .sidebar a {
+    font-size: 1.4em;
+    padding: 8px 12px;
+    width: auto;
+  }
+
+  /* Pour éviter que le contenu soit caché derrière la sidebar */
+  .container {
+    margin-left: 0;
+    padding-bottom: 80px;
+  }
+}
+
 
 /* === BUTTONS === */
 .button,
@@ -349,3 +481,5 @@ button {
     height: 3em;
   }
 }
+
+
