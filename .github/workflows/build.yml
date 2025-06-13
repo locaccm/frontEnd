@@ -77,10 +77,10 @@ jobs:
           --build-arg VITE_PROFILE_URL=${{ secrets.VITE_PROFILE_URL }} \
           --build-arg VITE_BUCKET_UPLOAD_URL=${{ secrets.VITE_BUCKET_UPLOAD_URL }} \
           --build-arg VITE_WEALTH_MANAGEMENT_URL=${{ secrets.VITE_WEALTH_MANAGEMENT_URL }} \
-          #            --build-arg VITE_DASHBOARD_MANAGEMENT_URL=${{ secrets.VITE_DASHBOARD_MANAGEMENT_URL }} \
-          #            --build-arg VITE_CALENDAR_URL=${{ secrets.VITE_CALENDAR_URL }} \
+          --build-arg VITE_DASHBOARD_MANAGEMENT_URL=${{ secrets.VITE_DASHBOARD_MANAGEMENT_URL }} \
+          --build-arg VITE_CALENDAR_URL=${{ secrets.VITE_CALENDAR_URL }} \
           --build-arg VITE_DOCUMENT_URL=${{ secrets.VITE_DOCUMENT_URL }} \
-          #            --build-arg VITE_ADMIN_URL=${{ secrets.VITE_ADMIN_URL }} \
+          --build-arg VITE_ADMIN_URL=${{ secrets.VITE_ADMIN_URL }} \
           --build-arg VITE_CHAT_URL=${{ secrets.VITE_CHAT_URL }} \
           
           -t frontend-service:latest .
