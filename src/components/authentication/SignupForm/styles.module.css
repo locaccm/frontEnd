@@ -67,3 +67,9 @@
   color: white;
   margin: 10px;
 }
+@media (max-width: 768px) {
+
+  .input {
+    width: auto;
+
+  }}
