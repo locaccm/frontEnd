@@ -11,16 +11,20 @@ Object.defineProperty(import.meta, "env", {
   },
 });
 
-vi.stubGlobal("sessionStorage", {
-  getItem: vi.fn((key: string) => {
-    if (key === "userId") return "1";
-    if (key === "token") return "mock-token";
-    return null;
-  }),
-  setItem: vi.fn(),
-  removeItem: vi.fn(),
-  clear: vi.fn(),
+beforeEach(() => {
+  vi.stubGlobal("sessionStorage", {
+    getItem: vi.fn((key: string) => {
+      if (key === "userId") return "1";
+      if (key === "token") return "mock-token";
+      return null;
+    }),
+    setItem: vi.fn(),
+    removeItem: vi.fn(),
+    clear: vi.fn(),
+  });
 });
+
+const flushPromises = () => new Promise((resolve) => setTimeout(resolve, 0));
 
 const mockFetch = vi.fn();
 vi.stubGlobal("fetch", mockFetch);
@@ -40,11 +44,20 @@ describe("ProfileForm", () => {
     mockFetch.mockClear();
   });
 
+  test("affiche un message si l'utilisateur n'est pas connecté", () => {
+    vi.stubGlobal("sessionStorage", {
+      getItem: vi.fn(() => null),
+    });
+
+    render(<ProfileForm />);
+    expect(screen.getByText(/Utilisateur non connecté/i)).toBeInTheDocument();
+  });
+
   test("charge et affiche les données du profil", async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: async () => mockProfile,
-    } as Response);
+    } as unknown as Response);
 
     render(<ProfileForm />);
 
@@ -55,15 +68,31 @@ describe("ProfileForm", () => {
     expect(screen.getByDisplayValue("0601020304")).toBeInTheDocument();
   });
 
+  test("affiche l'image de profil si disponible", async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockProfile,
+    } as unknown as Response);
+
+    render(<ProfileForm />);
+    const image = await screen.findByAltText("Profile");
+    expect(image).toHaveAttribute(
+        "src",
+        expect.stringContaining("images/profil.jpg"),
+    );
+  });
+
   test("met à jour le champ bio", async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: async () => mockProfile,
-    } as Response);
+    } as unknown as Response);
 
     render(<ProfileForm />);
     const bioField = await screen.findByPlaceholderText("Bio");
+
     fireEvent.change(bioField, { target: { value: "Nouvelle bio" } });
+    await flushPromises();
     expect(bioField).toHaveValue("Nouvelle bio");
   });
 
@@ -72,13 +101,12 @@ describe("ProfileForm", () => {
         .mockResolvedValueOnce({
           ok: true,
           json: async () => mockProfile,
-        } as Response)
+        } as unknown as Response)
         .mockResolvedValueOnce({
           ok: true,
-        } as Response);
+        } as unknown as Response);
 
     render(<ProfileForm />);
-
     const button = await screen.findByText("Enregistrer");
     fireEvent.click(button);
 
@@ -100,7 +128,7 @@ describe("ProfileForm", () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: async () => mockProfile,
-    } as Response);
+    } as unknown as Response);
 
     render(<ProfileForm />);
     const input = await screen.findByLabelText(/photo de profil/i);
