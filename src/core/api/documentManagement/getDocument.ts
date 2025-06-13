@@ -6,7 +6,7 @@ export interface DocumentInfo {
 }
 
 export async function fetchDocuments(jwt: string): Promise<DocumentInfo[]> {
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/documents`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL_DOCUMENT_MANAGEMENT}/api/documents`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
