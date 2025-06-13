@@ -72,8 +72,12 @@ describe("UserInfo component", () => {
       expect(screen.getByText(/John/)).toBeInTheDocument();
       expect(screen.getByText(/Doe/)).toBeInTheDocument();
       expect(screen.getByText(/john@example.com/)).toBeInTheDocument();
-      expect(screen.getByText(/01\/01\/1990/)).toBeInTheDocument(); // date format
-    });
+      expect(
+        screen.getByText((_, el) =>
+          el?.textContent === "Date de naissance : 1/1/1990"
+        )
+      ).toBeInTheDocument();
+          });
   });
 
   /**
