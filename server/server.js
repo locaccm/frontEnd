@@ -7,13 +7,11 @@ import { v4 as uuidv4 } from "uuid";
 import cors from "cors";
 const app = express();
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: "http://localhost:5173", // autorise ton front Vite
 }));
-const storage = process.env.NODE_ENV === "production"
-    ? new Storage() // In production, no credentials file is needed
-    : new Storage({
-        keyFilename: path.join("./credentials/intricate-pad-455413-f7-970197da1d79.json"),
-    });
+const storage = new Storage({
+    keyFilename: path.join("./credentials/intricate-pad-455413-f7-970197da1d79.json"),
+});
 const bucketName = "locaccm-bucket";
 const bucket = storage.bucket(bucketName);
 app.get("/files/:folder/:filename", async (req, res) => {
@@ -25,6 +23,7 @@ app.get("/files/:folder/:filename", async (req, res) => {
             res.status(404).json({ error: "Fichier non trouvé" });
             return;
         }
+        // Détection automatique du type MIME
         const mimeType = mime.getType(filename) || "application/octet-stream";
         res.setHeader("Content-Type", mimeType);
         file.createReadStream().pipe(res);
@@ -67,4 +66,5 @@ app.post("/upload/:folder", upload.single("file"), async (req, res) => {
 });
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
+    console.log(`Proxy GCS lancé sur le port ${PORT}`);
 });

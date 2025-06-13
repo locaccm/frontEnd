@@ -25,16 +25,20 @@ const ProfileForm = () => {
 
   //const userId = 1; In DEV MODE
     const userId = sessionStorage.getItem("userId");
+    const token = sessionStorage.getItem("token");
 
     useEffect(() => {
-        if (!userId) return;
-        const token = sessionStorage.getItem("token");
+        if (!userId || !token) return;
+
         fetch(`${import.meta.env.VITE_PROFILE_URL}profiles/${userId}`, {
             headers: {
-                Authorization: token ? `Bearer ${token}` : "",
+                Authorization: `Bearer ${token}`,
             },
         })
-            .then((res) => res.json())
+            .then((res) => {
+                if (!res.ok) throw new Error("Erreur lors du chargement du profil");
+                return res.json();
+            })
             .then((data) => {
                 const formattedBirthDate = data.birthDate
                     ? new Date(data.birthDate).toISOString().split("T")[0]
@@ -44,8 +48,11 @@ const ProfileForm = () => {
                     ...data,
                     birthDate: formattedBirthDate,
                 });
+            })
+            .catch((err) => {
+                console.error("Erreur chargement profil :", err);
             });
-    }, [userId]);
+    }, [userId, token]);
 
     if (!userId) {
         return <div>Utilisateur non connecté</div>;
@@ -59,60 +66,58 @@ const ProfileForm = () => {
     setProfile((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
 
-    const formData = new FormData();
-    formData.append("file", file);
+        const formData = new FormData();
+        formData.append("file", file);
 
-    try {
-      const res = await fetch(
-        `${import.meta.env.VITE_BUCKET_UPLOAD_URL}/upload/images`,
-        {
-          method: "POST",
-          body: formData,
-        },
-      );
+        try {
+            const res = await fetch(`${import.meta.env.VITE_BUCKET_UPLOAD_URL}/upload/images`, {
+                method: "POST",
+                body: formData,
+            });
 
-      if (!res.ok) {
-        throw new Error("Upload échoué");
-      }
+            if (!res.ok) throw new Error("Upload échoué");
 
-      const data = await res.json();
-      setProfile((prev) => ({ ...prev, photoUrl: data.path }));
-    } catch (err) {
-      console.error(err);
-      alert("Erreur lors de l'upload de l'image");
-    }
-  };
+            const data = await res.json();
+            setProfile((prev) => ({ ...prev, photoUrl: data.path }));
+        } catch (err) {
+            console.error(err);
+            alert("Erreur lors de l'upload de l'image");
+        }
+    };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const token = sessionStorage.getItem("token");
-    if (!token) {
-      alert("Vous devez être connecté pour mettre à jour votre profil.");
-      return;
-    }
-    const res = await fetch(
-      `${import.meta.env.VITE_PROFILE_URL}profiles/${userId}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token ? `Bearer ${token}` : "",
-        },
-        body: JSON.stringify(profile),
-      },
-    );
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!token) {
+            alert("Vous devez être connecté pour mettre à jour votre profil.");
+            return;
+        }
 
-    if (res.ok) {
-      alert("Profil mis à jour !");
-      setUserProfileData(profile);
-    } else {
-      alert("Erreur lors de la mise à jour");
-    }
-  };
+        try {
+            const res = await fetch(
+                `${import.meta.env.VITE_PROFILE_URL}profiles/${userId}`,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify(profile),
+                },
+            );
+
+            if (!res.ok) throw new Error("Échec mise à jour");
+
+            alert("Profil mis à jour !");
+            setUserProfileData(profile);
+        } catch (err) {
+            console.error("Erreur update profil :", err);
+            alert("Erreur lors de la mise à jour");
+        }
+    };
 
   return (
     <form className={styles.form_container} onSubmit={handleSubmit}>
