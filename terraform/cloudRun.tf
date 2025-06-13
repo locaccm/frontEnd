@@ -6,7 +6,7 @@ module "cloud_run_frontend-service" {
   repository_id         = "locaccm-repo-docker"
   service_account_email = module.service_account_frontend-service.email
   vpc_connector         = module.vpc_connector.id
-  public                = false
+  public                = true
 
   env_variables = {
     NODE_ENV = "production"
