@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../../assets/images/Logo_LacaCCM.png'; 
+import logo from '../../assets/images/Logo_LacaCCM.webp'; 
 
 // Simple header component displaying a logo and admin controls
 const Header: React.FC = () => {
