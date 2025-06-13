@@ -1,6 +1,6 @@
 import React from "react";
 import { render } from "@testing-library/react";
-import { screen, fireEvent, waitFor } from "@testing-library/dom";
+import { screen, fireEvent, waitFor, within } from "@testing-library/dom";
 import Events from "../../../components/adminManagement/Events.js";
 import { vi, describe, test, expect, beforeEach } from "vitest";
 
@@ -37,28 +37,22 @@ const fakeEvents = [
 describe("Events component", () => {
   beforeEach(() => {
     // Reset all API mocks before every test
-
-    // @ts-expect-error: mockResolvedValue is not typed on axios mock in unit tests
     api.get.mockResolvedValue({ data: fakeEvents });
-
-    // @ts-expect-error: mockResolvedValue is not in axios types for POST (unit test only)
     api.post.mockResolvedValue({});
-
-    // @ts-expect-error: mockResolvedValue is not in axios types for PUT (unit test only)
     api.put.mockResolvedValue({});
-
-    // @ts-expect-error: mockResolvedValue is not in axios types for DELETE (unit test only)
     api.delete.mockResolvedValue({});
   });
 
   test("displays the list of events", async () => {
     render(<Events userId={5} />);
-    // Should show both event names
-    expect(await screen.findByText("Réunion équipe")).toBeInTheDocument();
-    expect(screen.getByText("Entretien")).toBeInTheDocument();
-    // Should show formatted event dates (adapt regex if you change display)
-    expect(screen.getByText(/du 13\/06\/2024 au 13\/06\/2024/)).toBeInTheDocument();
-    expect(screen.getByText(/du 14\/06\/2024 au 14\/06\/2024/)).toBeInTheDocument();
+    // Wait for list items
+    const eventItems = await screen.findAllByRole("listitem");
+    // Vérifie le premier event
+    expect(within(eventItems[0]).getByText("Réunion équipe")).toBeInTheDocument();
+    expect(eventItems[0].textContent).toContain("du 13/06/2024 au 13/06/2024");
+    // Vérifie le deuxième event
+    expect(within(eventItems[1]).getByText("Entretien")).toBeInTheDocument();
+    expect(eventItems[1].textContent).toContain("du 14/06/2024 au 14/06/2024");
   });
 
   test("creates a new event", async () => {
@@ -77,7 +71,6 @@ describe("Events component", () => {
 
     // Wait for the API POST call with correct payload
     await waitFor(() =>
-      // @ts-expect-error: POST is a mock and not typed as axios in test
       expect(api.post).toHaveBeenCalledWith(
         "/events",
         expect.objectContaining({
@@ -99,7 +92,6 @@ describe("Events component", () => {
     fireEvent.click(screen.getAllByText("Modifier")[0]);
     // Wait for the PUT call with updated label
     await waitFor(() =>
-      // @ts-expect-error: PUT is a mock and not typed as axios in test
       expect(api.put).toHaveBeenCalledWith(
         "/events/1",
         expect.objectContaining({ EVEC_LIB: "Libellé modifié" })
@@ -109,12 +101,9 @@ describe("Events component", () => {
 
   test("deletes an event", async () => {
     render(<Events userId={4} />);
-    // Wait for event, then click the delete button
     expect(await screen.findByText("Réunion équipe")).toBeInTheDocument();
     fireEvent.click(screen.getAllByText("Supprimé")[0]);
-    // Wait for the DELETE API call
     await waitFor(() =>
-      // @ts-expect-error: DELETE is a mock and not typed as axios in test
       expect(api.delete).toHaveBeenCalledWith("/events/1")
     );
   });

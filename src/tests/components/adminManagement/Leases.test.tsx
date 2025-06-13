@@ -1,6 +1,6 @@
 import React from "react";
 import { render } from "@testing-library/react";
-import { screen, fireEvent, waitFor } from "@testing-library/dom";
+import { screen, fireEvent, waitFor, within } from "@testing-library/dom";
 import Leases from "../../../components/adminManagement/Leases.js";
 import { vi, describe, test, expect, beforeEach } from "vitest";
 
@@ -36,35 +36,34 @@ const fakeLeases = [
 
 describe("Leases component", () => {
   beforeEach(() => {
-    // Reset all mocks before every test to ensure clean state
     vi.clearAllMocks();
-    // @ts-expect-error: mockResolvedValue is not typed on axios mock in unit tests
     api.get.mockResolvedValue({ data: fakeLeases });
-    // @ts-expect-error: mockResolvedValue not in axios delete type in unit tests
     api.delete.mockResolvedValue({});
   });
 
   test("displays the list of leases", async () => {
     render(<Leases userId={3} />);
-    // Check that both leases are rendered with correct info
-    expect(await screen.findByText(/Du 01\/06\/2024 au 01\/06\/2025/)).toBeInTheDocument();
-    expect(screen.getByText(/950€/)).toBeInTheDocument();
-    expect(screen.getByText(/🟢 Actif/)).toBeInTheDocument();
-
-    expect(screen.getByText(/Du 01\/01\/2023 au 31\/12\/2023/)).toBeInTheDocument();
-    expect(screen.getByText(/850€/)).toBeInTheDocument();
-    expect(screen.getByText(/🔴 Inactif/)).toBeInTheDocument();
+    // Attends les items de la liste
+    const leaseItems = await screen.findAllByRole("listitem");
+    // Premier bail (actif)
+    expect(leaseItems[0].textContent).toContain("Du 01/06/2024 au 01/06/2025");
+    expect(leaseItems[0].textContent).toContain("950");
+    expect(leaseItems[0].textContent).toContain("Actif");
+    // Deuxième bail (inactif)
+    expect(leaseItems[1].textContent).toContain("Du 01/01/2023 au 31/12/2023");
+    expect(leaseItems[1].textContent).toContain("850");
+    expect(leaseItems[1].textContent).toContain("Inactif");
   });
 
   test("deletes a lease", async () => {
     render(<Leases userId={5} />);
-    // Wait for a lease to be displayed before interacting
-    expect(await screen.findByText(/Du 01\/06\/2024 au 01\/06\/2025/)).toBeInTheDocument();
-    // Click the first delete button (❌)
-    fireEvent.click(screen.getAllByRole("button")[0]);
-    // Assert the API DELETE was called with the correct lease ID
+    // Attend la ligne du bail (qui contient la date et montant)
+    const leaseItems = await screen.findAllByRole("listitem");
+    expect(leaseItems[0].textContent).toContain("Du 01/06/2024 au 01/06/2025");
+    // Clique sur le premier bouton de suppression
+    fireEvent.click(within(leaseItems[0]).getByRole("button"));
+    // Vérifie que l'appel DELETE a été fait
     await waitFor(() =>
-      // @ts-expect-error: DELETE is mocked, not typed as axios in test
       expect(api.delete).toHaveBeenCalledWith("/leases/101")
     );
   });
