@@ -1,6 +1,9 @@
+import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import AccommodationTable from "../../../components/wealthManagement/AccommodationTable.js";
+import { MemoryRouter } from "react-router-dom";
 import { vi } from "vitest";
+
+import AccommodationTable from "../../../components/wealthManagement/AccommodationTable.js";
 
 vi.mock("../../../hooks/wealthManagement/useAccommodationActions", () => ({
   useAccommodationActions: () => ({
@@ -18,13 +21,21 @@ vi.mock("../../../hooks/wealthManagement/useAccommodationActions", () => ({
 }));
 
 describe("AccommodationTable", () => {
-  it("display accommodation and use callbacks", async () => {
+  it("affiche les logements et appelle tous les callbacks", async () => {
     const onEdit = vi.fn();
     const onDelete = vi.fn();
     const onCreate = vi.fn();
+    const onGenerate = vi.fn();
 
     render(
-      <AccommodationTable onEdit={onEdit} onDelete={onDelete} onCreate={onCreate} />
+      <MemoryRouter>
+        <AccommodationTable
+          onCreate={onCreate}
+          onEdit={onEdit}
+          onDelete={onDelete}
+          onGenerate={onGenerate}
+        />
+      </MemoryRouter>,
     );
 
     await waitFor(() => {
@@ -37,15 +48,20 @@ describe("AccommodationTable", () => {
     expect(screen.getByText("Oui")).toBeInTheDocument();
 
     fireEvent.click(screen.getByText("Ajouter un logement"));
-    expect(onCreate).toHaveBeenCalled();
+    expect(onCreate).toHaveBeenCalledTimes(1);
 
     fireEvent.click(screen.getByText("Modifier"));
-    expect(onEdit).toHaveBeenCalledWith(expect.objectContaining({
-      ACCN_ID: 1,
-      ACCC_NAME: "Appartement Paris",
-    }));
+    expect(onEdit).toHaveBeenCalledWith(
+      expect.objectContaining({
+        ACCN_ID: 1,
+        ACCC_NAME: "Appartement Paris",
+      }),
+    );
 
     fireEvent.click(screen.getByText("Supprimer"));
     expect(onDelete).toHaveBeenCalledWith(1);
+
+    fireEvent.click(screen.getByText("Générer quittance"));
+    expect(onGenerate).toHaveBeenCalledWith(1);
   });
 });

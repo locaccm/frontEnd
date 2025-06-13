@@ -17,17 +17,27 @@ describe("DeleteConfirmationModal", () => {
 
   it("Dont display if isOpen false", () => {
     const { container } = render(
-      <DeleteConfirmationModal isOpen={false} onClose={() => {}} accommodationId={1} />
+      <DeleteConfirmationModal
+        isOpen={false}
+        onClose={() => {}}
+        accommodationId={1}
+      />,
     );
     expect(container.firstChild).toBeNull();
   });
 
   it("display if isOpen true", () => {
     render(
-      <DeleteConfirmationModal isOpen={true} onClose={() => {}} accommodationId={1} />
+      <DeleteConfirmationModal
+        isOpen={true}
+        onClose={() => {}}
+        accommodationId={1}
+      />,
     );
     expect(screen.getByText("Confirmer la suppression")).toBeInTheDocument();
-    expect(screen.getByText("Êtes-vous sûr de vouloir supprimer ce logement ?")).toBeInTheDocument();
+    expect(
+      screen.getByText("Êtes-vous sûr de vouloir supprimer ce logement ?"),
+    ).toBeInTheDocument();
   });
 
   it("call deleteAccommodation, onSuccess and onClose if delete is sucessful", async () => {
@@ -41,7 +51,7 @@ describe("DeleteConfirmationModal", () => {
         onClose={onClose}
         accommodationId={42}
         onSuccess={onSuccess}
-      />
+      />,
     );
 
     fireEvent.click(screen.getByText("Oui, supprimer"));
@@ -57,7 +67,11 @@ describe("DeleteConfirmationModal", () => {
     const onClose = vi.fn();
 
     render(
-      <DeleteConfirmationModal isOpen={true} onClose={onClose} accommodationId={99} />
+      <DeleteConfirmationModal
+        isOpen={true}
+        onClose={onClose}
+        accommodationId={99}
+      />,
     );
 
     fireEvent.click(screen.getByText("Annuler"));

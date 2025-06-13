@@ -1,25 +1,32 @@
 import React, { useEffect, useState } from "react";
+
+import { useNavigate } from "react-router-dom";
 import { Accommodation } from "../../types/wealthManagement/wealthManagement.js";
 import { useAccommodationActions } from "../../hooks/wealthManagement/useAccommodationActions.js";
 
 interface AccommodationTableProps {
+  onCreate: () => void;
   onEdit: (acc: Accommodation) => void;
   onDelete: (id: number) => void;
-  onCreate: () => void;
+  onGenerate: (leaseId: number) => void;
 }
 
-const AccommodationTable: React.FC<AccommodationTableProps> = ({ onEdit, onDelete, onCreate }) => {
+const AccommodationTable: React.FC<AccommodationTableProps> = ({
+  onCreate,
+  onEdit,
+  onDelete,
+  onGenerate,
+}) => {
   const [accommodations, setAccommodations] = useState<Accommodation[]>([]);
-
   const { fetchAccommodations } = useAccommodationActions();
-
+  useNavigate();
   useEffect(() => {
-    const loadData = async () => {
+    (async () => {
       const data = await fetchAccommodations();
-      if (data) setAccommodations(data);
-    };
-
-    loadData();
+      if (data) {
+        setAccommodations(data);
+      }
+    })();
   }, [fetchAccommodations]);
 
   return (
@@ -48,6 +55,9 @@ const AccommodationTable: React.FC<AccommodationTableProps> = ({ onEdit, onDelet
               <td>
                 <button onClick={() => onEdit(acc)}>Modifier</button>
                 <button onClick={() => onDelete(acc.ACCN_ID)}>Supprimer</button>
+                <button onClick={() => onGenerate(acc.ACCN_ID)}>
+                  Générer quittance
+                </button>
               </td>
             </tr>
           ))}

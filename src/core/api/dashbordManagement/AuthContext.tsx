@@ -1,8 +1,8 @@
 // src/core/AuthContext.tsx
 import React, { createContext, useContext, useState, useEffect } from "react";
-// @ts-ignore
+
 import { jwtDecode } from "jwt-decode";
-import { rolesPermissions } from "../rolesPermissions.js";
+import { rolesPermissions } from "../../../rolesPermissions.js";
 
 interface UserProfile {
   id: string;
@@ -10,7 +10,7 @@ interface UserProfile {
   permissions: string[];
 }
 
-const AuthContext = createContext<{
+export const AuthContext = createContext<{
   user: UserProfile | null;
   token: string | null;
   hasPermission: (perm: string) => boolean;
@@ -24,21 +24,24 @@ const AuthContext = createContext<{
   logout: () => {},
 });
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [user, setUser] = useState<UserProfile | null>(null);
   const [token, setToken] = useState<string | null>(null);
 
   const login = (token: string) => {
     setToken(token);
     const decoded: any = jwtDecode(token);
-    const role = decoded.status?.toLowerCase() || decoded.role?.toLowerCase() || "tenant";
+    const role =
+      decoded.status?.toLowerCase() || decoded.role?.toLowerCase() || "tenant";
     setUser({
       id: decoded.userId?.toString() || decoded.USEN_ID?.toString() || "",
       role,
       permissions: [
         ...(rolesPermissions["everyone"] || []),
-        ...(rolesPermissions[role] || [])
-      ]
+        ...(rolesPermissions[role] || []),
+      ],
     });
     localStorage.setItem("token", token);
   };

@@ -1,0 +1,115 @@
+/* Base body styling for the dashboard app */
+body {
+  background-color: #e1ded1; /* Soft neutral background */
+  margin: 0;
+  font-family: "Arial", sans-serif; /* Clean and readable font */
+}
+
+/* Main dashboard layout container */
+.dashboard-container {
+  padding: 2rem;
+  max-width: 1200px; /* Centers content and limits max width */
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem; /* Space between major dashboard blocks */
+}
+
+/* Title styling for the dashboard */
+.dashboard-title {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  color: #444;
+  margin-bottom: 1rem;
+}
+
+/* Card base styling: reusable card for all blocks (profile, events, etc.) */
+.card {
+  background-color: #cec0ad; /* Warm card color */
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); /* Soft shadow for depth */
+  width: 94%;
+}
+
+/* Profile section layout and alignment */
+.profile-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  align-items: center;
+  text-align: center;
+}
+
+/* Profile info tags appearance */
+.profile-section span {
+  display: inline-block;
+  background-color: #e1ded1; /* Same as page background for contrast */
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  width: fit-content;
+  margin: 0.5rem;
+}
+
+/* Container for accommodations and events side by side */
+.content-section {
+  display: flex;
+  gap: 1.5rem; /* Space between columns */
+  justify-content: space-between;
+}
+
+/* Let accommodations and events each take half of row */
+.accommodations,
+.events {
+  flex: 1;
+}
+
+/* Section headings */
+h2 {
+  margin-bottom: 1rem;
+  text-align: center;
+  color: #333;
+}
+
+/* Remove default ul padding, margin, bullets */
+ul {
+  padding: 0;
+  list-style-type: none;
+  margin: 0;
+}
+
+/* Style for each list item in the cards */
+ul li {
+  background-color: #e1ded1;
+  margin-bottom: 0.6rem;
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+}
+
+/* Message card layout and centering */
+.messages {
+  text-align: center;
+  width: 100%;
+}
+
+/* Messages should be aligned left inside the card */
+.messages ul li {
+  text-align: left;
+}
+
+/* =============== Responsive adjustments =============== */
+/* For screens narrower than 768px (tablet and below) */
+@media (max-width: 768px) {
+  .content-section {
+    flex-direction: column; /* Stack columns vertically on mobile */
+  }
+
+  .card {
+    padding: 1rem; /* Reduce card padding on small screens */
+  }
+
+  .dashboard-container {
+    padding: 1rem; /* Less padding for smaller screens */
+  }
+}

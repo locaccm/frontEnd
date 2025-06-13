@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styles from "./styles.module.css";
+import { initUserProfileSession } from "../../../core/session/SessionsManager.js";
 
 type SigninResponse = {
   token: string;
@@ -45,10 +46,11 @@ const SigninForm = () => {
           alert("Connexion réussie");
           sessionStorage.setItem("token", body.token);
           sessionStorage.setItem("userId", body.user.USEN_ID.toString());
-          sessionStorage.setItem("userFirstName", body.user.USEC_FNAME);
-          sessionStorage.setItem("userLastName", body.user.USEC_LNAME);
+          //sessionStorage.setItem("userFirstName", body.user.USEC_FNAME);
+          //sessionStorage.setItem("userLastName", body.user.USEC_LNAME);
           sessionStorage.setItem("userEmail", body.user.USEC_MAIL);
-          sessionStorage.setItem("userBirthDate", body.user.USED_BIRTH);
+          //sessionStorage.setItem("userBirthDate", body.user.USED_BIRTH);
+          await initUserProfileSession();
         } else {
           alert("Erreur lors de la connexion");
         }
