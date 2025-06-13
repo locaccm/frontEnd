@@ -82,7 +82,6 @@ jobs:
           --build-arg VITE_DOCUMENT_URL=${{ secrets.VITE_DOCUMENT_URL }} \
           --build-arg VITE_ADMIN_URL=${{ secrets.VITE_ADMIN_URL }} \
           --build-arg VITE_CHAT_URL=${{ secrets.VITE_CHAT_URL }} \
-          
           -t frontend-service:latest .
 
       - name: Tag & Push to Artifact Registry
