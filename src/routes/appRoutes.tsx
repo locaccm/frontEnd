@@ -6,7 +6,7 @@ import ProfileManagement from "../pages/profileManagement/profileManagement.js";
 import WealthManagement from "../pages/wealthManagement/WealthManagementPage.js";
 import DocumentManagement from "../pages/documentManagement/documentManagement.js";
 import ChatBubble from "../pages/chatManagement/chatManagement.js";
-
+import AdminDashbord from "../pages/adminManagement/adminManagement.js"
 const AppRoutes = () => {
   return (
     <BrowserRouter>
@@ -18,6 +18,8 @@ const AppRoutes = () => {
         <Route path="/profile" element={<ProfileManagement />} />
         <Route path="/wealth-management" element={<WealthManagement />} />
         <Route path="/document-management/:leaseId" element={<DocumentManagement leaseId={0} jwt={""} onClose={() => {} } />} />
+        <Route path="/admin" element={<AdminDashbord/>} />
+
       </Routes>
     </BrowserRouter>
   );
