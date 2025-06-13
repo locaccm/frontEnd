@@ -9,6 +9,7 @@
     "start:frontend": "vite",
     "start:all": "concurrently \"npm run start:server\" \"npm run start:frontend\"",
     "build": "tsc -b && vite build",
+    "start": "node ./server/server.js",
     "preview": "vite preview",
     "lint": "eslint .",
     "prettier": "npx prettier . --write",

@@ -49,14 +49,16 @@ COPY . .
 # 7. Build the project (runs both backend TypeScript build and frontend Vite build)
 RUN npm run build
 
-# 8. Expose backend port
-EXPOSE 4000
+FROM node:20-alpine
 
-# 9. Expose frontend Vite development server port
-EXPOSE 5173
+WORKDIR /app
 
-# 10. Install concurrently to run multiple commands in parallel
-RUN npm install --save-dev concurrently
+COPY --from=builder /app /app
 
-# 11. Run backend server and frontend development server concurrently
-CMD ["npx", "concurrently", "\"npm run start:server\"", "\"npm run start\""]
+# On installe uniquement les dépendances de prod
+RUN npm install --omit=dev
+
+ENV PORT=8080
+EXPOSE 8080
+
+CMD ["node", "server/server.js"]
