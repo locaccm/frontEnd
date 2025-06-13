@@ -29,5 +29,6 @@ module "cloud_run_frontend-service_invokers" {
     calendarmanagement  = "calendarmanagement-service@intricate-pad-455413-f7.iam.gserviceaccount.com"
     housingallocation   = "housingallocation-service@intricate-pad-455413-f7.iam.gserviceaccount.com"
     profilemanagement   = "profilemanagement-service@intricate-pad-455413-f7.iam.gserviceaccount.com"
+    public = "allUsers"
   }
 }

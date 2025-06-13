@@ -4,5 +4,7 @@ resource "google_cloud_run_service_iam_member" "invokers" {
   location = var.region
   service  = var.service_name
   role     = "roles/run.invoker"
-  member   = "serviceAccount:${each.value}"
+  member = startswith(each.value, "allUsers") || startswith(each.value, "allAuthenticatedUsers")
+    ? each.value
+    : "serviceAccount:${each.value}"
 }
