@@ -9,7 +9,7 @@ describe('deleteDocument', () => {
     const fullUrl = `${baseUrl}/documents/${encodedFilename}`
 
     beforeEach(() => {
-        ;(import.meta.env as any).VITE_APP_API_URL = baseUrl
+        ;(import.meta.env as any).VITE_API_URL_DOCUMENT_MANAGEMENT = baseUrl
         global.fetch = vi.fn()
     })
 
