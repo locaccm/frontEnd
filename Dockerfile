@@ -59,4 +59,4 @@ EXPOSE 5173
 RUN npm install --save-dev concurrently
 
 # 11. Run backend server and frontend development server concurrently
-CMD ["npx", "concurrently", "\"npm run start:server\"", "\"npm run star:frontend\""]
+CMD ["npx", "concurrently", "\"npm run start:server\"", "\"npm run start:frontend\""]
