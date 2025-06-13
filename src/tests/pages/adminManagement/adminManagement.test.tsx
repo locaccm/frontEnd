@@ -1,6 +1,6 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import App from "../../../pages/adminManagement/adminManagement.js";
-import { describe, test, expect, vi, beforeEach } from "vitest";
+import { describe, test, expect, vi } from "vitest";
 
 // Mock API
 vi.mock("../../../infrastructre/services/adminApi.js", () => ({

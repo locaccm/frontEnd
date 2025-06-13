@@ -25,6 +25,7 @@ const UserInfo: React.FC<Props> = ({ userId }) => {
   const [user, setUser] = useState<UserDetail | null>(null);
 
   // Effect to fetch user data when component mounts or userId changes
+   
   useEffect(() => {
     if (userId > 0) {
       // Fetch user details from the API

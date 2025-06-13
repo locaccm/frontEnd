@@ -30,10 +30,9 @@ const fakeUser = {
 describe("UserInfo component", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    // Mock GET and PUT API methods
-    // @ts-ignore
+    // @ts-expect-error: mockResolvedValue not typed in axios for tests
     api.get.mockResolvedValue({ data: fakeUser });
-    // @ts-ignore
+    // @ts-expect-error: mockResolvedValue not typed in axios for tests
     api.put.mockResolvedValue({});
     // Mock the browser alert for testing
     window.alert = vi.fn();
@@ -65,7 +64,7 @@ describe("UserInfo component", () => {
     fireEvent.click(screen.getByText("Enregistrer"));
     // Assert API PUT called with updated data
     await waitFor(() =>
-      // @ts-ignore
+      // @ts-expect-error: put is mocked for test, not typed by axios
       expect(api.put).toHaveBeenCalledWith(
         "/users/1",
         expect.objectContaining({
@@ -80,7 +79,7 @@ describe("UserInfo component", () => {
 
   test("shows loader if no user", async () => {
     // Force the API to return no data
-    // @ts-ignore
+    // @ts-expect-error: mockResolvedValueOnce is not typed in axios mocks for tests
     api.get.mockResolvedValueOnce({ data: null });
     render(<UserInfo userId={99} />);
     // Should show loading state

@@ -42,6 +42,7 @@ const Accommodations: React.FC<{ userId: number }> = ({ userId }) => {
   };
 
   // Whenever userId changes, reload the list
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { load(); }, [userId]);
 
   // Deletes an accommodation by ID

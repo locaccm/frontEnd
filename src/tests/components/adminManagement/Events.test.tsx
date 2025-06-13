@@ -37,15 +37,17 @@ const fakeEvents = [
 describe("Events component", () => {
   beforeEach(() => {
     // Reset all API mocks before every test
-    vi.clearAllMocks();
-    // Mock the GET, POST, PUT, DELETE calls for each test case
-    // @ts-ignore
+
+    // @ts-expect-error: mockResolvedValue is not typed on axios mock in unit tests
     api.get.mockResolvedValue({ data: fakeEvents });
-    // @ts-ignore
+
+    // @ts-expect-error: mockResolvedValue is not in axios types for POST (unit test only)
     api.post.mockResolvedValue({});
-    // @ts-ignore
+
+    // @ts-expect-error: mockResolvedValue is not in axios types for PUT (unit test only)
     api.put.mockResolvedValue({});
-    // @ts-ignore
+
+    // @ts-expect-error: mockResolvedValue is not in axios types for DELETE (unit test only)
     api.delete.mockResolvedValue({});
   });
 
@@ -75,7 +77,7 @@ describe("Events component", () => {
 
     // Wait for the API POST call with correct payload
     await waitFor(() =>
-      // @ts-ignore
+      // @ts-expect-error: POST is a mock and not typed as axios in test
       expect(api.post).toHaveBeenCalledWith(
         "/events",
         expect.objectContaining({
@@ -97,7 +99,7 @@ describe("Events component", () => {
     fireEvent.click(screen.getAllByText("Modifier")[0]);
     // Wait for the PUT call with updated label
     await waitFor(() =>
-      // @ts-ignore
+      // @ts-expect-error: PUT is a mock and not typed as axios in test
       expect(api.put).toHaveBeenCalledWith(
         "/events/1",
         expect.objectContaining({ EVEC_LIB: "Libellé modifié" })
@@ -112,7 +114,7 @@ describe("Events component", () => {
     fireEvent.click(screen.getAllByText("Supprimé")[0]);
     // Wait for the DELETE API call
     await waitFor(() =>
-      // @ts-ignore
+      // @ts-expect-error: DELETE is a mock and not typed as axios in test
       expect(api.delete).toHaveBeenCalledWith("/events/1")
     );
   });

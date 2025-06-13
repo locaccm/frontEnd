@@ -23,6 +23,7 @@ const Leases: React.FC<{ userId: number }> = ({ userId }) => {
   };
 
   // Loads leases every time userId changes (or at mount)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { load(); }, [userId]);
 
   // Handles deleting a lease, then reloads the list

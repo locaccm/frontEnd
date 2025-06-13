@@ -38,10 +38,9 @@ describe("Leases component", () => {
   beforeEach(() => {
     // Reset all mocks before every test to ensure clean state
     vi.clearAllMocks();
-    // Mock the API GET and DELETE responses
-    // @ts-ignore
+    // @ts-expect-error: mockResolvedValue is not typed on axios mock in unit tests
     api.get.mockResolvedValue({ data: fakeLeases });
-    // @ts-ignore
+    // @ts-expect-error: mockResolvedValue not in axios delete type in unit tests
     api.delete.mockResolvedValue({});
   });
 
@@ -65,7 +64,7 @@ describe("Leases component", () => {
     fireEvent.click(screen.getAllByRole("button")[0]);
     // Assert the API DELETE was called with the correct lease ID
     await waitFor(() =>
-      // @ts-ignore
+      // @ts-expect-error: DELETE is mocked, not typed as axios in test
       expect(api.delete).toHaveBeenCalledWith("/leases/101")
     );
   });

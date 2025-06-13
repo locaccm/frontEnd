@@ -28,6 +28,7 @@ const Events: React.FC<Props> = ({ userId }) => {
   };
 
   // When the component mounts or userId changes, reload the events
+   
   useEffect(loadEvents, [userId]);
 
   // Sends a request to create a new event, then reloads the list

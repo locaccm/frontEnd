@@ -25,6 +25,7 @@ const Messages: React.FC<{ userId: number }> = ({ userId }) => {
   };
 
   // Loads messages when component mounts or userId changes
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { load(); }, [userId]);
 
   // Mark a message as read and reloads the list

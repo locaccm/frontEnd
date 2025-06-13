@@ -36,12 +36,11 @@ const fakeMessages = [
 describe("Messages component", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    // Mock the API GET, PUT, DELETE responses for each test
-    // @ts-ignore
+    // @ts-expect-error: mockResolvedValue is not typed in axios mocks for tests
     api.get.mockResolvedValue({ data: fakeMessages });
-    // @ts-ignore
+    // @ts-expect-error: mockResolvedValue is used in test mocks, not typed by default
     api.put.mockResolvedValue({});
-    // @ts-ignore
+    // @ts-expect-error: mockResolvedValue is used for axios delete in test mocks
     api.delete.mockResolvedValue({});
   });
 
@@ -65,7 +64,7 @@ describe("Messages component", () => {
     // Click the "Marquer comme lu" button
     fireEvent.click(screen.getByText("Marquer comme lu"));
     await waitFor(() =>
-      // @ts-ignore
+      // @ts-expect-error: mock put method for test is not typed in axios
       expect(api.put).toHaveBeenCalledWith("/messages/1/read")
     );
   });
@@ -76,7 +75,7 @@ describe("Messages component", () => {
     // Click the first "Supprimé" button (for the first message)
     fireEvent.click(screen.getAllByText("Supprimé")[0]);
     await waitFor(() =>
-      // @ts-ignore
+      // @ts-expect-error: mock delete method for test is not typed in axios
       expect(api.delete).toHaveBeenCalledWith("/messages/1")
     );
   });

@@ -43,15 +43,17 @@ const fakeAccommodations = [
 describe("Accommodations component", () => {
   beforeEach(() => {
     // Reset all mocks before every test
-    vi.clearAllMocks();
-    // Mock the GET/POST/PUT/DELETE methods for the test suite
-    // @ts-ignore
+
+    // @ts-expect-error: mockResolvedValue is not in axios types but we need it for unit tests
     api.get.mockResolvedValue({ data: fakeAccommodations });
-    // @ts-ignore
+
+    // @ts-expect-error: mockResolvedValue for axios POST is only for tests
     api.post.mockResolvedValue({});
-    // @ts-ignore
+
+    // @ts-expect-error: mockResolvedValue for axios PUT is only for tests
     api.put.mockResolvedValue({});
-    // @ts-ignore
+
+    // @ts-expect-error: mockResolvedValue for axios DELETE is only for tests
     api.delete.mockResolvedValue({});
   });
 
@@ -85,7 +87,7 @@ describe("Accommodations component", () => {
     fireEvent.click(screen.getByText("Créer"));
     // Assert that the API POST call was made with the correct data
     await waitFor(() =>
-      // @ts-ignore
+      // @ts-expect-error: jest mock for axios POST in test
       expect(api.post).toHaveBeenCalledWith(
         "/accommodations",
         expect.objectContaining({
@@ -110,7 +112,7 @@ describe("Accommodations component", () => {
     fireEvent.click(screen.getByText("Sauvegarder"));
     // Assert that the API PUT call was made with the updated data
     await waitFor(() =>
-      // @ts-ignore
+      // @ts-expect-error: jest mock for axios PUT in test
       expect(api.put).toHaveBeenCalledWith(
         "/accommodations/1",
         expect.objectContaining({
@@ -130,7 +132,7 @@ describe("Accommodations component", () => {
     fireEvent.click(screen.getAllByText("Supprimé")[0]);
     // Assert that the API DELETE call was made with the correct id
     await waitFor(() =>
-      // @ts-ignore
+      // @ts-expect-error: jest mock for axios DELETE in test
       expect(api.delete).toHaveBeenCalledWith("/accommodations/1")
     );
   });
