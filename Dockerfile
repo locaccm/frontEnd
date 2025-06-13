@@ -56,7 +56,7 @@ RUN npm run build
 EXPOSE 5173
 
 # 10. Install concurrently to run multiple commands in parallel
-RUN #npm install --save-dev concurrently
 
 # 11. Run backend server and frontend development server concurrently
-CMD ["npm", "run", "build"]
+CMD ["npm", "run", "preview"]
+
