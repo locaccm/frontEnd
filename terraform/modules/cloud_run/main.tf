@@ -14,7 +14,7 @@ resource "google_cloud_run_service" "service" {
         image = "europe-west1-docker.pkg.dev/${var.project_id}/${var.repository_id}/${var.service_name}:latest"
 
         ports {
-          container_port = 8080
+          container_port = 4173
         }
 
         dynamic "env" {
