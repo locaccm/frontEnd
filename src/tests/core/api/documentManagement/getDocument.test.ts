@@ -7,7 +7,7 @@ describe('fetchDocuments', () => {
     const fullUrl = `${baseUrl}/api/documents`
 
     beforeEach(() => {
-        ;(import.meta.env as any).VITE_API_URL = baseUrl
+        ;(import.meta.env as any).VITE_API_URL_DOCUMENT_MANAGEMENT = baseUrl
         global.fetch = vi.fn()
     })
 

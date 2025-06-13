@@ -7,7 +7,7 @@ export async function generateReceipt(
     jwt: string
 ): Promise<GenerateResponse> {
     const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/rent-receipt`,
+        `${import.meta.env.VITE_API_URL_DOCUMENT_MANAGEMENT}/api/rent-receipt`,
         {
             method: "POST",
             headers: {
