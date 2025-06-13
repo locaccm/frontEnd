@@ -7,6 +7,12 @@ import { v4 as uuidv4 } from "uuid";
 import cors from "cors";
 import fs from "fs";
 
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+
 const app = express();
 
 app.use(
@@ -104,6 +110,7 @@ app.get("*", (req, res) => {
         res.status(500).send("index.html non trouvé");
     }
 });
+
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
