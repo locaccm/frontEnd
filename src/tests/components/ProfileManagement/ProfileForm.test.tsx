@@ -122,4 +122,61 @@ describe("ProfileForm", () => {
     render(<ProfileForm />);
     expect(screen.getByText("Utilisateur non connecté")).toBeInTheDocument();
   });
+
+  test("affiche 'Utilisateur non connecté' si userId est absent", () => {
+    vi.stubGlobal("sessionStorage", {
+      getItem: vi.fn((key: string) => (key === "token" ? "mock-token" : null)),
+    });
+
+    render(<ProfileForm />);
+    expect(screen.getByText("Utilisateur non connecté")).toBeInTheDocument();
+  });
+
+  test("gère l'erreur lors du chargement du profil", async () => {
+    sessionStorage.getItem = vi.fn((key) => {
+      if (key === "userId") return "1";
+      if (key === "token") return "mock-token";
+      return null;
+    });
+
+    mockFetch.mockRejectedValueOnce(new Error("Fetch échoué"));
+
+    render(<ProfileForm />);
+
+    await waitFor(() => {
+      expect(mockFetch).toHaveBeenCalled();
+    });
+  });
+
+  test("gère une erreur lors de la mise à jour du profil", async () => {
+    mockFetch
+        .mockResolvedValueOnce({
+          ok: true,
+          json: async () => mockProfile,
+        } as Response)
+        .mockRejectedValueOnce(new Error("Update échoué"));
+
+    render(<ProfileForm />);
+    const button = await screen.findByText("Enregistrer");
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(mockFetch).toHaveBeenCalledTimes(2); // GET + PUT
+    });
+  });
+
+  test("ne fait rien si aucun fichier n'est sélectionné", async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockProfile,
+    } as Response);
+
+    render(<ProfileForm />);
+    const fileInput = await screen.findByLabelText(/photo de profil/i);
+    fireEvent.change(fileInput, { target: { files: [] } });
+
+    // Ne doit pas appeler fetch pour l'upload
+    expect(mockFetch).toHaveBeenCalledTimes(1); // uniquement GET initial
+  });
+
 });
