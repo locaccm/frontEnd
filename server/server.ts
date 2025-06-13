@@ -95,8 +95,8 @@ app.post("/upload/:folder", upload.single("file"), async (req, res) => {
     }
 });
 
-app.get("/*", (req: Request, res: Response) => {
-    const indexPath = path.resolve(__dirname, "../dist/index.html");
+app.get(/^\/(?!api|files|upload).*/, (req, res) => {
+    const indexPath = path.join(__dirname, "../dist/index.html");
     if (fs.existsSync(indexPath)) {
         res.sendFile(indexPath);
     } else {
