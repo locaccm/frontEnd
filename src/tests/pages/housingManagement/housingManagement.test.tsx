@@ -7,7 +7,6 @@ vi.mock("../../../hooks/housingManagement/useLeaseActions", () => ({
   useLeaseActions: vi.fn(),
 }));
 
-
 const mockLeases = [
   {
     LEAN_ID: 1,
@@ -37,7 +36,6 @@ beforeEach(() => {
   sessionStorage.setItem("userId", "1");
 });
 
-
 describe("HousingManagement", () => {
   it("renders the title and loads leases", async () => {
     render(<HousingManagement />);
@@ -45,7 +43,7 @@ describe("HousingManagement", () => {
 
     await waitFor(() => {
       expect(fetchLeases).toHaveBeenCalled();
-      expect(screen.getByText("900")).toBeInTheDocument(); 
+      expect(screen.getByText("900")).toBeInTheDocument();
     });
   });
 
@@ -57,7 +55,9 @@ describe("HousingManagement", () => {
     });
 
     fireEvent.click(screen.getByText(/ajouter/i));
-    expect(screen.getByRole("form", { name: /lease form/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("form", { name: /lease form/i }),
+    ).toBeInTheDocument();
   });
 
   it("edits a lease when clicking Modifier", async () => {
@@ -65,8 +65,10 @@ describe("HousingManagement", () => {
     await waitFor(() => expect(fetchLeases).toHaveBeenCalled());
 
     fireEvent.click(screen.getByText(/modifier/i));
-    expect(screen.getByRole("form", { name: /lease form/i })).toBeInTheDocument();
-    expect(screen.getByDisplayValue("900")).toBeInTheDocument(); 
+    expect(
+      screen.getByRole("form", { name: /lease form/i }),
+    ).toBeInTheDocument();
+    expect(screen.getByDisplayValue("900")).toBeInTheDocument();
   });
 
   it("deletes a lease and refreshes list", async () => {
@@ -77,7 +79,7 @@ describe("HousingManagement", () => {
 
     await waitFor(() => {
       expect(deleteLease).toHaveBeenCalledWith(1);
-      expect(fetchLeases).toHaveBeenCalledTimes(2); 
+      expect(fetchLeases).toHaveBeenCalledTimes(2);
     });
   });
 
@@ -91,7 +93,7 @@ describe("HousingManagement", () => {
     fireEvent.click(closeBtn);
 
     await waitFor(() => {
-      expect(fetchLeases).toHaveBeenCalledTimes(2); 
+      expect(fetchLeases).toHaveBeenCalledTimes(2);
     });
   });
 });

@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  render,
-  screen,
-  fireEvent,
-  waitFor
-} from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { vi } from "vitest";
 
@@ -33,29 +28,23 @@ describe("AccommodationTable", () => {
     const onGenerate = vi.fn();
 
     render(
-        <MemoryRouter>
-          <AccommodationTable
-              onCreate={onCreate}
-              onEdit={onEdit}
-              onDelete={onDelete}
-              onGenerate={onGenerate}
-          />
-        </MemoryRouter>
+      <MemoryRouter>
+        <AccommodationTable
+          onCreate={onCreate}
+          onEdit={onEdit}
+          onDelete={onDelete}
+          onGenerate={onGenerate}
+        />
+      </MemoryRouter>,
     );
 
     await waitFor(() => {
-      expect(
-          screen.getByText("Appartement Paris")
-      ).toBeInTheDocument();
+      expect(screen.getByText("Appartement Paris")).toBeInTheDocument();
     });
 
     expect(screen.getByText("Studio")).toBeInTheDocument();
-    expect(
-        screen.getByText("123 Rue Lafayette")
-    ).toBeInTheDocument();
-    expect(
-        screen.getByText("Vue sur la tour Eiffel")
-    ).toBeInTheDocument();
+    expect(screen.getByText("123 Rue Lafayette")).toBeInTheDocument();
+    expect(screen.getByText("Vue sur la tour Eiffel")).toBeInTheDocument();
     expect(screen.getByText("Oui")).toBeInTheDocument();
 
     fireEvent.click(screen.getByText("Ajouter un logement"));
@@ -63,10 +52,10 @@ describe("AccommodationTable", () => {
 
     fireEvent.click(screen.getByText("Modifier"));
     expect(onEdit).toHaveBeenCalledWith(
-        expect.objectContaining({
-          ACCN_ID: 1,
-          ACCC_NAME: "Appartement Paris"
-        })
+      expect.objectContaining({
+        ACCN_ID: 1,
+        ACCC_NAME: "Appartement Paris",
+      }),
     );
 
     fireEvent.click(screen.getByText("Supprimer"));

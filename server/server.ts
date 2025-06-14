@@ -15,13 +15,13 @@ app.use(
 );
 
 const storage =
-    process.env.NODE_ENV === "production"
-        ? new Storage() // In production, no credentials file is needed
-        : new Storage({
-          keyFilename: path.join(
-              "./credentials/intricate-pad-455413-f7-970197da1d79.json",
-          ),
-        });
+  process.env.NODE_ENV === "production"
+    ? new Storage() // In production, no credentials file is needed
+    : new Storage({
+        keyFilename: path.join(
+          "./credentials/intricate-pad-455413-f7-970197da1d79.json",
+        ),
+      });
 
 const bucketName = "locaccm-bucket";
 const bucket = storage.bucket(bucketName);
@@ -95,5 +95,4 @@ app.post(
 );
 
 const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
-});
+app.listen(PORT, () => {});

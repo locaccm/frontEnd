@@ -51,27 +51,40 @@ describe("LeaseForm", () => {
     const onClose = vi.fn();
     render(<LeaseForm lease={null} onClose={onClose} />);
 
-    fireEvent.change(screen.getByLabelText(/date de début/i), { target: { value: "2025-01-01" } });
-    fireEvent.change(screen.getByLabelText(/date de fin/i), { target: { value: "2025-12-31" } });
-    fireEvent.change(screen.getByLabelText(/loyer/i), { target: { value: "850" } });
-    fireEvent.change(screen.getByLabelText(/charges/i), { target: { value: "150" } });
-    fireEvent.change(screen.getByLabelText(/date de paiement/i), { target: { value: "2025-01-05" } });
-    fireEvent.change(screen.getByLabelText(/id utilisateur/i), { target: { value: "1" } });
-    fireEvent.change(screen.getByLabelText(/id logement/i), { target: { value: 2 } });
+    fireEvent.change(screen.getByLabelText(/date de début/i), {
+      target: { value: "2025-01-01" },
+    });
+    fireEvent.change(screen.getByLabelText(/date de fin/i), {
+      target: { value: "2025-12-31" },
+    });
+    fireEvent.change(screen.getByLabelText(/loyer/i), {
+      target: { value: "850" },
+    });
+    fireEvent.change(screen.getByLabelText(/charges/i), {
+      target: { value: "150" },
+    });
+    fireEvent.change(screen.getByLabelText(/date de paiement/i), {
+      target: { value: "2025-01-05" },
+    });
+    fireEvent.change(screen.getByLabelText(/id utilisateur/i), {
+      target: { value: "1" },
+    });
+    fireEvent.change(screen.getByLabelText(/id logement/i), {
+      target: { value: 2 },
+    });
 
     fireEvent.click(screen.getByRole("button", { name: /créer/i }));
 
-    await Promise.resolve(); 
-  expect(mockCreateLease).toHaveBeenCalledWith({
-    LEAD_START: "2025-01-01",
-    LEAD_END: "2025-12-31",
-    LEAN_RENT: 850,
-    LEAN_CHARGES: 150,
-    LEAD_PAYMENT: "2025-01-05",
-    LEAB_ACTIVE: true,
-    ACCN_ID: "2",
-  });
-
+    await Promise.resolve();
+    expect(mockCreateLease).toHaveBeenCalledWith({
+      LEAD_START: "2025-01-01",
+      LEAD_END: "2025-12-31",
+      LEAN_RENT: 850,
+      LEAN_CHARGES: 150,
+      LEAD_PAYMENT: "2025-01-05",
+      LEAB_ACTIVE: true,
+      ACCN_ID: "2",
+    });
 
     expect(onClose).toHaveBeenCalled();
   });
@@ -81,9 +94,11 @@ describe("LeaseForm", () => {
     const onClose = vi.fn();
 
     render(<LeaseForm lease={mockLease} onClose={onClose} />);
-    fireEvent.click(screen.getByRole("button", { name: /enregistrer les modifications/i }));
+    fireEvent.click(
+      screen.getByRole("button", { name: /enregistrer les modifications/i }),
+    );
 
-    await Promise.resolve(); 
+    await Promise.resolve();
 
     expect(mockUpdateLease).toHaveBeenCalledWith(mockLease.LEAN_ID, {
       LEAD_START: "2025-01-01",

@@ -27,7 +27,9 @@ Object.defineProperty(window, "sessionStorage", {
 });
 
 import * as SessionManager from "../../../core/session/SessionsManager.js";
-const initUserProfileMock = vi.spyOn(SessionManager, "initUserProfileSession").mockResolvedValue();
+const initUserProfileMock = vi
+  .spyOn(SessionManager, "initUserProfileSession")
+  .mockResolvedValue();
 
 beforeEach(() => {
   mockFetch.mockReset();

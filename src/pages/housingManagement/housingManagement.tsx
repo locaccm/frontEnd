@@ -57,20 +57,22 @@ const HousingManagement = () => {
     <div style={{ padding: "2rem" }}>
       <h1>Gestion des baux</h1>
 
-      <button onClick={() => { setEditingLease(null); setShowForm(true); }}>
+      <button
+        onClick={() => {
+          setEditingLease(null);
+          setShowForm(true);
+        }}
+      >
         Ajouter
       </button>
 
-      {showForm && (
-        <LeaseForm
-          lease={editingLease}
-          onClose={handleCloseForm}
-        />
-      )}
+      {showForm && <LeaseForm lease={editingLease} onClose={handleCloseForm} />}
 
       {error && <p style={{ color: "red" }}>{error}</p>}
 
-      {loading ? <p>Chargement...</p> : (
+      {loading ? (
+        <p>Chargement...</p>
+      ) : (
         <table border={1} cellPadding={8} cellSpacing={0}>
           <thead>
             <tr>
@@ -96,7 +98,9 @@ const HousingManagement = () => {
                 <td>{lease.LEAB_ACTIVE ? "Oui" : "Non"}</td>
                 <td>
                   <button onClick={() => handleEdit(lease)}>Modifier</button>
-                  <button onClick={() => handleDelete(lease.LEAN_ID)}>Supprimer</button>
+                  <button onClick={() => handleDelete(lease.LEAN_ID)}>
+                    Supprimer
+                  </button>
                 </td>
               </tr>
             ))}

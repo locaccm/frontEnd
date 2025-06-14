@@ -29,13 +29,15 @@ describe("UpdateAccommodationModal", () => {
         onClose={() => {}}
         accommodationId={1}
         initialData={mockData}
-      />
+      />,
     );
 
     expect(screen.getByDisplayValue("Nom initial")).toBeInTheDocument();
     expect(screen.getByDisplayValue("Type initial")).toBeInTheDocument();
     expect(screen.getByDisplayValue("Adresse initiale")).toBeInTheDocument();
-    expect(screen.getByDisplayValue("Description initiale")).toBeInTheDocument();
+    expect(
+      screen.getByDisplayValue("Description initiale"),
+    ).toBeInTheDocument();
   });
 
   it("call updateAccommodation, onSuccess and onClose if success", async () => {
@@ -49,7 +51,7 @@ describe("UpdateAccommodationModal", () => {
         onSuccess={onSuccess}
         accommodationId={99}
         initialData={mockData}
-      />
+      />,
     );
 
     fireEvent.change(screen.getByPlaceholderText("Nom"), {
@@ -76,7 +78,7 @@ describe("UpdateAccommodationModal", () => {
         onClose={onClose}
         accommodationId={5}
         initialData={mockData}
-      />
+      />,
     );
 
     fireEvent.click(screen.getByText("Annuler"));

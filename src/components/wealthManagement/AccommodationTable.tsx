@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
-import {Accommodation} from "../../types/wealthManagement/wealthManagement.js";
-import {useAccommodationActions} from "../../hooks/wealthManagement/useAccommodationActions.js";
+import { Accommodation } from "../../types/wealthManagement/wealthManagement.js";
+import { useAccommodationActions } from "../../hooks/wealthManagement/useAccommodationActions.js";
 
 interface AccommodationTableProps {
   onCreate: () => void;
@@ -12,11 +12,11 @@ interface AccommodationTableProps {
 }
 
 const AccommodationTable: React.FC<AccommodationTableProps> = ({
-                                                                 onCreate,
-                                                                 onEdit,
-                                                                 onDelete,
-                                                                 onGenerate,
-                                                               }) => {
+  onCreate,
+  onEdit,
+  onDelete,
+  onGenerate,
+}) => {
   const [accommodations, setAccommodations] = useState<Accommodation[]>([]);
   const { fetchAccommodations } = useAccommodationActions();
   useNavigate();
@@ -30,11 +30,11 @@ const AccommodationTable: React.FC<AccommodationTableProps> = ({
   }, [fetchAccommodations]);
 
   return (
-      <div>
-        <h2>Mes Logements</h2>
-        <button onClick={onCreate}>Ajouter un logement</button>
-        <table>
-          <thead>
+    <div>
+      <h2>Mes Logements</h2>
+      <button onClick={onCreate}>Ajouter un logement</button>
+      <table>
+        <thead>
           <tr>
             <th>Nom</th>
             <th>Type</th>
@@ -43,25 +43,27 @@ const AccommodationTable: React.FC<AccommodationTableProps> = ({
             <th>Description</th>
             <th>Actions</th>
           </tr>
-          </thead>
-          <tbody>
+        </thead>
+        <tbody>
           {accommodations.map((acc) => (
-              <tr key={acc.ACCN_ID}>
-                <td>{acc.ACCC_NAME}</td>
-                <td>{acc.ACCC_TYPE}</td>
-                <td>{acc.ACCC_ADDRESS}</td>
-                <td>{acc.ACCB_AVAILABLE ? "Oui" : "Non"}</td>
-                <td>{acc.ACCC_DESC}</td>
-                <td>
-                  <button onClick={() => onEdit(acc)}>Modifier</button>
-                  <button onClick={() => onDelete(acc.ACCN_ID)}>Supprimer</button>
-                  <button onClick={() => onGenerate(acc.ACCN_ID)}>Générer quittance</button>
-                </td>
-              </tr>
+            <tr key={acc.ACCN_ID}>
+              <td>{acc.ACCC_NAME}</td>
+              <td>{acc.ACCC_TYPE}</td>
+              <td>{acc.ACCC_ADDRESS}</td>
+              <td>{acc.ACCB_AVAILABLE ? "Oui" : "Non"}</td>
+              <td>{acc.ACCC_DESC}</td>
+              <td>
+                <button onClick={() => onEdit(acc)}>Modifier</button>
+                <button onClick={() => onDelete(acc.ACCN_ID)}>Supprimer</button>
+                <button onClick={() => onGenerate(acc.ACCN_ID)}>
+                  Générer quittance
+                </button>
+              </td>
+            </tr>
           ))}
-          </tbody>
-        </table>
-      </div>
+        </tbody>
+      </table>
+    </div>
   );
 };
 

@@ -28,35 +28,35 @@ const ChatManagement: React.FC = () => {
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
-    useEffect(() => {
+  useEffect(() => {
     if (userId === null) return;
 
     async function loadContacts(id: number) {
-        try {
+      try {
         const user = await getUserById(id);
 
         let linkedUsers: User[] = [];
 
         if (user.USEC_TYPE === "OWNER") {
-            const tenants = await getTenantsByOwner(user.USEN_ID);
-            linkedUsers = [user, ...tenants];
+          const tenants = await getTenantsByOwner(user.USEN_ID);
+          linkedUsers = [user, ...tenants];
         } else if (user.USEC_TYPE === "TENANT") {
-            const owner = await getOwnerByTenant(user.USEN_ID);
-            linkedUsers = [user];
-            if (owner) linkedUsers.push(owner);
+          const owner = await getOwnerByTenant(user.USEN_ID);
+          linkedUsers = [user];
+          if (owner) linkedUsers.push(owner);
         } else {
-            linkedUsers = [user];
+          linkedUsers = [user];
         }
 
         setContacts(linkedUsers);
         setSelectedContact(linkedUsers[0] || null);
-        } catch (err) {
+      } catch (err) {
         console.error(err);
-        }
+      }
     }
 
     loadContacts(userId);
-    }, [userId]);
+  }, [userId]);
 
   useEffect(() => {
     if (!userId || !selectedContact) {
@@ -78,7 +78,10 @@ const ChatManagement: React.FC = () => {
 
     try {
       await sendMessage(userId, selectedContact.USEN_ID, newMessage);
-      const updatedMessages = await getMessages(userId, selectedContact.USEN_ID);
+      const updatedMessages = await getMessages(
+        userId,
+        selectedContact.USEN_ID,
+      );
       setMessages(updatedMessages);
       setNewMessage("");
     } catch (err) {

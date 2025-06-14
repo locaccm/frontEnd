@@ -88,4 +88,3 @@ jobs:
         run: |
           docker tag frontend-service:latest europe-west1-docker.pkg.dev/intricate-pad-455413-f7/locaccm-repo-docker/frontend-service:latest
           docker push europe-west1-docker.pkg.dev/intricate-pad-455413-f7/locaccm-repo-docker/frontend-service:latest
-

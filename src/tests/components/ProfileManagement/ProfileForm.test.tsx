@@ -69,13 +69,13 @@ describe("ProfileForm", () => {
 
   test("envoie les données du profil en PUT", async () => {
     mockFetch
-        .mockResolvedValueOnce({
-          ok: true,
-          json: async () => mockProfile,
-        } as Response)
-        .mockResolvedValueOnce({
-          ok: true,
-        } as Response);
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => mockProfile,
+      } as Response)
+      .mockResolvedValueOnce({
+        ok: true,
+      } as Response);
 
     render(<ProfileForm />);
 
@@ -84,14 +84,14 @@ describe("ProfileForm", () => {
 
     await waitFor(() => {
       expect(mockFetch).toHaveBeenCalledWith(
-          expect.stringContaining("profiles/1"),
-          expect.objectContaining({
-            method: "PUT",
-            headers: expect.objectContaining({
-              "Content-Type": "application/json",
-              Authorization: "Bearer mock-token",
-            }),
+        expect.stringContaining("profiles/1"),
+        expect.objectContaining({
+          method: "PUT",
+          headers: expect.objectContaining({
+            "Content-Type": "application/json",
+            Authorization: "Bearer mock-token",
           }),
+        }),
       );
     });
   });

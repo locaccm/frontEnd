@@ -10,9 +10,14 @@ interface UpdateAccommodationModalProps {
   onSuccess?: () => void;
 }
 
-const UpdateAccommodationModal: React.FC<UpdateAccommodationModalProps> = ({ onClose, accommodationId, initialData, onSuccess }) => {
+const UpdateAccommodationModal: React.FC<UpdateAccommodationModalProps> = ({
+  onClose,
+  accommodationId,
+  initialData,
+  onSuccess,
+}) => {
   const { updateAccommodation } = useAccommodationActions();
-  
+
   const handleUpdate = async (data: AccommodationInput) => {
     const success = await updateAccommodation(accommodationId, data);
     if (success) {
@@ -24,7 +29,11 @@ const UpdateAccommodationModal: React.FC<UpdateAccommodationModalProps> = ({ onC
   return (
     <div style={modalStyle}>
       <h2>Modifier le logement</h2>
-      <AccommodationForm initialData={initialData} onSubmit={handleUpdate} onCancel={onClose} />
+      <AccommodationForm
+        initialData={initialData}
+        onSubmit={handleUpdate}
+        onCancel={onClose}
+      />
     </div>
   );
 };

@@ -96,49 +96,49 @@ describe("ChatManagement", () => {
     expect(await screen.findByText("Hi Alice")).toBeInTheDocument();
   });
 
-it("sends a message", async () => {
-  sessionStorage.setItem("userId", "1");
+  it("sends a message", async () => {
+    sessionStorage.setItem("userId", "1");
 
-  mockedGetUserById.mockResolvedValue({
-    USEN_ID: 1,
-    USEC_TYPE: "OWNER",
-    USEC_FNAME: "Alice",
-    USEC_LNAME: "Doe",
+    mockedGetUserById.mockResolvedValue({
+      USEN_ID: 1,
+      USEC_TYPE: "OWNER",
+      USEC_FNAME: "Alice",
+      USEC_LNAME: "Doe",
+    });
+
+    mockedGetTenantsByOwner.mockResolvedValue([
+      {
+        USEN_ID: 2,
+        USEC_TYPE: "TENANT",
+        USEC_FNAME: "Bob",
+        USEC_LNAME: "Smith",
+      },
+    ]);
+
+    mockedGetMessages.mockResolvedValueOnce([]);
+
+    mockedSendMessage.mockResolvedValue({});
+    mockedGetMessages.mockResolvedValueOnce([
+      { MESN_SENDER: 1, MESC_CONTENT: "Hello Bob" },
+    ]);
+
+    render(<ChatManagement />);
+
+    const bobContact = await screen.findByText("Bob SMITH");
+    fireEvent.click(bobContact);
+
+    const input = await screen.findByPlaceholderText("Message...");
+    fireEvent.change(input, { target: { value: "Hello Bob" } });
+
+    const sendButton = screen.getByText("Envoyer");
+    fireEvent.click(sendButton);
+
+    expect(mockedSendMessage).toHaveBeenCalledWith(1, 2, "Hello Bob");
+
+    await waitFor(() => {
+      expect(screen.getByText("Hello Bob")).toBeInTheDocument();
+    });
   });
-
-  mockedGetTenantsByOwner.mockResolvedValue([
-    {
-      USEN_ID: 2,
-      USEC_TYPE: "TENANT",
-      USEC_FNAME: "Bob",
-      USEC_LNAME: "Smith",
-    },
-  ]);
-
-  mockedGetMessages.mockResolvedValueOnce([]);
-
-  mockedSendMessage.mockResolvedValue({});
-  mockedGetMessages.mockResolvedValueOnce([
-    { MESN_SENDER: 1, MESC_CONTENT: "Hello Bob" },
-  ]);
-
-  render(<ChatManagement />);
-
-  const bobContact = await screen.findByText("Bob SMITH");
-  fireEvent.click(bobContact);
-
-  const input = await screen.findByPlaceholderText("Message...");
-  fireEvent.change(input, { target: { value: "Hello Bob" } });
-
-  const sendButton = screen.getByText("Envoyer");
-  fireEvent.click(sendButton);
-
-  expect(mockedSendMessage).toHaveBeenCalledWith(1, 2, "Hello Bob");
-
-  await waitFor(() => {
-    expect(screen.getByText("Hello Bob")).toBeInTheDocument();
-  });
-});
 
   it("does not send an empty message", async () => {
     sessionStorage.setItem("userId", "1");
