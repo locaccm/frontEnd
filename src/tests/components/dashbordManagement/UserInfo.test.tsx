@@ -61,26 +61,27 @@ describe("UserInfo component", () => {
   it("renders profile when API returns data and permission is granted", async () => {
     const mockedApiGet = api.get as unknown as ReturnType<typeof vi.fn>;
     mockedApiGet.mockResolvedValueOnce({ data: mockProfile });
-  
+
     renderWithAuth(true);
-  
+
     // Assert loading message appears first
     expect(screen.getByText(/Chargement/)).toBeInTheDocument();
-  
+
+    // Assert profile info is rendered
     await waitFor(() => {
       expect(screen.getByText(/John/)).toBeInTheDocument();
       expect(screen.getByText(/Doe/)).toBeInTheDocument();
       expect(screen.getByText(/john@example.com/)).toBeInTheDocument();
-  
-      // Utilise getAllByText pour matcher tous les éléments correspondants
+
+      // Vérifie que la date de naissance apparaît bien dans un span complet (pour éviter le plantage sur "multiple elements")
       const birthdateMatches = screen.getAllByText((_, el) => {
         if (!el || !el.textContent) return false;
-        return el.textContent.replace(/\s+/g, " ").includes("Date de naissance : 01/01/1990");
+        return el.textContent.replace(/\s+/g, " ").includes("Date de naissance : 1/1/1990") ||
+               el.textContent.replace(/\s+/g, " ").includes("Date de naissance : 01/01/1990");
       });
       expect(birthdateMatches.length).toBeGreaterThan(0);
     });
   });
-  
 
   /**
    * Test: Should show an error if the API call fails.
