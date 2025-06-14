@@ -4,6 +4,7 @@ import "../assets/styles/styles.css";
 
 const imgProfile = "/img/profile.jpg";
 
+//For the tests my partner must correct it so that it is dynamic, delete the comment once this is done
 const leaseId = 1;
 
 const Sidebar: React.FC = () => {

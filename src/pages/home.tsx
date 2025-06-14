@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import styles from "./Home.module.css";
 
 const Home: React.FC = () => {
@@ -11,14 +12,14 @@ const Home: React.FC = () => {
         <p className="text-lg text-gray-700 mb-8">
           Your fast and efficient rental solution connecting tenants and owners
         </p>
-        <a
-          href="http://localhost:5173/signin"
-          className="inline-block px-8 py-4 bg-blue-600 text-white text-lg font-semibold rounded-full shadow-lg hover:bg-blue-700 transition"
-          target="_blank"
-          rel="noopener noreferrer"
+        <NavLink
+          to="/signin"
+          className={({ isActive }) =>
+            `inline-block px-8 py-4 bg-blue-600 text-white text-lg font-semibold rounded-full shadow-lg hover:bg-blue-700 transition ${isActive ? "ring-2 ring-blue-800" : ""}`
+          }
         >
           Access the project
-        </a>
+        </NavLink>
       </div>
     </div>
   );

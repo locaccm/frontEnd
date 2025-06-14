@@ -46,7 +46,6 @@ const SigninForm = () => {
         const body: SigninResponse = await response.json();
         if (response.ok && body.token) {
           alert("Connexion réussie");
-          console.log(sessionStorage.setItem("token", body.token))
           sessionStorage.setItem("token", body.token);
           sessionStorage.setItem("userId", body.user.USEN_ID.toString());
           //sessionStorage.setItem("userFirstName", body.user.USEC_FNAME);
