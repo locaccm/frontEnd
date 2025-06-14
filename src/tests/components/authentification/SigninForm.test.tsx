@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import SigninForm from "../../../components/authentication/SigninForm/SigninForm.js";
+import { MemoryRouter } from "react-router-dom";
 
 const mockFetch = vi.fn();
 global.fetch = mockFetch;
@@ -38,7 +39,11 @@ beforeEach(() => {
 
 describe("SigninForm", () => {
   it("renders form correctly", () => {
-    render(<SigninForm />);
+    render(
+      <MemoryRouter>
+        <SigninForm />
+      </MemoryRouter>
+    );
     expect(screen.getByPlaceholderText(/email/i)).toBeInTheDocument();
     expect(screen.getByPlaceholderText(/mot de passe/i)).toBeInTheDocument();
     expect(
@@ -64,7 +69,11 @@ describe("SigninForm", () => {
       json: async () => fakeResponse,
     });
 
-    render(<SigninForm />);
+    render(
+      <MemoryRouter>
+        <SigninForm />
+      </MemoryRouter>
+    );
     fireEvent.change(screen.getByPlaceholderText(/email/i), {
       target: { value: "john@example.com", name: "USEC_MAIL" },
     });
@@ -86,7 +95,11 @@ describe("SigninForm", () => {
   it("shows alert on fetch error", async () => {
     mockFetch.mockRejectedValueOnce(new Error("Network error"));
 
-    render(<SigninForm />);
+    render(
+      <MemoryRouter>
+        <SigninForm />
+      </MemoryRouter>
+    );
     fireEvent.change(screen.getByPlaceholderText(/email/i), {
       target: { value: "john@example.com", name: "USEC_MAIL" },
     });

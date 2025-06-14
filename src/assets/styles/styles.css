@@ -40,6 +40,7 @@ a:hover {
 h1 {
   font-size: clamp(1.8rem, 5vw, 3.2rem);
   line-height: 1.1;
+  color: #000;
 }
 
 #root {
@@ -629,6 +630,50 @@ button {
   .green_btn {
     width: 100%;
   }
+}
+
+.image-upload {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: #f4f0e2;
+  border: 2px dashed #bfa188;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  transition: background-color 0.3s ease;
+  margin-bottom: 2em;
+}
+
+.image-upload:hover {
+  background-color: #e7dccb;
+}
+
+.profile-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  border: 3px solid #d8b9a0;
+}
+
+#profile-upload {
+  background-color: #fff;
+  padding: 0.5em 1em;
+  border-radius: 8px;
+  border: 1px solid #bfa188;
+  cursor: pointer;
+  font-weight: 500;
+  font-family: inherit;
+  color: #333;
+  transition: all 0.3s ease;
+}
+
+#profile-upload:hover {
+  background-color: #bfa188;
+  color: white;
 }
 
 

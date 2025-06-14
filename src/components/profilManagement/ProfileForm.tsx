@@ -115,7 +115,7 @@ const ProfileForm = () => {
   };
 
   return (
-    <form className="form_container" onSubmit={handleSubmit}>
+    <form className="form-container" onSubmit={handleSubmit}>
       <h1>Mon Profil</h1>
       <input
         type="text"
@@ -123,7 +123,7 @@ const ProfileForm = () => {
         placeholder="Prénom"
         value={profile.firstName}
         onChange={handleChange}
-        className="input"
+        className="input-field"
       />
       <input
         type="text"
@@ -131,23 +131,22 @@ const ProfileForm = () => {
         placeholder="Nom"
         value={profile.lastName}
         onChange={handleChange}
-        className="input"
+        className="input-field"
       />
       <input
         type="date"
         name="birthDate"
         value={profile.birthDate}
         onChange={handleChange}
-        className="input"
+        className="input-field"
       />
-
       <input
         type="text"
         name="tel"
         placeholder="Téléphone"
         value={profile.tel}
         onChange={handleChange}
-        className="input"
+        className="input-field"
       />
       <input
         type="text"
@@ -155,21 +154,21 @@ const ProfileForm = () => {
         placeholder="Adresse"
         value={profile.address}
         onChange={handleChange}
-        className="input"
+        className="input-field"
       />
       <textarea
         name="bio"
         placeholder="Bio"
         value={profile.bio}
         onChange={handleChange}
-        className="input"
+        className="input-field"
       />
-      <div className="image_upload">
+      <div className="image-upload">
         {profile.photoUrl && (
           <img
             src={`${import.meta.env.VITE_BUCKET_UPLOAD_URL}/files/${profile.photoUrl}`}
             alt="Profile"
-            className="profile_image"
+            className="profile-image"
           />
         )}
         <input
@@ -180,7 +179,7 @@ const ProfileForm = () => {
           aria-label="photo de profil"
         />
       </div>
-      <button type="submit" className="green_btn">
+      <button type="submit" className="button primary">
         Enregistrer
       </button>
     </form>

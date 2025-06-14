@@ -4,6 +4,8 @@ import "../assets/styles/styles.css";
 
 const imgProfile = "/img/profile.jpg";
 
+const leaseId = 1;
+
 const Sidebar: React.FC = () => {
   return (
     <div className="sidebar">
@@ -16,7 +18,7 @@ const Sidebar: React.FC = () => {
         <NavLink to="/properties" className={({ isActive }) => isActive ? "active" : ""}>Properties</NavLink>
         <NavLink to="/leases" className={({ isActive }) => isActive ? "active" : ""}>Leases</NavLink>
         <NavLink to="/calendar" className={({ isActive }) => isActive ? "active" : ""}>Calendar</NavLink>
-        <NavLink to="/document-management" className={({ isActive }) => isActive ? "active" : ""}>Documents</NavLink>
+        <NavLink to={`/document-management/${leaseId}`} className={({ isActive }) => isActive ? "active" : ""}>Documents</NavLink>
         <NavLink to="/contacts" className={({ isActive }) => isActive ? "active" : ""}>Contacts</NavLink>
       </nav>
     </div>
