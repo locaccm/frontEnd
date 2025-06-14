@@ -50,10 +50,12 @@ describe("Events component", () => {
   });
 
   it("renders events when permission is granted and API returns data", async () => {
-    api.get.mockResolvedValueOnce({ data: mockEvents });
+    const mockedApiGet = api.get as unknown as ReturnType<typeof vi.fn>;
+    mockedApiGet.mockResolvedValueOnce({ data: mockEvents });
+
     renderWithAuth(true);
 
-    // Initially show loading (list is empty so "Aucun événement" should appear)
+    // Should show loading placeholder before data is fetched
     expect(screen.getByText(/Aucun événement/)).toBeInTheDocument();
 
     await waitFor(() => {
@@ -67,8 +69,11 @@ describe("Events component", () => {
   });
 
   it("renders error if API call fails", async () => {
-    api.get.mockRejectedValueOnce(new Error("fail"));
+    const mockedApiGet = api.get as unknown as ReturnType<typeof vi.fn>;
+    mockedApiGet.mockRejectedValueOnce(new Error("fail"));
+
     renderWithAuth(true);
+
     await waitFor(() => {
       expect(
         screen.getByText(/Impossible de charger les événements/),
@@ -77,8 +82,11 @@ describe("Events component", () => {
   });
 
   it("shows 'Aucun événement' if empty list", async () => {
-    api.get.mockResolvedValueOnce({ data: [] });
+    const mockedApiGet = api.get as unknown as ReturnType<typeof vi.fn>;
+    mockedApiGet.mockResolvedValueOnce({ data: [] });
+
     renderWithAuth(true);
+
     await waitFor(() => {
       expect(screen.getByText(/Aucun événement/)).toBeInTheDocument();
     });

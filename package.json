@@ -31,8 +31,10 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",
+    "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
+    "@types/cors": "^2.8.19",
     "@types/jest": "^29.5.14",
     "@types/mocha": "^10.0.10",
     "@types/multer": "^1.4.13",

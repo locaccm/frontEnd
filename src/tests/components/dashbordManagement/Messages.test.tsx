@@ -14,7 +14,11 @@ vi.mock("../../../core/api/dashbordManagement/api.js", () => ({
 }));
 import api from "../../../core/api/dashbordManagement/api.js";
 
-// Helper to render the component with a custom AuthContext value
+/**
+ * Helper to render the component with a custom AuthContext value.
+ * @param hasPermission Simulate permission for the user.
+ * @param userId ID of the user.
+ */
 function renderWithAuth(hasPermission = true, userId = 1) {
   return render(
     <AuthContext.Provider
@@ -27,11 +31,12 @@ function renderWithAuth(hasPermission = true, userId = 1) {
       }}
     >
       <Messages userId={userId} />
-    </AuthContext.Provider>,
+    </AuthContext.Provider>
   );
 }
 
 describe("Messages component", () => {
+  // Example messages for mocking API response
   const mockMessages = [
     {
       id: 1,
@@ -53,14 +58,19 @@ describe("Messages component", () => {
     vi.clearAllMocks();
   });
 
+  /**
+   * Test: Should render messages if permission is granted and API returns data.
+   */
   it("renders messages when permission is granted and API returns data", async () => {
-    api.get.mockResolvedValueOnce({ data: mockMessages });
+    // 👇 Type-safe mock for mockResolvedValueOnce
+    const mockedApiGet = api.get as unknown as ReturnType<typeof vi.fn>;
+    mockedApiGet.mockResolvedValueOnce({ data: mockMessages });
     renderWithAuth(true, 1);
 
-    // Shows loading first
+    // Should show loading/title first
     expect(screen.getByText(/Mes messages/i)).toBeInTheDocument();
 
-    // Wait for messages to appear
+    // Wait for the mocked messages to appear
     await waitFor(() => {
       expect(screen.getAllByText(/Alice/).length).toBeGreaterThan(0);
       expect(screen.getAllByText(/Bob/).length).toBeGreaterThan(0);
@@ -69,19 +79,27 @@ describe("Messages component", () => {
     });
   });
 
+  /**
+   * Test: Should show error if API call fails.
+   */
   it("renders an error message if the API call fails", async () => {
-    api.get.mockRejectedValueOnce(new Error("fail"));
+    const mockedApiGet = api.get as unknown as ReturnType<typeof vi.fn>;
+    mockedApiGet.mockRejectedValueOnce(new Error("fail"));
     renderWithAuth(true, 1);
 
     await waitFor(() => {
       expect(
-        screen.getByText(/Impossible de charger les messages/),
+        screen.getByText(/Impossible de charger les messages/)
       ).toBeInTheDocument();
     });
   });
 
+  /**
+   * Test: Should display 'Aucun message' if permission but no messages.
+   */
   it("renders 'Aucun message' when permission is granted but no messages", async () => {
-    api.get.mockResolvedValueOnce({ data: [] });
+    const mockedApiGet = api.get as unknown as ReturnType<typeof vi.fn>;
+    mockedApiGet.mockResolvedValueOnce({ data: [] });
     renderWithAuth(true, 1);
 
     await waitFor(() => {
@@ -89,11 +107,12 @@ describe("Messages component", () => {
     });
   });
 
+  /**
+   * Test: Should render title and empty message if no permission (no fetch).
+   */
   it("renders nothing but title if no permission", () => {
     renderWithAuth(false, 1);
-    // The effect won't fetch, so only the title and empty list appear
     expect(screen.getByText(/Mes messages/i)).toBeInTheDocument();
-    // There should be "Aucun message" because the messages array is empty by default
     expect(screen.getByText(/Aucun message/i)).toBeInTheDocument();
   });
 });

@@ -4,7 +4,7 @@ import { vi, describe, it, beforeEach } from "vitest";
 import Accommodations from "../../../components/dashboardManagement/Accommodations.js";
 import { AuthContext } from "../../../core/api/dashbordManagement/AuthContext.js";
 
-// Mock API module
+// Mock the API module used in the component
 vi.mock("../../../core/api/dashbordManagement/api.js", () => ({
   default: {
     get: vi.fn(),
@@ -31,6 +31,7 @@ describe("Accommodations component", () => {
     },
   ];
 
+  // Helper to render the component with a mocked AuthContext
   function renderWithAuth(hasPermission = true) {
     return render(
       <AuthContext.Provider
@@ -43,44 +44,54 @@ describe("Accommodations component", () => {
         }}
       >
         <Accommodations userId={userId} />
-      </AuthContext.Provider>,
+      </AuthContext.Provider>
     );
   }
 
+  // Always clear mocks before each test to avoid side effects
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   it("renders accommodations when permission is granted and API returns data", async () => {
-    api.get.mockResolvedValueOnce({ data: mockAccommodations });
+    const mockedApiGet = api.get as unknown as ReturnType<typeof vi.fn>;
+    mockedApiGet.mockResolvedValueOnce({ data: mockAccommodations });
+
     renderWithAuth(true);
 
-    // Should show "Aucun logement" before data is fetched
+    // Should show "Aucun logement" before loading the real data
     expect(screen.getByText(/Aucun logement/)).toBeInTheDocument();
 
+    // After fetch, should display accommodations data
     await waitFor(() => {
       expect(screen.getByText(/Appartement Centre Ville/)).toBeInTheDocument();
       expect(screen.getByText(/Villa Jardin/)).toBeInTheDocument();
       expect(
-        screen.getByText(/3 pièces, lumineux, 2ème étage/),
+        screen.getByText(/3 pièces, lumineux, 2ème étage/)
       ).toBeInTheDocument();
       expect(screen.getByText(/grand jardin/)).toBeInTheDocument();
     });
   });
 
   it("renders error if API call fails", async () => {
-    api.get.mockRejectedValueOnce(new Error("fail"));
+    const mockedApiGet = api.get as unknown as ReturnType<typeof vi.fn>;
+    mockedApiGet.mockRejectedValueOnce(new Error("fail"));
+
     renderWithAuth(true);
+
     await waitFor(() => {
       expect(
-        screen.getByText(/Impossible de charger les logements/),
+        screen.getByText(/Impossible de charger les logements/)
       ).toBeInTheDocument();
     });
   });
 
   it("shows 'Aucun logement' if empty list", async () => {
-    api.get.mockResolvedValueOnce({ data: [] });
+    const mockedApiGet = api.get as unknown as ReturnType<typeof vi.fn>;
+    mockedApiGet.mockResolvedValueOnce({ data: [] });
+
     renderWithAuth(true);
+
     await waitFor(() => {
       expect(screen.getByText(/Aucun logement/)).toBeInTheDocument();
     });
@@ -88,6 +99,7 @@ describe("Accommodations component", () => {
 
   it("renders loading/empty if no permission", () => {
     renderWithAuth(false);
+    // When no permission, the component should show the empty placeholder
     expect(screen.getByText(/Aucun logement/)).toBeInTheDocument();
   });
 });
