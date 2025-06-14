@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styles from "./styles.module.css";
+import { useNavigate } from "react-router-dom"; 
 import { initUserProfileSession } from "../../../core/session/SessionsManager.js";
 
 type SigninResponse = {
@@ -15,6 +16,7 @@ type SigninResponse = {
 
 const SigninForm = () => {
   const [data, setData] = useState({ USEC_MAIL: "", USEC_PASSWORD: "" });
+  const navigate = useNavigate();
 
   const checkAllFieldsIsCompleted = () => {
     return Object.values(data).every((value) => value !== "");
@@ -42,7 +44,7 @@ const SigninForm = () => {
     })
       .then(async (response) => {
         const body: SigninResponse = await response.json();
-        if (response.ok && response.body !== null) {
+        if (response.ok && body.token) {
           alert("Connexion réussie");
           sessionStorage.setItem("token", body.token);
           sessionStorage.setItem("userId", body.user.USEN_ID.toString());
@@ -51,6 +53,7 @@ const SigninForm = () => {
           sessionStorage.setItem("userEmail", body.user.USEC_MAIL);
           //sessionStorage.setItem("userBirthDate", body.user.USED_BIRTH);
           await initUserProfileSession();
+          navigate("/profile");
         } else {
           alert("Erreur lors de la connexion");
         }
