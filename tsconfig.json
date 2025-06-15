@@ -14,7 +14,6 @@
     "moduleDetection": "force",
     "noEmit": false,
     "outDir": "build",
-    "jsx": "react-jsx",
     "types": ["vite/client", "vitest/globals"]
   },
   "include": ["src", "setupTests.js"],
