@@ -1,12 +1,13 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import {deleteDocument} from "../../../../core/api/documentManagement/deleteDocument.js";
+import { deleteDocument } from '../../../../core/api/documentManagement/deleteDocument.js'
 
 describe('deleteDocument', () => {
     const jwt = 'fake-jwt'
     const baseUrl = 'http://api.test'
+    const bucketName = 'locaccm-bucket'
     const rawFilename = 'file name.pdf'
     const encodedFilename = encodeURIComponent(rawFilename)
-    const fullUrl = `${baseUrl}/documents/${encodedFilename}`
+    const fullUrl = `${baseUrl}/api/documents/${encodedFilename}`
 
     beforeEach(() => {
         ;(import.meta.env as any).VITE_API_URL_DOCUMENT_MANAGEMENT = baseUrl
@@ -19,19 +20,18 @@ describe('deleteDocument', () => {
 
     it('appelle fetch avec DELETE et ne jette pas si response.ok', async () => {
         // @ts-expect-error mock global.fetch
-        global.fetch.mockResolvedValueOnce({
-            ok: true,
-        })
+        global.fetch.mockResolvedValueOnce({ ok: true })
 
         await expect(deleteDocument(rawFilename, jwt)).resolves.toBeUndefined()
 
-        expect(global.fetch).toHaveBeenCalledOnce()
+        expect(global.fetch).toHaveBeenCalledTimes(1)
         expect(global.fetch).toHaveBeenCalledWith(fullUrl, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${jwt}`,
             },
+            body: JSON.stringify({ bucketName }),
         })
     })
 
@@ -48,7 +48,7 @@ describe('deleteDocument', () => {
             .rejects
             .toThrowError(serverMsg)
 
-        expect(global.fetch).toHaveBeenCalledOnce()
+        expect(global.fetch).toHaveBeenCalledTimes(1)
     })
 
     it('jette l’erreur du champ error du JSON si présent', async () => {
@@ -64,7 +64,7 @@ describe('deleteDocument', () => {
             .rejects
             .toThrowError(serverErr)
 
-        expect(global.fetch).toHaveBeenCalledOnce()
+        expect(global.fetch).toHaveBeenCalledTimes(1)
     })
 
     it('jette un message générique si le JSON échoue ou ne contient pas message/error', async () => {
@@ -79,6 +79,6 @@ describe('deleteDocument', () => {
             .rejects
             .toThrowError('Erreur 404 lors de la suppression')
 
-        expect(global.fetch).toHaveBeenCalledOnce()
+        expect(global.fetch).toHaveBeenCalledTimes(1)
     })
 })
