@@ -2,7 +2,8 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import "../assets/styles/styles.css";
 
-const imgProfile = "/img/profile.jpg";
+
+const imgProfile = sessionStorage.getItem("userPhotoUrl") ?? "https://www.w3schools.com/howto/img_avatar.png";
 
 //For the tests my partner must correct it so that it is dynamic, delete the comment once this is done
 const leaseId = 1;
