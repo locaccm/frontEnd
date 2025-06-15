@@ -161,7 +161,7 @@ describe("ProfileForm", () => {
     fireEvent.click(button);
 
     await waitFor(() => {
-      expect(mockFetch).toHaveBeenCalledTimes(2); // GET + PUT
+      expect(mockFetch).toHaveBeenCalledTimes(2);
     });
   });
 
@@ -175,8 +175,7 @@ describe("ProfileForm", () => {
     const fileInput = await screen.findByLabelText(/photo de profil/i);
     fireEvent.change(fileInput, { target: { files: [] } });
 
-    // Ne doit pas appeler fetch pour l'upload
-    expect(mockFetch).toHaveBeenCalledTimes(1); // uniquement GET initial
+    expect(mockFetch).toHaveBeenCalledTimes(1);
   });
 
 });
