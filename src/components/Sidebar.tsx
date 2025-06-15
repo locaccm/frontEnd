@@ -12,7 +12,7 @@ const Sidebar: React.FC = () => {
   return (
     <div className="sidebar">
       <NavLink to="/profile" className={({ isActive }) => isActive ? "active" : ""}>
-        <img src={imgProfile} alt="Profile" className="profile-pic" />
+        <img src={`${import.meta.env.VITE_BUCKET_UPLOAD_URL}/files/${imgProfile}`} alt="Profile" className="profile-pic" />
       </NavLink>
 
       <nav>
