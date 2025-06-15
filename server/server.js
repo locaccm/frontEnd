@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 import cors from "cors";
 const app = express();
 app.use(cors({
-    origin: "http://localhost:5173", // autorise ton front Vite
+    origin: "http://localhost:5173",
 }));
 const storage = new Storage({
     keyFilename: path.join("./credentials/intricate-pad-455413-f7-970197da1d79.json"),
@@ -23,7 +23,7 @@ app.get("/files/:folder/:filename", async (req, res) => {
             res.status(404).json({ error: "Fichier non trouvé" });
             return;
         }
-        // Détection automatique du type MIME
+        
         const mimeType = mime.getType(filename) || "application/octet-stream";
         res.setHeader("Content-Type", mimeType);
         file.createReadStream().pipe(res);
