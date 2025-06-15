@@ -7,6 +7,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  color: black;
 }
 
 .signup_form_container {
@@ -63,7 +64,7 @@
 .white_btn {
   border: none;
   outline: none;
-  padding: 12px 0;
+  padding: 15px;
   background-color: white;
   border-radius: 20px;
   width: 180px;
@@ -71,6 +72,7 @@
   font-size: 14px;
   cursor: pointer;
   margin-bottom: 25px;
+  color: black;
 }
 
 /* Responsive styles */

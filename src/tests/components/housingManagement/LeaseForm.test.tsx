@@ -1,108 +1,121 @@
-import { describe, it, vi, expect, beforeEach, Mock } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import LeaseForm from "../../../components/housingManagement/LeaseForm.js";
 import { Lease } from "../../../pages/housingManagement/housingManagement.js";
-import { useLeaseActions } from "../../../hooks/housingManagement/useLeaseActions.js";
+import React from "react";
 
-vi.mock("../../../hooks/housingManagement/useLeaseActions", () => ({
-  useLeaseActions: vi.fn(),
-}));
-const mockCreateLease = vi.fn();
-const mockUpdateLease = vi.fn();
-
-const mockUseLeaseActions = useLeaseActions as Mock;
-
-beforeEach(() => {
-  vi.clearAllMocks();
-  mockUseLeaseActions.mockReturnValue({
-    createLease: mockCreateLease,
-    updateLease: mockUpdateLease,
-  });
-
-  sessionStorage.setItem("userId", "1");
-});
 const mockLease: Lease = {
   LEAN_ID: 1,
-  LEAD_START: "2025-01-01T00:00:00.000Z",
-  LEAD_END: "2025-12-31T00:00:00.000Z",
-  LEAN_RENT: "1000",
-  LEAN_CHARGES: "200",
-  LEAD_PAYMENT: "2025-01-05T00:00:00.000Z",
+  LEAD_START: "2024-01-01T00:00:00Z",
+  LEAD_END: "2025-01-01T00:00:00Z",
+  LEAN_RENT: "800",
+  LEAN_CHARGES: "100",
+  LEAD_PAYMENT: "2024-01-15T00:00:00Z",
   LEAB_ACTIVE: true,
-  USEN_ID: 1,
-  ACCN_ID: 1,
+  USEN_ID: 2,
+  ACCN_ID: 3,
 };
 
 describe("LeaseForm", () => {
-  it("renders empty form when lease is null", () => {
-    render(<LeaseForm lease={null} onClose={() => {}} />);
-    expect(screen.getByText(/ajouter un nouveau bail/i)).toBeInTheDocument();
+  beforeEach(() => {
+    vi.resetAllMocks();
   });
 
-  it("renders filled form when lease is provided", () => {
-    render(<LeaseForm lease={mockLease} onClose={() => {}} />);
-    expect(screen.getByDisplayValue("2025-01-01")).toBeInTheDocument();
-    expect(screen.getByDisplayValue("1000")).toBeInTheDocument();
+  it("renders correctly in create mode", () => {
+    render(<LeaseForm lease={null} onClose={vi.fn()} />);
+
+    expect(screen.getByText("Ajouter un nouveau bail")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Créer/i })).toBeInTheDocument();
   });
 
-  it("submits createLease on submit when no lease", async () => {
-    mockCreateLease.mockResolvedValue(true);
+  it("pre-fills form when lease is provided", () => {
+    render(<LeaseForm lease={mockLease} onClose={vi.fn()} />);
 
+    expect(screen.getByDisplayValue("800")).toBeInTheDocument();
+    expect(screen.getByDisplayValue("100")).toBeInTheDocument();
+    expect(screen.getByDisplayValue("2024-01-01")).toBeInTheDocument(); 
+    expect(screen.getByDisplayValue("2025-01-01")).toBeInTheDocument(); 
+    expect(screen.getByDisplayValue("2024-01-15")).toBeInTheDocument(); 
+  });
+
+  it("sends POST request when lease is null", async () => {
+    global.fetch = vi.fn().mockResolvedValue({ ok: true });
+    const onClose = vi.fn();
+  
+    render(<LeaseForm lease={null} onClose={onClose} />);
+  
+    fireEvent.change(screen.getByLabelText(/Date de début/i), { target: { value: "2024-01-01" } });
+    fireEvent.change(screen.getByLabelText(/Date de fin/i), { target: { value: "2025-01-01" } });
+    fireEvent.change(screen.getByLabelText(/Loyer/i), { target: { value: "750" } });
+    fireEvent.change(screen.getByLabelText(/Charges/i), { target: { value: "50" } });
+    fireEvent.change(screen.getByLabelText(/Date de paiement/i), { target: { value: "2024-01-15" } });
+    fireEvent.change(screen.getByLabelText(/ID Utilisateur/i), { target: { value: "4" } });
+    fireEvent.change(screen.getByLabelText(/ID Logement/i), { target: { value: "5" } });
+  
+    const form = screen.getByRole("dialog").querySelector("form")!;
+    fireEvent.submit(form);
+  
+    await waitFor(() => {
+      expect(global.fetch).toHaveBeenCalledWith(
+        expect.stringContaining("/lease"),
+        expect.objectContaining({ method: "POST" })
+      );
+      expect(onClose).toHaveBeenCalled();
+    });
+  });  
+
+  it("sends PUT request when lease is provided", async () => {
+    global.fetch = vi.fn().mockResolvedValue({ ok: true });
+    const onClose = vi.fn();
+  
+    render(<LeaseForm lease={mockLease} onClose={onClose} />);
+    fireEvent.change(screen.getByLabelText(/Loyer/i), {
+      target: { value: "850" },
+    });
+  
+    const form = screen.getByRole("dialog").querySelector("form")!;
+    fireEvent.submit(form);
+  
+    await waitFor(() => {
+      expect(global.fetch).toHaveBeenCalledWith(
+        expect.stringContaining(`/lease/${mockLease.LEAN_ID}`),
+        expect.objectContaining({ method: "PUT" })
+      );
+      expect(onClose).toHaveBeenCalled();
+    });
+  });  
+
+  it("closes the form when clicking on Annuler", () => {
     const onClose = vi.fn();
     render(<LeaseForm lease={null} onClose={onClose} />);
 
-    fireEvent.change(screen.getByLabelText(/date de début/i), { target: { value: "2025-01-01" } });
-    fireEvent.change(screen.getByLabelText(/date de fin/i), { target: { value: "2025-12-31" } });
-    fireEvent.change(screen.getByLabelText(/loyer/i), { target: { value: "850" } });
-    fireEvent.change(screen.getByLabelText(/charges/i), { target: { value: "150" } });
-    fireEvent.change(screen.getByLabelText(/date de paiement/i), { target: { value: "2025-01-05" } });
-    fireEvent.change(screen.getByLabelText(/id utilisateur/i), { target: { value: "1" } });
-    fireEvent.change(screen.getByLabelText(/id logement/i), { target: { value: 2 } });
-
-    fireEvent.click(screen.getByRole("button", { name: /créer/i }));
-
-    await Promise.resolve(); 
-  expect(mockCreateLease).toHaveBeenCalledWith({
-    LEAD_START: "2025-01-01",
-    LEAD_END: "2025-12-31",
-    LEAN_RENT: 850,
-    LEAN_CHARGES: 150,
-    LEAD_PAYMENT: "2025-01-05",
-    LEAB_ACTIVE: true,
-    ACCN_ID: "2",
-  });
-
+    fireEvent.click(screen.getByRole("button", { name: /Annuler/i }));
 
     expect(onClose).toHaveBeenCalled();
   });
 
-  it("submits updateLease when lease is provided", async () => {
-    mockUpdateLease.mockResolvedValue(true);
-    const onClose = vi.fn();
-
-    render(<LeaseForm lease={mockLease} onClose={onClose} />);
-    fireEvent.click(screen.getByRole("button", { name: /enregistrer les modifications/i }));
-
-    await Promise.resolve(); 
-
-    expect(mockUpdateLease).toHaveBeenCalledWith(mockLease.LEAN_ID, {
-      LEAD_START: "2025-01-01",
-      LEAD_END: "2025-12-31",
-      LEAN_RENT: 1000,
-      LEAN_CHARGES: 200,
-      LEAD_PAYMENT: "2025-01-05",
-      LEAB_ACTIVE: true,
-      ACCN_ID: 1,
-      USEN_ID: 1,
+  it("shows an error when fetch fails", async () => {
+    const errorMessage = "Erreur serveur";
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: false,
+      text: () => Promise.resolve(errorMessage),
     });
 
-    expect(onClose).toHaveBeenCalled();
-  });
-
-  it("click on Annuler calls onClose", () => {
     const onClose = vi.fn();
     render(<LeaseForm lease={null} onClose={onClose} />);
-    fireEvent.click(screen.getByRole("button", { name: /annuler/i }));
-    expect(onClose).toHaveBeenCalled();
+
+    fireEvent.change(screen.getByLabelText(/Date de début/i), { target: { value: "2024-01-01" } });
+    fireEvent.change(screen.getByLabelText(/Date de fin/i), { target: { value: "2025-01-01" } });
+    fireEvent.change(screen.getByLabelText(/Loyer/i), { target: { value: "800" } });
+    fireEvent.change(screen.getByLabelText(/Charges/i), { target: { value: "80" } });
+    fireEvent.change(screen.getByLabelText(/Date de paiement/i), { target: { value: "2024-01-15" } });
+    fireEvent.change(screen.getByLabelText(/ID Utilisateur/i), { target: { value: "1" } });
+    fireEvent.change(screen.getByLabelText(/ID Logement/i), { target: { value: "2" } });
+
+    const form = screen.getByRole("dialog").querySelector("form")!;
+    fireEvent.submit(form);
+
+    expect(global.fetch).toHaveBeenCalled();
+    expect(onClose).not.toHaveBeenCalled();
   });
 });

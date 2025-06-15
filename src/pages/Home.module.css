@@ -1,0 +1,10 @@
+.customBox {
+    max-width: 500px;
+    border-radius: 20px;
+    padding: 2rem;
+    margin-left: 18vw;
+    background-color: #d8b9a0;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(10px);
+}
+  
