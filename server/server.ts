@@ -34,10 +34,8 @@ const storage =
 const bucketName = "locaccm-bucket";
 const bucket = storage.bucket(bucketName);
 
-// Static frontend
 app.use(express.static(path.resolve(__dirname, "../dist")));
 
-// API pour récupérer une image
 app.get("/files/:folder/:filename", async (req: Request, res: Response) => {
     const { folder, filename } = req.params;
     const file = bucket.file(`${folder}/${filename}`);
@@ -58,7 +56,6 @@ app.get("/files/:folder/:filename", async (req: Request, res: Response) => {
     }
 });
 
-// API d’upload
 const upload = multer({ storage: multer.memoryStorage() });
 
 app.post("/upload/:folder", upload.single("file"), async (req, res) => {
