@@ -4,7 +4,6 @@
   font-family: "Segoe UI", sans-serif;
   background-color: #f5f5f5;
   width: 100%;
-  min-width: 1280px;
 }
 
 .contact-list {
@@ -83,6 +82,10 @@
   max-width: 70%;
   font-size: 14px;
   line-height: 1.4;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
 }
 
 .message.sent {

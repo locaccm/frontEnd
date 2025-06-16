@@ -4,10 +4,11 @@ import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import AppRoutesContent from "../../components/routes/appRoutesContent.js";
 
-// Mock the Home page component
-vi.mock("../../pages/home.js", () => ({
-  default: () => <div>Home Page</div>,
-}));
+// Mock the landing page component
+ vi.mock("../../pages/landingPage/LandingPage.js", () => ({
+ default: () => <div>Landing Page</div>,
+   }));
+  
 
 // Mock Signin page
 vi.mock("../../pages/authentication/Signin/Signin.js", () => ({
@@ -29,7 +30,7 @@ describe("AppRoutesContent", () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByText("Home Page")).toBeInTheDocument();
+    expect(screen.getByText("Landing Page")).toBeInTheDocument();
   });
 
   it("renders the Signin page at '/signin' route", () => {
