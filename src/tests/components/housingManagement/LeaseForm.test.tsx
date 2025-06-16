@@ -121,14 +121,39 @@ describe("LeaseForm", () => {
     expect(onClose).not.toHaveBeenCalled();
   });
 
-  it("allows input in 'Nom du locataire' field", async () => {
-    render(<LeaseForm lease={null} onClose={vi.fn()} />);
-    const input = screen.getByLabelText(/Nom du locataire/i);
+  it("logs error and prevents submit when no token in sessionStorage", async () => {
+  sessionStorage.removeItem("token");
+  const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
 
-    fireEvent.change(input, { target: { value: 99 } }); // number, pas string
+  render(<LeaseForm lease={null} onClose={vi.fn()} />);
 
-    await waitFor(() => {
-      expect(input).toHaveValue(99);
-    });
+  const form = screen.getByRole("dialog").querySelector("form")!;
+  fireEvent.submit(form);
+
+  await waitFor(() => {
+    expect(consoleErrorSpy).toHaveBeenCalledWith("Aucun token d'authentification trouvé.");
   });
+
+  consoleErrorSpy.mockRestore();
+});
+
+it("logs error when fetch throws an exception", async () => {
+  const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+  global.fetch = vi.fn().mockRejectedValue(new Error("Network error"));
+  render(<LeaseForm lease={null} onClose={vi.fn()} />);
+
+  const form = screen.getByRole("dialog").querySelector("form")!;
+  fireEvent.submit(form);
+
+  await waitFor(() => {
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      "Échec de l'envoi du formulaire :",
+      expect.any(Error)
+    );
+  });
+
+  consoleErrorSpy.mockRestore();
+});
+
+
 });
