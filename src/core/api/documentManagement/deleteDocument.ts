@@ -1,8 +1,12 @@
+import {getUserId} from "../../session/SessionsManager.js";
+
 export async function deleteDocument(
     filename: string,
     jwt: string
 ): Promise<void> {
     const bucketName = "locaccm-bucket";
+    const userId = getUserId();
+    if (userId === null) throw new Error("User not logged in");
 
     const response = await fetch(
         `${import.meta.env.VITE_API_URL_DOCUMENT_MANAGEMENT}/api/documents/${encodeURIComponent(
@@ -14,10 +18,9 @@ export async function deleteDocument(
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${jwt}`,
             },
-            body: JSON.stringify({ bucketName }),
+            body: JSON.stringify({ bucketName, userId }),
         }
     );
-
     if (!response.ok) {
         const body = await response.json().catch(() => ({}));
         const msg =
