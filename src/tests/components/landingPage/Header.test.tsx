@@ -37,9 +37,9 @@ describe('Header component', () => {
         <Header />
       </MemoryRouter>
     );
-    // There should be a link to "/login"
+    // There should be a link to "/signin"
     const loginLink = screen.getByText(/Connectez-vous/i).closest('a');
     expect(loginLink).toBeInTheDocument();
-    expect(loginLink).toHaveAttribute('href', '/login');
+    expect(loginLink).toHaveAttribute('href', '/signin');
   });
 });

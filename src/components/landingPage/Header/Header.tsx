@@ -10,7 +10,7 @@ const Header: React.FC = () => (
     <img src={logo} alt="Logo" className="logo" />
     <nav>
         <a href="#contact">Contact</a>
-        <Link to="/signin"><a href="#login">Connectez-vous</a></Link>
+        <Link to="/signin">Connectez-vous</Link>
         
       </nav>
     </div>
