@@ -52,7 +52,7 @@ const MyDocuments: React.FC<MyDocumentsProps> = ({ jwt }) => {
                 {docs.map((doc) => (
                     <li key={doc.name} className="document-item">
                         <a href={doc.url} target="_blank" rel="noopener noreferrer">
-                            {doc.name} ({new Date(doc.created).toLocaleDateString()})
+                            {doc.name}
                         </a>
                         {" — "}
                         <button

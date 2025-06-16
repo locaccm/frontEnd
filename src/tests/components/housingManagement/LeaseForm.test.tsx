@@ -19,6 +19,8 @@ const mockLease: Lease = {
 describe("LeaseForm", () => {
   beforeEach(() => {
     vi.resetAllMocks();
+    sessionStorage.setItem("token", "fake-token");
+    sessionStorage.setItem("userId", "4"); 
   });
 
   it("renders correctly in create mode", () => {

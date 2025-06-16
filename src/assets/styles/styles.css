@@ -112,12 +112,33 @@ h1 {
   color: black;
   border-radius: 8px;
   transition: background 0.3s ease;
-  font-size: 2em;
+  font-size: 1em;
 }
 
 /* Hover effect */
 .sidebar a:hover {
   background-color: #bfa188;
+}
+
+/* Logout */
+.logout-button {
+  background: none;
+  border: none;
+  padding: 0;
+  width: 100%;
+}
+
+.logout-link {
+  display: block;
+  padding: 10px 15px;
+  background-color: #d9534f;
+  color: white;
+  text-align: left;
+  text-decoration: none;
+}
+
+.logout-link:hover {
+  background-color: #c9302c;
 }
 
 /* === LOGO === */

@@ -1,17 +1,20 @@
-    export async function deleteDocument(
+export async function deleteDocument(
     filename: string,
     jwt: string
 ): Promise<void> {
+    const bucketName = "locaccm-bucket";
+
     const response = await fetch(
-        `${import.meta.env.VITE_API_URL_DOCUMENT_MANAGEMENT}/documents/${encodeURIComponent(
+        `${import.meta.env.VITE_API_URL_DOCUMENT_MANAGEMENT}/api/documents/${encodeURIComponent(
             filename
         )}`,
         {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: "Bearer " + jwt,
+                Authorization: `Bearer ${jwt}`,
             },
+            body: JSON.stringify({ bucketName }),
         }
     );
 

@@ -17,12 +17,15 @@ const Sidebar: React.FC = () => {
 
       <nav>
         <NavLink to="/wealth-management" className={({ isActive }) => isActive ? "active" : ""}>Wealth-management</NavLink>
-        <NavLink to="/properties" className={({ isActive }) => isActive ? "active" : ""}>Properties</NavLink>
         <NavLink to="/leases" className={({ isActive }) => isActive ? "active" : ""}>Leases</NavLink>
         <NavLink to="/calendar" className={({ isActive }) => isActive ? "active" : ""}>Calendar</NavLink>
         <NavLink to={`/document-management/${leaseId}`} className={({ isActive }) => isActive ? "active" : ""}>Documents</NavLink>
-        <NavLink to="/contacts" className={({ isActive }) => isActive ? "active" : ""}>Contacts</NavLink>
+        <NavLink to="/contacts" className={({ isActive }) => isActive ? "active" : ""}>Chats</NavLink>
       </nav>
+
+      <button className="logout-button">
+        <NavLink to="/logout" className="logout-link">Déconnexion</NavLink>
+      </button>
     </div>
   );
 };
