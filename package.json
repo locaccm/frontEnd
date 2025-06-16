@@ -5,11 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "tsc && vite",
-    "start:server": "tsc && node ./server/server.js",
     "start:frontend": "vite",
+    "start:server": "tsc && node ./build/server/server.js",
     "start:all": "concurrently \"npm run start:server\" \"npm run start:frontend\"",
     "build": "tsc -b && vite build",
-    "preview": "vite preview",
+    "preview": "vite preview --host 0.0.0.0 --port $PORT",
     "lint": "eslint .",
     "prettier": "npx prettier . --write",
     "test": "vitest run",

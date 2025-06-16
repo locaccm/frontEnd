@@ -10,6 +10,7 @@ import DocumentWrapper from "../../routes/DocumentWrapper.js";
 import ChatBubble from "../../pages/chatManagement/chatManagement.js";
 import MainLayout from "../../layout/MainLayout.js";
 import Home from "../../pages/home.js";
+import {usePageTitle} from "../../hooks/manageNamePage.js";
 
 const AppRoutesContent = () => (
   <Routes>

@@ -53,21 +53,23 @@ describe("ProfileForm", () => {
     expect(screen.getByDisplayValue("123 rue de Paris")).toBeInTheDocument();
     expect(screen.getByDisplayValue("1990-05-15")).toBeInTheDocument();
     expect(screen.getByDisplayValue("0601020304")).toBeInTheDocument();
+    expect(screen.getByDisplayValue("Développeur passionné")).toBeInTheDocument();
   });
 
-  test("met à jour le champ bio", async () => {
+  test("modifie un champ et affiche la nouvelle valeur", async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: async () => mockProfile,
     } as Response);
 
     render(<ProfileForm />);
-    const bioField = await screen.findByPlaceholderText("Bio");
-    fireEvent.change(bioField, { target: { value: "Nouvelle bio" } });
-    expect(bioField).toHaveValue("Nouvelle bio");
+
+    const telInput = await screen.findByPlaceholderText("Téléphone");
+    fireEvent.change(telInput, { target: { value: "0600000000" } });
+    expect(telInput).toHaveValue("0600000000");
   });
 
-  test("envoie les données du profil en PUT", async () => {
+  test("envoie les données mises à jour", async () => {
     mockFetch
         .mockResolvedValueOnce({
           ok: true,
@@ -78,12 +80,12 @@ describe("ProfileForm", () => {
         } as Response);
 
     render(<ProfileForm />);
+    const saveButton = await screen.findByText("Enregistrer");
 
-    const button = await screen.findByText("Enregistrer");
-    fireEvent.click(button);
+    fireEvent.click(saveButton);
 
     await waitFor(() => {
-      expect(mockFetch).toHaveBeenCalledWith(
+      expect(mockFetch).toHaveBeenLastCalledWith(
           expect.stringContaining("profiles/1"),
           expect.objectContaining({
             method: "PUT",
@@ -107,14 +109,73 @@ describe("ProfileForm", () => {
 
     mockFetch.mockRejectedValueOnce(new Error("upload failed"));
 
-    const file = new File(["dummy content"], "profile.png", {
-      type: "image/png",
-    });
-
+    const file = new File(["dummy"], "profile.png", { type: "image/png" });
     fireEvent.change(input, { target: { files: [file] } });
 
     await waitFor(() => {
       expect(mockFetch).toHaveBeenCalled();
     });
   });
+
+  test("affiche un message d'erreur si non connecté", () => {
+    sessionStorage.getItem = vi.fn(() => null);
+    render(<ProfileForm />);
+    expect(screen.getByText("Utilisateur non connecté")).toBeInTheDocument();
+  });
+
+  test("affiche 'Utilisateur non connecté' si userId est absent", () => {
+    vi.stubGlobal("sessionStorage", {
+      getItem: vi.fn((key: string) => (key === "token" ? "mock-token" : null)),
+    });
+
+    render(<ProfileForm />);
+    expect(screen.getByText("Utilisateur non connecté")).toBeInTheDocument();
+  });
+
+  test("gère l'erreur lors du chargement du profil", async () => {
+    sessionStorage.getItem = vi.fn((key) => {
+      if (key === "userId") return "1";
+      if (key === "token") return "mock-token";
+      return null;
+    });
+
+    mockFetch.mockRejectedValueOnce(new Error("Fetch échoué"));
+
+    render(<ProfileForm />);
+
+    await waitFor(() => {
+      expect(mockFetch).toHaveBeenCalled();
+    });
+  });
+
+  test("gère une erreur lors de la mise à jour du profil", async () => {
+    mockFetch
+        .mockResolvedValueOnce({
+          ok: true,
+          json: async () => mockProfile,
+        } as Response)
+        .mockRejectedValueOnce(new Error("Update échoué"));
+
+    render(<ProfileForm />);
+    const button = await screen.findByText("Enregistrer");
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(mockFetch).toHaveBeenCalledTimes(2);
+    });
+  });
+
+  test("ne fait rien si aucun fichier n'est sélectionné", async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockProfile,
+    } as Response);
+
+    render(<ProfileForm />);
+    const fileInput = await screen.findByLabelText(/photo de profil/i);
+    fireEvent.change(fileInput, { target: { files: [] } });
+
+    expect(mockFetch).toHaveBeenCalledTimes(1);
+  });
+
 });
