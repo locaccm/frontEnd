@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import Signup from "../../pages/authentication/Signup/Signup.js";
 import Signin from "../../pages/authentication/Signin/Signin.js";
-import Logout from "../authentication/logout.js";
+import Logout from "../authentication/Logout.js";
 import ProtectedRoute from "./ProtectedRoute.js";
 import HousingManagement from "../../pages/housingManagement/housingManagement.js";
 import ProfileManagement from "../../pages/profileManagement/profileManagement.js";
@@ -10,7 +10,6 @@ import DocumentWrapper from "../../routes/DocumentWrapper.js";
 import ChatBubble from "../../pages/chatManagement/chatManagement.js";
 import MainLayout from "../../layout/MainLayout.js";
 import Home from "../../pages/home.js";
-import {usePageTitle} from "../../hooks/manageNamePage.js";
 
 const AppRoutesContent = () => (
   <Routes>

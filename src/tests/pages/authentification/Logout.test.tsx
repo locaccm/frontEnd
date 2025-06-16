@@ -1,7 +1,7 @@
 import { vi } from "vitest";
 import { render } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
-import Logout from "../../../components/authentication/logout.js";
+import Logout from "../../../components/authentication/Logout.js";
 
 const mockedNavigate = vi.fn();
 
