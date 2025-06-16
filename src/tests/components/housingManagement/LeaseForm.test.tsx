@@ -120,4 +120,13 @@ describe("LeaseForm", () => {
     expect(global.fetch).toHaveBeenCalled();
     expect(onClose).not.toHaveBeenCalled();
   });
+
+  it("allows input in 'Nom du locataire' field", () => {
+    render(<LeaseForm lease={null} onClose={vi.fn()} />);
+
+    const input = screen.getByLabelText(/Nom du locataire/i);
+    fireEvent.change(input, { target: { value: "99" } });
+    expect(input).toHaveValue(99);
+  });
+
 });
