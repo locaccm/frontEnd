@@ -3,8 +3,10 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import ContactSection from '../../../components/landingPage/ContactSection/ContactSection.js';
 
 // Mock the logo import to avoid issues with images during testing
-vi.mock('../../../assets/images/landingPage/ddloca.png', () => 'logo.png');
-
+vi.mock('../../../assets/images/landingPage/ddloca.png', () => ({
+    default: 'mock-logo.png'
+  }));
+  
 describe('ContactSection', () => {
   beforeEach(() => {
     // Reset all mocks before each test to avoid state leakage

@@ -1,18 +1,23 @@
 import React, { useState } from 'react';
 import '../../../styles/landingPage/ContactSection.css';
 import Logo from '../../../assets/images/landingPage/ddloca.png';
-const FORMSPREE_ENDPOINT = "https://formspree.io/f/mrbkkeqz"; // À adapter si besoin
+
+// Endpoint for Formspree (change if needed)
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/mrbkkeqz";
 
 const ContactSection: React.FC = () => {
+  // State to handle form submission and error status
   const [sent, setSent] = useState(false);
   const [error, setError] = useState(false);
 
+  // Handle form submission
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(false);
-    const formData = new FormData(e.currentTarget);
 
-    // Pour Formspree, on doit envoyer du JSON (option recommandé)
+    // Collect form data
+    const formData = new FormData(e.currentTarget);
+    // Convert FormData to JSON object for Formspree
     const data: Record<string, string> = {};
     formData.forEach((value, key) => {
       data[key] = value as string;
@@ -29,11 +34,12 @@ const ContactSection: React.FC = () => {
       });
       if (res.ok) {
         setSent(true);
-        e.currentTarget.reset(); 
+        e.currentTarget.reset(); // Reset form after success
       } else {
-        setError(true);
+        setError(true); // Show error if not OK
       }
-    } catch (err) {
+    } catch {
+      // Catch network or other errors
       setError(true);
     }
   };
@@ -41,34 +47,40 @@ const ContactSection: React.FC = () => {
   return (
     <section className="contact-section">
       <div className="contact-container">
+        {/* Contact info and logo */}
         <div className="contact-info">
           <img src={Logo} className="contact-logo" alt="Logo" />
-          <h3 id="padding_text">Contactez-nous</h3>
+          <h3 id="padding_text">Contact us</h3>
           <p>
-            Que vous ayez des questions sur notre service ou que vous souhaitiez plus d'informations, notre équipe est là pour vous aider. N'hésitez pas à nous contacter !
+            If you have any questions about our service or want more information, our team is here to help. Feel free to contact us!
           </p>
         </div>
         {sent ? (
-          <div className="form-success" style={{ color: "green", marginTop: 32, fontWeight: 500, fontSize: 20, textAlign: "center" }}>
-            Merci, votre message a bien été envoyé !
+          // Success message after form is sent
+          <div
+            className="form-success"
+            style={{ color: "green", marginTop: 32, fontWeight: 500, fontSize: 20, textAlign: "center" }}
+          >
+            Thank you, your message has been sent!
           </div>
         ) : (
+          // Contact form
           <form className="contact-form" onSubmit={handleSubmit}>
             <div className="form-row">
-              <label htmlFor="prenom_input">Prénom</label>
+              <label htmlFor="prenom_input">First Name</label>
               <input
                 id="prenom_input"
                 name="prenom"
                 type="text"
-                placeholder="Votre prénom"
+                placeholder="Your first name"
                 required
               />
-              <label htmlFor="nom_input">Nom</label>
+              <label htmlFor="nom_input">Last Name</label>
               <input
                 id="nom_input"
                 name="nom"
                 type="text"
-                placeholder="Votre nom"
+                placeholder="Your last name"
                 required
               />
             </div>
@@ -78,15 +90,15 @@ const ContactSection: React.FC = () => {
                 id="email_input"
                 name="email"
                 type="email"
-                placeholder="Votre email"
+                placeholder="Your email"
                 required
               />
-              <label htmlFor="telephone_input">Téléphone</label>
+              <label htmlFor="telephone_input">Phone</label>
               <input
                 id="telephone_input"
                 name="telephone"
                 type="tel"
-                placeholder="Votre téléphone"
+                placeholder="Your phone"
                 required
               />
             </div>
@@ -94,15 +106,16 @@ const ContactSection: React.FC = () => {
             <textarea
               id="message_input"
               name="message"
-              placeholder="Votre message"
+              placeholder="Your message"
               required
             ></textarea>
             <button type="submit" className="submit-btn">
-              Soumettre
+              Submit
             </button>
+            {/* Error message if submission fails */}
             {error && (
               <div style={{ color: "red", marginTop: 16, fontWeight: 500 }}>
-                Une erreur est survenue, veuillez réessayer.
+                An error occurred, please try again.
               </div>
             )}
           </form>
