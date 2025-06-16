@@ -15,6 +15,15 @@ const InviteTenantForm = () => {
   };
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    const token = sessionStorage.getItem("token");
+
+    if (!token) {
+      alert("Session expirée, veuillez vous reconnecter");
+      window.location.href = "/signin";
+      return;
+    }
+    
     if (!checkAllFieldsIsCompleted()) {
       alert("Il faut remplir tous les champs");
       return;
@@ -40,6 +49,7 @@ const InviteTenantForm = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
       },
       body: JSON.stringify(dataToSend),
     })
