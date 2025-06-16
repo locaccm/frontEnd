@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import {DocumentInfo, fetchDocuments} from "../../core/api/documentManagement/getDocument.js";
-import {generateReceipt} from "../../core/api/documentManagement/postDocument.js";
+import React, { useState, useEffect } from 'react';
+import { DocumentInfo, fetchDocuments } from "../../core/api/documentManagement/getDocument.js";
+import { generateReceipt } from "../../core/api/documentManagement/postDocument.js";
 
 export interface DocumentManagementProps {
     leaseId: number;
@@ -18,10 +18,13 @@ const DocumentManagement: React.FC<DocumentManagementProps> = ({
     const [error, setError]               = useState<string | null>(null);
     const [documents, setDocuments]       = useState<DocumentInfo[]>([]);
 
-    const loadDocuments = () => {
-        fetchDocuments(jwt)
-            .then((docs: React.SetStateAction<DocumentInfo[]>) => setDocuments(docs))
-            .catch((err: { message: React.SetStateAction<string | null>; }) => setError(err.message));
+    const loadDocuments = async () => {
+        try {
+            const docs = await fetchDocuments(jwt);
+            setDocuments(docs);
+        } catch (err: any) {
+            setError(err.message);
+        }
     };
 
     const handleConfirm = async () => {
@@ -31,13 +34,19 @@ const DocumentManagement: React.FC<DocumentManagementProps> = ({
         try {
             const { pdfUrl } = await generateReceipt(leaseId, jwt);
             window.open(pdfUrl, '_blank');
-            loadDocuments();
+            await loadDocuments();
         } catch (err: any) {
             setError(err.message);
         } finally {
             setIsGenerating(false);
         }
     };
+
+    useEffect(() => {
+        if (!showConfirm) {
+            loadDocuments();
+        }
+    }, [showConfirm]);
 
     if (error) {
         return (
@@ -51,31 +60,39 @@ const DocumentManagement: React.FC<DocumentManagementProps> = ({
     return (
         <div className="document-management-page">
             {showConfirm ? (
-                <div className="confirm-modal">
-                    <p>
-                        Voulez-vous générer la quittance pour le bail n°{leaseId} ?
-                    </p>
-                    <button onClick={handleConfirm}>Confirmer</button>
-                    <button onClick={onClose}>Annuler</button>
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <p>Voulez-vous générer la quittance pour le logement n°{leaseId} ?</p>
+                        <div className="modal-actions">
+                            <button className="btn-confirm" onClick={handleConfirm} disabled={isGenerating}>
+                                {isGenerating ? 'Génération…' : 'Confirmer'}
+                            </button>
+                            <button className="btn-cancel" onClick={onClose}>Annuler</button>
+                        </div>
+                    </div>
                 </div>
             ) : (
-                <>
-                    {isGenerating && <p>Génération en cours…</p>}
-
-                    <section>
-                        <h3>Mes documents</h3>
-                        <ul>
-                            {documents.map(doc => (
-                                <li key={doc.url}>
+                <section className="my-documents">
+                    <h3>Mes documents</h3>
+                    {isGenerating && <p className="loading">Génération en cours…</p>}
+                    {documents.length === 0 ? (
+                        <p>Aucun document disponible.</p>
+                    ) : (
+                        <ul className="documents-list">
+                            {documents.map((doc) => (
+                                <li key={doc.url} className="document-item">
                                     <a href={doc.url} target="_blank" rel="noopener noreferrer">
-                                        {doc.name} (
+                                        {doc.name}
                                     </a>
+                                    <span className="created-date">
+                    ({new Date(doc.created).toLocaleDateString()})
+                  </span>
                                 </li>
                             ))}
                         </ul>
-                        <button onClick={onClose}>Retour</button>
-                    </section>
-                </>
+                    )}
+                    <button className="btn-cancel" onClick={onClose}>Retour</button>
+                </section>
             )}
         </div>
     );

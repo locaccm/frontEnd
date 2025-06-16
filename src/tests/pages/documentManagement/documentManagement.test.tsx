@@ -37,7 +37,7 @@ describe('DocumentManagement', () => {
         )
 
         expect(
-            screen.getByText(/Voulez-vous générer la quittance pour le bail n°123 ?/)
+            screen.getByText(/Voulez-vous générer la quittance pour le logement n°123 ?/)
         ).toBeInTheDocument()
     })
 
