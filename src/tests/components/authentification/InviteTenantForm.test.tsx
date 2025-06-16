@@ -79,7 +79,7 @@ describe("InviteTenantForm", () => {
 
   it("alerts and redirects if token is missing", () => {
     sessionStorage.removeItem("token");
-  
+
     render(<InviteTenantForm />);
     fireEvent.change(screen.getByPlaceholderText(/email/i), {
       target: { value: "test@example.com" },
@@ -88,20 +88,30 @@ describe("InviteTenantForm", () => {
       target: { value: "123 rue de Paris" },
     });
   
-    // Mock window.location.href setter
     const originalLocation = window.location;
-    delete (window as any).location;
-    (window as any).location = {
-      href: "",
-    };
   
-    const hrefSetter = vi.spyOn(window.location, "href", "set");
+    let hrefValue = "";
+    Object.defineProperty(window, "location", {
+      configurable: true,
+      enumerable: true,
+      value: {
+        ...originalLocation,
+        set href(url: string) {
+          hrefValue = url;
+        },
+        get href() {
+          return hrefValue;
+        },
+      },
+    });
   
     fireEvent.click(screen.getByRole("button", { name: /inviter/i }));
   
     expect(alertMock).toHaveBeenCalledWith("Session expirée, veuillez vous reconnecter");
-    expect(hrefSetter).toHaveBeenCalledWith("/signin");
-  
-    window.location = originalLocation;
-  });  
-});
+    expect(hrefValue).toBe("/signin");
+    Object.defineProperty(window, "location", {
+      configurable: true,
+      value: originalLocation,
+    });
+  });
+})
