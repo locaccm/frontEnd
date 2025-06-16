@@ -1,6 +1,8 @@
 import { Route, Routes } from "react-router-dom";
 import Signup from "../../pages/authentication/Signup/Signup.js";
 import Signin from "../../pages/authentication/Signin/Signin.js";
+import Logout from "../authentication/Logout.js";
+import ProtectedRoute from "./ProtectedRoute.js";
 import HousingManagement from "../../pages/housingManagement/housingManagement.js";
 import ProfileManagement from "../../pages/profileManagement/profileManagement.js";
 import WealthManagement from "../../pages/wealthManagement/WealthManagementPage.js";
@@ -31,5 +33,6 @@ const AppRoutesContent = () => {
         </Routes>
     );
 };
+
 
 export default AppRoutesContent;
