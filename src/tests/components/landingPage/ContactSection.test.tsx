@@ -23,9 +23,9 @@ describe('ContactSection', () => {
 
   it('renders all input fields in the form', () => {
     render(<ContactSection />);
-    // Check all input fields by their label, be specific for "Nom" and "Prénom"
-    expect(screen.getByLabelText(/^Prénom$/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/^Nom$/i)).toBeInTheDocument();
+    // Check all input fields by their label
+    expect(screen.getByLabelText(/Prénom/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Nom/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Email/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Téléphone/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Message/i)).toBeInTheDocument();
@@ -36,9 +36,9 @@ describe('ContactSection', () => {
     global.fetch = vi.fn().mockResolvedValue({ ok: true });
 
     render(<ContactSection />);
-    // Fill out the form fields, use strict match for labels
-    fireEvent.change(screen.getByLabelText(/^Prénom$/i), { target: { value: 'Test' } });
-    fireEvent.change(screen.getByLabelText(/^Nom$/i), { target: { value: 'User' } });
+    // Fill out the form fields
+    fireEvent.change(screen.getByLabelText(/Prénom/i), { target: { value: 'Test' } });
+    fireEvent.change(screen.getByLabelText(/Nom/i), { target: { value: 'User' } });
     fireEvent.change(screen.getByLabelText(/Email/i), { target: { value: 'test@email.com' } });
     fireEvent.change(screen.getByLabelText(/Téléphone/i), { target: { value: '0600000000' } });
     fireEvent.change(screen.getByLabelText(/Message/i), { target: { value: 'Hello world!' } });
@@ -58,8 +58,8 @@ describe('ContactSection', () => {
 
     render(<ContactSection />);
     // Fill out the form fields
-    fireEvent.change(screen.getByLabelText(/^Prénom$/i), { target: { value: 'Test' } });
-    fireEvent.change(screen.getByLabelText(/^Nom$/i), { target: { value: 'User' } });
+    fireEvent.change(screen.getByLabelText(/Prénom/i), { target: { value: 'Test' } });
+    fireEvent.change(screen.getByLabelText(/Nom/i), { target: { value: 'User' } });
     fireEvent.change(screen.getByLabelText(/Email/i), { target: { value: 'test@email.com' } });
     fireEvent.change(screen.getByLabelText(/Téléphone/i), { target: { value: '0600000000' } });
     fireEvent.change(screen.getByLabelText(/Message/i), { target: { value: 'Hello world!' } });
