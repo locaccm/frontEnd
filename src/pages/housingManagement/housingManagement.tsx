@@ -20,20 +20,27 @@ const HousingManagement = () => {
     const [showForm, setShowForm] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const fetchLeases = async () => {
+        const fetchLeases = async () => {
         try {
-            const res = await fetch(`${import.meta.env.VITE_HOUSING_URL}/lease`);
-            if (!res.ok) throw new Error("Erreur lors du chargement des baux");
-            const data = await res.json();
+            const token = sessionStorage.getItem("token");
+            const userId = sessionStorage.getItem("userId");
+            const res = await fetch(
+            `${import.meta.env.VITE_HOUSING_URL}/lease?userId=${userId}`,
+            {
+                method: "GET",
+                headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+                }
+            }
+            );
+            if (!res.ok) throw new Error(`Erreur ${res.status}`);
+            const data: Lease[] = await res.json();
             setLeases(data);
         } catch (err: unknown) {
-            if (err instanceof Error) {
-                setError(err.message);
-            } else {
-                setError("Une erreur inconnue est survenue");
-            }
+            setError(err instanceof Error ? err.message : "Erreur inconnue");
         }
-    };
+        };
 
     useEffect(() => {
         fetchLeases();
@@ -47,7 +54,11 @@ const HousingManagement = () => {
     const handleDelete = async (id: number) => {
         try {
         await fetch(`${import.meta.env.VITE_HOUSING_URL}/lease/${id}`, {
-            method: "DELETE",
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${sessionStorage.getItem("token")}`
+        }
         });
         fetchLeases(); 
         } catch (error) {
