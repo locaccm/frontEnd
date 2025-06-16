@@ -19,6 +19,7 @@ describe("Sidebar", () => {
     expect(screen.getByText("Leases")).toBeInTheDocument();
     expect(screen.getByText("Calendar")).toBeInTheDocument();
     expect(screen.getByText("Documents")).toBeInTheDocument();
+    expect(screen.getByText("Invitation")).toBeInTheDocument();
     expect(screen.getByText("Chats")).toBeInTheDocument();
 
     const profileLink = profileImg.closest("a");
