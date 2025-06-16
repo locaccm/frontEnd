@@ -33,7 +33,7 @@ const ContactSection: React.FC = () => {
         body: JSON.stringify(data),
       });
       if (res.ok) {
-        setSent(true);
+        setSent(true);a
         e.currentTarget.reset(); // Reset form after success
       } else {
         setError(true); // Show error if not OK
