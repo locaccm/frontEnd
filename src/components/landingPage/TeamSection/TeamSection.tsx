@@ -5,13 +5,13 @@ import '../../../styles/landingPage/TeamSection.css';
 // Images importées directement
 import imgMatthieu from '../../../assets/images/landingPage/imgMatthieu.jpeg';
 import imgTom from '../../../assets/images/landingPage/imgTom.jpeg';
-import imgAxel from '../../../assets/images/landingPage/imgTom.jpeg';
-import imgMosleh from '../../../assets/images/landingPage/imgMosleh.jpeg';
-import imgClement from '../../../assets/images/landingPage/imgTom.jpeg';
-import imgLeo from '../../../assets/images/landingPage/imgTom.jpeg';
-import imgDylan from '../../../assets/images/landingPage/imgTom.jpeg';
+import imgAxel from '../../../assets/images/landingPage/dog.png';
+import imgMosleh from '../../../assets/images/landingPage/imgMosleh.png';
+import imgClement from '../../../assets/images/landingPage/dog.png';
+import imgLeo from '../../../assets/images/landingPage/imgLeo.png';
+import imgDylan from '../../../assets/images/landingPage/dog.png';
 import imgMaxime from '../../../assets/images/landingPage/imgMaxime.jpeg';
-import imgDynastie from '../../../assets/images/landingPage/imgTom.jpeg';
+import imgDynastie from '../../../assets/images/landingPage/dog.png';
 
 const teamMembers = [
   { name: 'Matthieu', role: 'Architect cloud', image: imgMatthieu },

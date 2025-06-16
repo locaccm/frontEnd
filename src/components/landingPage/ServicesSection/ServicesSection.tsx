@@ -8,7 +8,7 @@ import largeImg from '../../../assets/images/landingPage/house2.jpg';
 
 const ServicesSection: React.FC = () => (
     <section className="services-section">
-      <h2>Optimisez la gestion de vos biens immobiliers avec nos services</h2>
+      <h2 id='fixH2Color'>Optimisez la gestion de vos biens immobiliers avec nos services</h2>
       <div className="services-container">
         <div className="left-column">
           <p>

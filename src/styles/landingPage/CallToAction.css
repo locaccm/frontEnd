@@ -14,7 +14,7 @@
     background: rgba(0, 0, 0, 0.5); /* ← Opacité ici (ajuste le 0.5 si besoin) */
     z-index: 0;
   }
-  
+
   .optimisation-content {
     position: relative;
     z-index: 1; /* Pour passer devant le ::before */
@@ -30,6 +30,7 @@
   
   .text-content {
     flex: 2;
+    
   }
   
   .action-box {

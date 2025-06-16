@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 const Header: React.FC = () => (
   <header className="header">
-    <div className="container">
+    <div className="containerLP">
     <img src={logo} alt="Logo" className="logo" />
     <nav>
         <a href="#contact">Contact</a>
