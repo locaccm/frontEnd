@@ -4,9 +4,9 @@ import ContactSection from '../../../components/landingPage/ContactSection/Conta
 
 // Mock the logo import to avoid issues with images during testing
 vi.mock('../../../assets/images/landingPage/ddloca.png', () => ({
-    default: 'mock-logo.png'
-  }));
-  
+  default: 'mock-logo.png'
+}));
+
 describe('ContactSection', () => {
   beforeEach(() => {
     // Reset all mocks before each test to avoid state leakage
@@ -23,12 +23,12 @@ describe('ContactSection', () => {
 
   it('renders all input fields in the form', () => {
     render(<ContactSection />);
-    // Check all input fields by their label
-    expect(screen.getByLabelText(/Prénom/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Nom/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Email/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Téléphone/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Message/i)).toBeInTheDocument();
+    // Check all input fields by their exact label
+    expect(screen.getByLabelText(/^Prénom$/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/^Nom$/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/^Email$/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/^Téléphone$/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/^Message$/i)).toBeInTheDocument();
   });
 
   it('shows the success message after form submission', async () => {
@@ -37,11 +37,11 @@ describe('ContactSection', () => {
 
     render(<ContactSection />);
     // Fill out the form fields
-    fireEvent.change(screen.getByLabelText(/Prénom/i), { target: { value: 'Test' } });
-    fireEvent.change(screen.getByLabelText(/Nom/i), { target: { value: 'User' } });
-    fireEvent.change(screen.getByLabelText(/Email/i), { target: { value: 'test@email.com' } });
-    fireEvent.change(screen.getByLabelText(/Téléphone/i), { target: { value: '0600000000' } });
-    fireEvent.change(screen.getByLabelText(/Message/i), { target: { value: 'Hello world!' } });
+    fireEvent.change(screen.getByLabelText(/^Prénom$/i), { target: { value: 'Test' } });
+    fireEvent.change(screen.getByLabelText(/^Nom$/i), { target: { value: 'User' } });
+    fireEvent.change(screen.getByLabelText(/^Email$/i), { target: { value: 'test@email.com' } });
+    fireEvent.change(screen.getByLabelText(/^Téléphone$/i), { target: { value: '0600000000' } });
+    fireEvent.change(screen.getByLabelText(/^Message$/i), { target: { value: 'Hello world!' } });
 
     // Submit the form
     fireEvent.click(screen.getByRole('button', { name: /Soumettre/i }));
@@ -58,11 +58,11 @@ describe('ContactSection', () => {
 
     render(<ContactSection />);
     // Fill out the form fields
-    fireEvent.change(screen.getByLabelText(/Prénom/i), { target: { value: 'Test' } });
-    fireEvent.change(screen.getByLabelText(/Nom/i), { target: { value: 'User' } });
-    fireEvent.change(screen.getByLabelText(/Email/i), { target: { value: 'test@email.com' } });
-    fireEvent.change(screen.getByLabelText(/Téléphone/i), { target: { value: '0600000000' } });
-    fireEvent.change(screen.getByLabelText(/Message/i), { target: { value: 'Hello world!' } });
+    fireEvent.change(screen.getByLabelText(/^Prénom$/i), { target: { value: 'Test' } });
+    fireEvent.change(screen.getByLabelText(/^Nom$/i), { target: { value: 'User' } });
+    fireEvent.change(screen.getByLabelText(/^Email$/i), { target: { value: 'test@email.com' } });
+    fireEvent.change(screen.getByLabelText(/^Téléphone$/i), { target: { value: '0600000000' } });
+    fireEvent.change(screen.getByLabelText(/^Message$/i), { target: { value: 'Hello world!' } });
 
     // Submit the form
     fireEvent.click(screen.getByRole('button', { name: /Soumettre/i }));
