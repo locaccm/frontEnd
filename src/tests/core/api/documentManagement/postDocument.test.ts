@@ -9,7 +9,7 @@ describe('generateReceipt', () => {
     const fullUrl = `${baseUrl}/api/rent-receipt`
 
     beforeEach(() => {
-        ;(import.meta.env as any).VITE_API_URL = baseUrl
+        ;(import.meta.env as any).VITE_API_URL_DOCUMENT_MANAGEMENT = baseUrl
         global.fetch = vi.fn()
     })
 
@@ -35,7 +35,10 @@ describe('generateReceipt', () => {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${jwt}`,
             },
-            body: JSON.stringify({ leaseId }),
+            body: JSON.stringify({
+                leaseId,
+                bucketName: 'locaccm-bucket',
+            }),
         })
     })
 

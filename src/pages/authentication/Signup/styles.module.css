@@ -1,3 +1,5 @@
+/* styles.module.css */
+
 .signup_container {
   width: 100%;
   min-height: 100vh;
@@ -5,6 +7,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  color: black;
 }
 
 .signup_form_container {
@@ -61,11 +64,39 @@
 .white_btn {
   border: none;
   outline: none;
-  padding: 12px 0;
+  padding: 15px;
   background-color: white;
   border-radius: 20px;
   width: 180px;
   font-weight: bold;
   font-size: 14px;
   cursor: pointer;
+  margin-bottom: 25px;
+  color: black;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .signup_form_container {
+    flex-direction: column;
+    height: auto;
+    width: 90%;
+  }
+  .input {
+    width: auto;
+  }
+  .left, .right {
+    width: 100%;
+    border-radius: 0;
+  }
+
+  .left {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+
+  .right {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
 }

@@ -26,4 +26,5 @@ coverage/
 *.sw?
 *.js
 
+build/
 .env
