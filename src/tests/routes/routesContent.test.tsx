@@ -17,6 +17,8 @@ describe("AppRoutes", () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByText("Home Page")).toBeInTheDocument();
-  });
+    expect(
+      screen.getByText(/La gestion efficace des biens est la clé de la réussite immobilière/i)
+    ).toBeInTheDocument();
+      });
 });

@@ -9,14 +9,15 @@ import ChatBubble from "../../pages/chatManagement/chatManagement.js";
 import MainLayout from "../../layout/MainLayout.js";
 import Home from "../../pages/home.js";
 import {usePageTitle} from "../../hooks/manageNamePage.js";
+import LandingPage from '../../pages/landingPage/LandingPage.js';
 
 const AppRoutesContent = () => {
     usePageTitle();
 
     return (
         <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/signin" element={<Signin />} />
+<Route path="/" element={<LandingPage />} />
+<Route path="/signin" element={<Signin />} />
             <Route path="/signup" element={<Signup />} />
 
             <Route element={<MainLayout />}>
