@@ -4,13 +4,9 @@ import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import AppRoutesContent from "../../components/routes/appRoutesContent.js";
 
-// Mock home page
-vi.mock("../../pages/home.js", () => ({
-  default: () => <div>Home Page</div>,
-}));
 
 describe("AppRoutes", () => {
-  it("renders the home page on '/'", () => {
+  it("renders the landing page on '/'", () => {
     render(
       <MemoryRouter initialEntries={["/"]}>
         <AppRoutesContent />
@@ -20,5 +16,5 @@ describe("AppRoutes", () => {
     expect(
       screen.getByText(/La gestion efficace des biens est la clé de la réussite immobilière/i)
     ).toBeInTheDocument();
-      });
+  });
 });

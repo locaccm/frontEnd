@@ -50,9 +50,9 @@ const ContactSection: React.FC = () => {
         {/* Contact info and logo */}
         <div className="contact-info">
           <img src={Logo} className="contact-logo" alt="Logo" />
-          <h3 id="padding_text">Contact us</h3>
+          <h3 id="padding_text">Contactez-nous</h3>
           <p>
-            If you have any questions about our service or want more information, our team is here to help. Feel free to contact us!
+            Que vous ayez des questions sur notre service ou que vous souhaitiez plus d'informations, notre équipe est là pour vous aider. N'hésitez pas à nous contacter !
           </p>
         </div>
         {sent ? (
@@ -61,26 +61,26 @@ const ContactSection: React.FC = () => {
             className="form-success"
             style={{ color: "green", marginTop: 32, fontWeight: 500, fontSize: 20, textAlign: "center" }}
           >
-            Thank you, your message has been sent!
+            Merci, votre message a bien été envoyé !
           </div>
         ) : (
           // Contact form
           <form className="contact-form" onSubmit={handleSubmit}>
             <div className="form-row">
-              <label htmlFor="prenom_input">First Name</label>
+              <label htmlFor="prenom_input">Prénom</label>
               <input
                 id="prenom_input"
                 name="prenom"
                 type="text"
-                placeholder="Your first name"
+                placeholder="Votre prénom"
                 required
               />
-              <label htmlFor="nom_input">Last Name</label>
+              <label htmlFor="nom_input">Nom</label>
               <input
                 id="nom_input"
                 name="nom"
                 type="text"
-                placeholder="Your last name"
+                placeholder="Votre nom"
                 required
               />
             </div>
@@ -90,15 +90,15 @@ const ContactSection: React.FC = () => {
                 id="email_input"
                 name="email"
                 type="email"
-                placeholder="Your email"
+                placeholder="Votre email"
                 required
               />
-              <label htmlFor="telephone_input">Phone</label>
+              <label htmlFor="telephone_input">Téléphone</label>
               <input
                 id="telephone_input"
                 name="telephone"
                 type="tel"
-                placeholder="Your phone"
+                placeholder="Votre téléphone"
                 required
               />
             </div>
@@ -106,16 +106,16 @@ const ContactSection: React.FC = () => {
             <textarea
               id="message_input"
               name="message"
-              placeholder="Your message"
+              placeholder="Votre message"
               required
             ></textarea>
             <button type="submit" className="submit-btn">
-              Submit
+              Soumettre
             </button>
             {/* Error message if submission fails */}
             {error && (
               <div style={{ color: "red", marginTop: 16, fontWeight: 500 }}>
-                An error occurred, please try again.
+                Une erreur est survenue, veuillez réessayer.
               </div>
             )}
           </form>
