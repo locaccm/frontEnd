@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
 import { Lease } from "../../pages/housingManagement/housingManagement.js";
+import { getUserProfileData } from "../../core/session/SessionsManager.js";
+import { useAccommodationActions } from "../../hooks/wealthManagement/useAccommodationActions.js";
+import { Accommodation } from "../../types/wealthManagement/wealthManagement.js";
 
 interface LeaseFormProps {
   lease: Lease | null;
@@ -7,6 +10,12 @@ interface LeaseFormProps {
 }
 
 const LeaseForm = ({ lease, onClose }: LeaseFormProps) => {
+  const [userName, setUserName] = useState("");
+  const [housingName, setHousingName] = useState("");
+  const { fetchAccommodations } = useAccommodationActions();
+  const [accommodations, setAccommodations] = useState<Accommodation[]>([]);
+
+  
   const [formData, setFormData] = useState<Lease>({
     LEAN_ID: 0,             
     LEAD_START: "",
@@ -20,6 +29,20 @@ const LeaseForm = ({ lease, onClose }: LeaseFormProps) => {
   });
 
   useEffect(() => {
+    const { firstName, lastName } = getUserProfileData();
+    setUserName(`${firstName} ${lastName}`);
+
+    const init = async () => {
+      const data = await fetchAccommodations();
+      if (data) {
+        setAccommodations(data);
+        const selected = data.find((acc) => acc.ACCN_ID === formData.ACCN_ID);
+        setHousingName(selected?.ACCC_NAME || `Logement n°${formData.ACCN_ID}`);
+      }
+    };
+
+    init();
+
     if (lease) {
       setFormData({
         ...lease,
@@ -176,11 +199,11 @@ const LeaseForm = ({ lease, onClose }: LeaseFormProps) => {
           </label>
 
           <label>
-            ID Utilisateur :
+            Nom du locataire :
             <input
               type="number"
               name="USEN_ID"
-              value={formData.USEN_ID}
+              value={userName}
               onChange={handleChange}
               className="input-field"
               required
@@ -188,15 +211,21 @@ const LeaseForm = ({ lease, onClose }: LeaseFormProps) => {
           </label>
 
           <label>
-            ID Logement :
-            <input
-              type="number"
+            Logement :
+            <select
               name="ACCN_ID"
               value={formData.ACCN_ID}
               onChange={handleChange}
               className="input-field"
               required
-            />
+            >
+              <option value="">-- Sélectionner un logement --</option>
+              {accommodations.map((acc) => (
+                <option key={acc.ACCN_ID} value={acc.ACCN_ID}>
+                  {acc.ACCC_NAME}
+                </option>
+              ))}
+            </select>
           </label>
 
           <div className="dialog-footer">
