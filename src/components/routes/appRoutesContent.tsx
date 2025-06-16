@@ -1,3 +1,5 @@
+
+import LandingPage from '../../pages/landingPage/LandingPage.js';
 import { Route, Routes } from "react-router-dom";
 import Signup from "../../pages/authentication/Signup/Signup.js";
 import Signin from "../../pages/authentication/Signin/Signin.js";
@@ -9,7 +11,6 @@ import WealthManagement from "../../pages/wealthManagement/WealthManagementPage.
 import DocumentWrapper from "../../routes/DocumentWrapper.js"; 
 import ChatBubble from "../../pages/chatManagement/chatManagement.js";
 import MainLayout from "../../layout/MainLayout.js";
-import Home from "../../pages/home.js";
 import {usePageTitle} from "../../hooks/manageNamePage.js";
 
 const AppRoutesContent = () => {
@@ -17,7 +18,7 @@ const AppRoutesContent = () => {
 
     return (
         <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<LandingPage />} />
             <Route path="/signin" element={<Signin />} />
             <Route path="/signup" element={<Signup />} />
             <Route
@@ -34,6 +35,7 @@ const AppRoutesContent = () => {
                 <Route path="/contacts" element={<ChatBubble />} />
                 <Route path="/calendar" element={<div>Calendar Page</div>} />
                 <Route path="/logout" element={<Logout />} />
+
             </Route>
         </Routes>
     );
