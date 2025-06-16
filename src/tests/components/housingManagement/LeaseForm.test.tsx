@@ -51,8 +51,8 @@ describe("LeaseForm", () => {
     fireEvent.change(screen.getByLabelText(/Loyer/i), { target: { value: "750" } });
     fireEvent.change(screen.getByLabelText(/Charges/i), { target: { value: "50" } });
     fireEvent.change(screen.getByLabelText(/Date de paiement/i), { target: { value: "2024-01-15" } });
-    fireEvent.change(screen.getByLabelText(/ID Utilisateur/i), { target: { value: "4" } });
-    fireEvent.change(screen.getByLabelText(/ID Logement/i), { target: { value: "5" } });
+    expect(screen.getByLabelText(/Nom du locataire/i)).toBeInTheDocument();
+    fireEvent.change(screen.getByLabelText(/Logement/i), { target: { value: "2" } });
   
     const form = screen.getByRole("dialog").querySelector("form")!;
     fireEvent.submit(form);
@@ -111,8 +111,8 @@ describe("LeaseForm", () => {
     fireEvent.change(screen.getByLabelText(/Loyer/i), { target: { value: "800" } });
     fireEvent.change(screen.getByLabelText(/Charges/i), { target: { value: "80" } });
     fireEvent.change(screen.getByLabelText(/Date de paiement/i), { target: { value: "2024-01-15" } });
-    fireEvent.change(screen.getByLabelText(/ID Utilisateur/i), { target: { value: "1" } });
-    fireEvent.change(screen.getByLabelText(/ID Logement/i), { target: { value: "2" } });
+    expect(screen.getByLabelText(/Nom du locataire/i)).toBeInTheDocument();
+    fireEvent.change(screen.getByLabelText(/Logement/i), { target: { value: "2" } });
 
     const form = screen.getByRole("dialog").querySelector("form")!;
     fireEvent.submit(form);

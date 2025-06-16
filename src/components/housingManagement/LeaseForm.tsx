@@ -11,7 +11,6 @@ interface LeaseFormProps {
 
 const LeaseForm = ({ lease, onClose }: LeaseFormProps) => {
   const [userName, setUserName] = useState("");
-  const [housingName, setHousingName] = useState("");
   const { fetchAccommodations } = useAccommodationActions();
   const [accommodations, setAccommodations] = useState<Accommodation[]>([]);
 
