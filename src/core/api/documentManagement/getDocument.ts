@@ -1,3 +1,5 @@
+import {getUserId} from "../../session/SessionsManager.js";
+
 export interface DocumentInfo {
     name: string;
     url: string;
@@ -7,8 +9,11 @@ export interface DocumentInfo {
 
 export async function fetchDocuments(jwt: string): Promise<DocumentInfo[]> {
     const bucketName = "locaccm-bucket";
+    const userId = getUserId();
+    if (userId == null) throw new Error("User not logged in");
+
     const baseUrl = import.meta.env.VITE_API_URL_DOCUMENT_MANAGEMENT;
-    const fullUrl = `${baseUrl}/api/documents?bucketName=${encodeURIComponent(bucketName)}`;
+    const fullUrl = `${baseUrl}/api/documents?bucketName=${bucketName}&userId=${userId}`;
 
     const res = await fetch(fullUrl, {
         method: "GET",
