@@ -21,11 +21,13 @@
     margin: 15px 0 5px;
     font-weight: 600;
     font-size: 1.25rem;
+    color: black;
   }
   
   .team-member-card p {
     color: #555;
     font-style: italic;
     font-size: 1rem;
+  
   }
   

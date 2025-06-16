@@ -11,6 +11,7 @@
     max-width: 1200px;
     margin: 30px auto;
     gap: 40px;
+    color: black;
   }
   
   .left-column, .right-column {
@@ -45,6 +46,11 @@
     width: 100%;
   }
   
+  #fixH2Color{
+    color: rgb(0, 0, 0);
+
+  }
+ 
   @media (max-width: 768px) {
     .services-container {
       flex-direction: column;
