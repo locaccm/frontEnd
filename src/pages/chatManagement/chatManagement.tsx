@@ -130,6 +130,7 @@ const ChatManagement: React.FC = () => {
                 type="text"
                 placeholder="Message..."
                 value={newMessage}
+                maxLength={500}
                 onChange={(e) => setNewMessage(e.target.value)}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") handleSend();
