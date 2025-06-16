@@ -35,10 +35,10 @@ const AppRoutesContent = () => {
                 <Route path="/contacts" element={<ChatBubble />} />
                 <Route path="/calendar" element={<div>Calendar Page</div>} />
                 <Route path="/logout" element={<Logout />} />
+
             </Route>
         </Routes>
     );
 };
-
 
 export default AppRoutesContent;
