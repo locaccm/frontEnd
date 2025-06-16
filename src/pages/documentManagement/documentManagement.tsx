@@ -69,7 +69,6 @@ const DocumentManagement: React.FC<DocumentManagementProps> = ({
                                 <li key={doc.url}>
                                     <a href={doc.url} target="_blank" rel="noopener noreferrer">
                                         {doc.name} (
-                                        {new Date(doc.created).toLocaleDateString()})
                                     </a>
                                 </li>
                             ))}

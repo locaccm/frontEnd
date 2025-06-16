@@ -35,7 +35,10 @@ describe('generateReceipt', () => {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${jwt}`,
             },
-            body: JSON.stringify({ leaseId }),
+            body: JSON.stringify({
+                leaseId,
+                bucketName: 'locaccm-bucket',
+            }),
         })
     })
 
