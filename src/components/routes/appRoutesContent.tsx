@@ -6,6 +6,7 @@ import ProtectedRoute from "./ProtectedRoute.js";
 import HousingManagement from "../../pages/housingManagement/housingManagement.js";
 import ProfileManagement from "../../pages/profileManagement/profileManagement.js";
 import WealthManagement from "../../pages/wealthManagement/WealthManagementPage.js";
+import InviteTenantPage from "../../pages/notification/InviteTenantPage.js";
 import DocumentWrapper from "../../routes/DocumentWrapper.js"; 
 import ChatBubble from "../../pages/chatManagement/chatManagement.js";
 import MainLayout from "../../layout/MainLayout.js";
@@ -28,6 +29,7 @@ const AppRoutesContent = () => (
       <Route path="/contacts" element={<ChatBubble />} />
       <Route path="/calendar" element={<div>Calendar Page</div>} />
       <Route path="/logout" element={<Logout />} />
+      <Route path="/invite-tenant" element={<InviteTenantPage />} />
     </Route>
   </Routes>
 );
