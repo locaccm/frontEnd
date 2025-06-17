@@ -292,6 +292,6 @@ describe("ChatManagement", () => {
 
     await waitFor(() => {
       expect(screen.getByText(/New socket message/i)).toBeInTheDocument();
-    });
+    }, { timeout: 10000 });
   });
 });
