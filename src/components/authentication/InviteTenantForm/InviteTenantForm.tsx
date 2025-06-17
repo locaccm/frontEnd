@@ -57,15 +57,7 @@ const InviteTenantForm = () => {
         if (response.ok && response.body !== null) {
           alert("Invitation réussie");
         } else {
-          alert(
-            "Erreur lors de l'invitation, l'email a bien été envoyé mais l'inscription dans la base de données n'a pas été inscrit.\n\n" +
-            "Le mot de passe doit respecter les règles suivantes :\n" +
-            "- Au moins 8 caractères\n" +
-            "- Au moins une lettre majuscule\n" +
-            "- Au moins une lettre minuscule\n" +
-            "- Au moins un chiffre\n" +
-            "- Au moins un caractère spécial (@$!%*?&)"
-          );
+          alert("Erreur lors de l'invitation, l'email a bien été envoyé mais l'inscription dans la base de données n'a pas été inscrit");
         }
       })
       .catch((error) => {
