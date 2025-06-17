@@ -251,4 +251,47 @@ describe("ChatManagement", () => {
 
     expect(await screen.findByText("Charlie DELTA")).toBeInTheDocument();
   });
+
+  it("receives socket message and appends it", async () => {
+    sessionStorage.setItem("userId", "1");
+
+    mockedGetUserById.mockResolvedValue({
+      USEN_ID: 1,
+      USEC_TYPE: "OWNER",
+      USEC_FNAME: "Alice",
+      USEC_LNAME: "Doe",
+    });
+
+    mockedGetTenantsByOwner.mockResolvedValue([
+      {
+        USEN_ID: 2,
+        USEC_TYPE: "TENANT",
+        USEC_FNAME: "Bob",
+        USEC_LNAME: "Smith",
+      },
+    ]);
+
+    mockedGetMessages.mockResolvedValue([]);
+
+    render(<ChatManagement />);
+
+    const bobContact = await screen.findByText("Bob SMITH");
+    fireEvent.click(bobContact);
+
+    await waitFor(() => {
+      expect(screen.getByText("Bob SMITH")).toBeInTheDocument();
+    });
+
+    await act(async () => {
+      mockSocketOnCallbacks["chat message"]?.({
+        from: 2,
+        to: 1,
+        message: "New socket message",
+      });
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText(/New socket message/i)).toBeInTheDocument();
+    });
+  });
 });
