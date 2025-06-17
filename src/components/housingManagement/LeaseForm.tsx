@@ -91,9 +91,11 @@ const LeaseForm = ({ lease, onClose }: LeaseFormProps) => {
         );
       }
 
+      alert("Le bail a été enregistré avec succès.");
       onClose();
     } catch (err) {
       console.error("Échec de l'envoi du formulaire :", err);
+      alert("Erreur lors de l'enregistrement du bail. Veuillez réessayer.");
     }
   };
 

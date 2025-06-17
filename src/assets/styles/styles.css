@@ -213,6 +213,12 @@ h1 {
   font-weight: 700;
 }
 
+
+.table tbody {
+  color: black;
+}
+
+
 .table tr:hover {
   background-color: #f9f9f9;
 }
