@@ -89,6 +89,34 @@ const ProfileForm = () => {
         }
     };
 
+    const handleDeleteAccount = async () => {
+        if (!userId || !token) return;
+
+        const confirmed = window.confirm("Es-tu sûr de vouloir supprimer ton compte ? Cette action est irréversible.");
+        if (!confirmed) return;
+
+        try {
+            const res = await fetch(
+                `${import.meta.env.VITE_PROFILE_URL}profiles/${userId}`,
+                {
+                    method: "DELETE",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                },
+            );
+
+            if (!res.ok) throw new Error("Échec de la suppression");
+
+            alert("Compte supprimé avec succès.");
+            sessionStorage.clear();
+            window.location.href = "/";
+        } catch (err) {
+            console.error("Erreur suppression compte :", err);
+            alert("Erreur lors de la suppression du compte.");
+        }
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!token) {
@@ -187,6 +215,16 @@ const ProfileForm = () => {
       <button type="submit" className="button primary">
         Enregistrer
       </button>
+
+        <button
+            type="button"
+            className="button danger"
+            onClick={handleDeleteAccount}
+            style={{ marginTop: "1rem" }}
+        >
+            Supprimer mon compte
+        </button>
+
     </form>
   );
 };
