@@ -1,29 +1,6 @@
 import { describe, it, beforeEach, expect, vi } from "vitest";
 import type { Mock } from "vitest";
 import { render, screen, fireEvent, waitFor, act } from "@testing-library/react";
-import ChatManagement from "../../../pages/chatManagement/chatManagement.js";
-
-vi.mock("../../../core/api/chatManagement/chatApi.js", () => ({
-  getUserById: vi.fn(),
-  getTenantsByOwner: vi.fn(),
-  getOwnerByTenant: vi.fn(),
-  getMessages: vi.fn(),
-  sendMessage: vi.fn(),
-}));
-
-import {
-  getUserById,
-  getTenantsByOwner,
-  getOwnerByTenant,
-  getMessages,
-  sendMessage,
-} from "../../../core/api/chatManagement/chatApi.js";
-
-const mockedGetUserById = getUserById as Mock;
-const mockedGetTenantsByOwner = getTenantsByOwner as Mock;
-const mockedGetOwnerByTenant = getOwnerByTenant as Mock;
-const mockedGetMessages = getMessages as Mock;
-const mockedSendMessage = sendMessage as Mock;
 
 const mockSocketOnCallbacks: Record<string, (...args: any[]) => void> = {};
 const mockSocketEmit = vi.fn();
@@ -42,6 +19,30 @@ vi.mock("socket.io-client", () => {
     }),
   };
 });
+
+vi.mock("../../../core/api/chatManagement/chatApi.js", () => ({
+  getUserById: vi.fn(),
+  getTenantsByOwner: vi.fn(),
+  getOwnerByTenant: vi.fn(),
+  getMessages: vi.fn(),
+  sendMessage: vi.fn(),
+}));
+
+import ChatManagement from "../../../pages/chatManagement/chatManagement.js";
+
+import {
+  getUserById,
+  getTenantsByOwner,
+  getOwnerByTenant,
+  getMessages,
+  sendMessage,
+} from "../../../core/api/chatManagement/chatApi.js";
+
+const mockedGetUserById = getUserById as Mock;
+const mockedGetTenantsByOwner = getTenantsByOwner as Mock;
+const mockedGetOwnerByTenant = getOwnerByTenant as Mock;
+const mockedGetMessages = getMessages as Mock;
+const mockedSendMessage = sendMessage as Mock;
 
 beforeEach(() => {
   sessionStorage.clear();
