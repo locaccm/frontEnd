@@ -1,6 +1,6 @@
 import { describe, it, beforeEach, expect, vi } from "vitest";
 import type { Mock } from "vitest";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor, act } from "@testing-library/react";
 import ChatManagement from "../../../pages/chatManagement/chatManagement.js";
 
 vi.mock("../../../core/api/chatManagement/chatApi.js", () => ({
@@ -25,10 +25,28 @@ const mockedGetOwnerByTenant = getOwnerByTenant as Mock;
 const mockedGetMessages = getMessages as Mock;
 const mockedSendMessage = sendMessage as Mock;
 
+const mockSocketOnCallbacks: Record<string, (...args: any[]) => void> = {};
+const mockSocketEmit = vi.fn();
+
+vi.mock("socket.io-client", () => {
+  return {
+    io: () => ({
+      on: (event: string, cb: (...args: any[]) => void) => {
+        mockSocketOnCallbacks[event] = cb;
+      },
+      off: (event: string) => {
+        delete mockSocketOnCallbacks[event];
+      },
+      emit: mockSocketEmit,
+      disconnect: vi.fn(),
+    }),
+  };
+});
+
 beforeEach(() => {
   sessionStorage.clear();
   vi.clearAllMocks();
-  window.HTMLElement.prototype.scrollIntoView = vi.fn();
+  for (const key in mockSocketOnCallbacks) delete mockSocketOnCallbacks[key];
 });
 
 describe("ChatManagement", () => {
@@ -139,8 +157,6 @@ describe("ChatManagement", () => {
     await waitFor(() => {
       expect(screen.getByText("Hello Bob")).toBeInTheDocument();
     });
-
-    expect(HTMLElement.prototype.scrollIntoView).toHaveBeenCalled();
   });
 
   it("does not send an empty message", async () => {
@@ -222,5 +238,42 @@ describe("ChatManagement", () => {
     render(<ChatManagement />);
 
     expect(await screen.findByText("Charlie DELTA")).toBeInTheDocument();
+  });
+
+  it("receives socket message and appends it", async () => {
+    sessionStorage.setItem("userId", "1");
+
+    mockedGetUserById.mockResolvedValue({
+      USEN_ID: 1,
+      USEC_TYPE: "OWNER",
+      USEC_FNAME: "Alice",
+      USEC_LNAME: "Doe",
+    });
+
+    mockedGetTenantsByOwner.mockResolvedValue([
+      {
+        USEN_ID: 2,
+        USEC_TYPE: "TENANT",
+        USEC_FNAME: "Bob",
+        USEC_LNAME: "Smith",
+      },
+    ]);
+
+    mockedGetMessages.mockResolvedValue([]);
+
+    render(<ChatManagement />);
+
+    const bobContact = await screen.findByText("Bob SMITH");
+    fireEvent.click(bobContact);
+
+    await act(async () => {
+      mockSocketOnCallbacks["chat message"]?.({
+        from: 2,
+        to: 1,
+        message: "New socket message",
+      });
+    });
+
+    expect(await screen.findByText("New socket message")).toBeInTheDocument();
   });
 });
