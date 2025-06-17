@@ -9,17 +9,16 @@ import TeamSection from "../../components/landingPage/TeamSection/TeamSection.js
 import Header from "../../components/landingPage/Header/Header.js";
 // src/pages/LandingPage.tsx
 const LandingPage = () => (
-    <>
-    <Header /> 
-      <HeroSection />
-      <Features />
-      <StatsSection />
-      <TeamSection />
-      <CallToAction />
-      <ServicesSection />
-      <ContactSection />
-      <Footer />
-    </>
-  );
-  export default LandingPage;
-  
+  <>
+    <Header />
+    <HeroSection />
+    <Features />
+    <StatsSection />
+    <TeamSection />
+    <CallToAction />
+    <ServicesSection />
+    <ContactSection />
+    <Footer />
+  </>
+);
+export default LandingPage;

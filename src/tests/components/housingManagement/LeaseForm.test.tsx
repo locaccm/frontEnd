@@ -20,7 +20,7 @@ describe("LeaseForm", () => {
   beforeEach(() => {
     vi.resetAllMocks();
     sessionStorage.setItem("token", "fake-token");
-    sessionStorage.setItem("userId", "4"); 
+    sessionStorage.setItem("userId", "4");
   });
 
   it("renders correctly in create mode", () => {
@@ -35,57 +35,71 @@ describe("LeaseForm", () => {
 
     expect(screen.getByDisplayValue("800")).toBeInTheDocument();
     expect(screen.getByDisplayValue("100")).toBeInTheDocument();
-    expect(screen.getByDisplayValue("2024-01-01")).toBeInTheDocument(); 
-    expect(screen.getByDisplayValue("2025-01-01")).toBeInTheDocument(); 
-    expect(screen.getByDisplayValue("2024-01-15")).toBeInTheDocument(); 
+    expect(screen.getByDisplayValue("2024-01-01")).toBeInTheDocument();
+    expect(screen.getByDisplayValue("2025-01-01")).toBeInTheDocument();
+    expect(screen.getByDisplayValue("2024-01-15")).toBeInTheDocument();
   });
 
   it("sends POST request when lease is null", async () => {
     global.fetch = vi.fn().mockResolvedValue({ ok: true });
     const onClose = vi.fn();
-  
+
     render(<LeaseForm lease={null} onClose={onClose} />);
-  
-    fireEvent.change(screen.getByLabelText(/Date de début/i), { target: { value: "2024-01-01" } });
-    fireEvent.change(screen.getByLabelText(/Date de fin/i), { target: { value: "2025-01-01" } });
-    fireEvent.change(screen.getByLabelText(/Loyer/i), { target: { value: "750" } });
-    fireEvent.change(screen.getByLabelText(/Charges/i), { target: { value: "50" } });
-    fireEvent.change(screen.getByLabelText(/Date de paiement/i), { target: { value: "2024-01-15" } });
-    fireEvent.change(screen.getByLabelText(/ID Utilisateur/i), { target: { value: "4" } });
-    fireEvent.change(screen.getByLabelText(/ID Logement/i), { target: { value: "5" } });
-  
+
+    fireEvent.change(screen.getByLabelText(/Date de début/i), {
+      target: { value: "2024-01-01" },
+    });
+    fireEvent.change(screen.getByLabelText(/Date de fin/i), {
+      target: { value: "2025-01-01" },
+    });
+    fireEvent.change(screen.getByLabelText(/Loyer/i), {
+      target: { value: "750" },
+    });
+    fireEvent.change(screen.getByLabelText(/Charges/i), {
+      target: { value: "50" },
+    });
+    fireEvent.change(screen.getByLabelText(/Date de paiement/i), {
+      target: { value: "2024-01-15" },
+    });
+    fireEvent.change(screen.getByLabelText(/ID Utilisateur/i), {
+      target: { value: "4" },
+    });
+    fireEvent.change(screen.getByLabelText(/ID Logement/i), {
+      target: { value: "5" },
+    });
+
     const form = screen.getByRole("dialog").querySelector("form")!;
     fireEvent.submit(form);
-  
+
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledWith(
         expect.stringContaining("/lease"),
-        expect.objectContaining({ method: "POST" })
+        expect.objectContaining({ method: "POST" }),
       );
       expect(onClose).toHaveBeenCalled();
     });
-  });  
+  });
 
   it("sends PUT request when lease is provided", async () => {
     global.fetch = vi.fn().mockResolvedValue({ ok: true });
     const onClose = vi.fn();
-  
+
     render(<LeaseForm lease={mockLease} onClose={onClose} />);
     fireEvent.change(screen.getByLabelText(/Loyer/i), {
       target: { value: "850" },
     });
-  
+
     const form = screen.getByRole("dialog").querySelector("form")!;
     fireEvent.submit(form);
-  
+
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledWith(
         expect.stringContaining(`/lease/${mockLease.LEAN_ID}`),
-        expect.objectContaining({ method: "PUT" })
+        expect.objectContaining({ method: "PUT" }),
       );
       expect(onClose).toHaveBeenCalled();
     });
-  });  
+  });
 
   it("closes the form when clicking on Annuler", () => {
     const onClose = vi.fn();
@@ -106,13 +120,27 @@ describe("LeaseForm", () => {
     const onClose = vi.fn();
     render(<LeaseForm lease={null} onClose={onClose} />);
 
-    fireEvent.change(screen.getByLabelText(/Date de début/i), { target: { value: "2024-01-01" } });
-    fireEvent.change(screen.getByLabelText(/Date de fin/i), { target: { value: "2025-01-01" } });
-    fireEvent.change(screen.getByLabelText(/Loyer/i), { target: { value: "800" } });
-    fireEvent.change(screen.getByLabelText(/Charges/i), { target: { value: "80" } });
-    fireEvent.change(screen.getByLabelText(/Date de paiement/i), { target: { value: "2024-01-15" } });
-    fireEvent.change(screen.getByLabelText(/ID Utilisateur/i), { target: { value: "1" } });
-    fireEvent.change(screen.getByLabelText(/ID Logement/i), { target: { value: "2" } });
+    fireEvent.change(screen.getByLabelText(/Date de début/i), {
+      target: { value: "2024-01-01" },
+    });
+    fireEvent.change(screen.getByLabelText(/Date de fin/i), {
+      target: { value: "2025-01-01" },
+    });
+    fireEvent.change(screen.getByLabelText(/Loyer/i), {
+      target: { value: "800" },
+    });
+    fireEvent.change(screen.getByLabelText(/Charges/i), {
+      target: { value: "80" },
+    });
+    fireEvent.change(screen.getByLabelText(/Date de paiement/i), {
+      target: { value: "2024-01-15" },
+    });
+    fireEvent.change(screen.getByLabelText(/ID Utilisateur/i), {
+      target: { value: "1" },
+    });
+    fireEvent.change(screen.getByLabelText(/ID Logement/i), {
+      target: { value: "2" },
+    });
 
     const form = screen.getByRole("dialog").querySelector("form")!;
     fireEvent.submit(form);

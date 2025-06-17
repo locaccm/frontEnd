@@ -1,16 +1,21 @@
-import React from 'react';
-import '../../../styles/landingPage/StatsSection.css';
-import exampleImage from '../../../assets/images/landingPage/family.png'; 
+import React from "react";
+import "../../../styles/landingPage/StatsSection.css";
+import exampleImage from "../../../assets/images/landingPage/family.png";
 
 const StatsSection: React.FC = () => (
-    <section className="management-section">
+  <section className="management-section">
     <div className="management-container">
       <div className="image-container">
-        <img src={exampleImage} alt="Gestion immobilière" className="management-image" />
+        <img
+          src={exampleImage}
+          alt="Gestion immobilière"
+          className="management-image"
+        />
       </div>
       <div className="text-container">
         <h3>
-          Une gestion intelligente et transparente pour maximiser la valeur de vos biens.
+          Une gestion intelligente et transparente pour maximiser la valeur de
+          vos biens.
         </h3>
         <div className="stats-container">
           <div className="stat-item">

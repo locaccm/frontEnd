@@ -51,8 +51,7 @@
   padding: 15px;
 }
 @media (max-width: 768px) {
-
   .input {
     width: auto;
-
-  }}
+  }
+}

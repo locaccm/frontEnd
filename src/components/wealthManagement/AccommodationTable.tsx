@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Accommodation } from "../../types/wealthManagement/wealthManagement.js";
 import { useAccommodationActions } from "../../hooks/wealthManagement/useAccommodationActions.js";
-import '../../assets/styles/styles.css';
+import "../../assets/styles/styles.css";
 
 interface AccommodationTableProps {
   onCreate: () => void;
@@ -59,9 +59,21 @@ const AccommodationTable: React.FC<AccommodationTableProps> = ({
                 <td>{acc.ACCB_AVAILABLE ? "Oui" : "Non"}</td>
                 <td>{acc.ACCC_DESC}</td>
                 <td>
-                  <button className="button" onClick={() => onEdit(acc)}>Modifier</button>
-                  <button className="button button-secondary" onClick={() => onDelete(acc.ACCN_ID)}>Supprimer</button>
-                  <button className="button button-accent" onClick={() => onGenerate(acc.ACCN_ID)}>Générer quittance</button>
+                  <button className="button" onClick={() => onEdit(acc)}>
+                    Modifier
+                  </button>
+                  <button
+                    className="button button-secondary"
+                    onClick={() => onDelete(acc.ACCN_ID)}
+                  >
+                    Supprimer
+                  </button>
+                  <button
+                    className="button button-accent"
+                    onClick={() => onGenerate(acc.ACCN_ID)}
+                  >
+                    Générer quittance
+                  </button>
                 </td>
               </tr>
             ))}

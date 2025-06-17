@@ -8,7 +8,7 @@ describe("Sidebar", () => {
     render(
       <MemoryRouter>
         <Sidebar />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     const profileImg = screen.getByAltText("Profile");

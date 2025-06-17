@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styles from "./styles.module.css";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 import { initUserProfileSession } from "../../../core/session/SessionsManager.js";
 
 type SigninResponse = {

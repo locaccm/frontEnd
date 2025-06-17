@@ -23,7 +23,7 @@ const InviteTenantForm = () => {
       window.location.href = "/signin";
       return;
     }
-    
+
     if (!checkAllFieldsIsCompleted()) {
       alert("Il faut remplir tous les champs");
       return;

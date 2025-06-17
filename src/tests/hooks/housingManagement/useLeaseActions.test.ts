@@ -34,7 +34,10 @@ describe("useLeaseActions", () => {
     });
 
     expect(data).toEqual(mockLeases);
-    expect(mockFetch).toHaveBeenCalledWith(expect.stringContaining("?userId=123"), expect.anything());
+    expect(mockFetch).toHaveBeenCalledWith(
+      expect.stringContaining("?userId=123"),
+      expect.anything(),
+    );
   });
 
   it("createLease - should post lease and return true on success", async () => {
@@ -61,9 +64,12 @@ describe("useLeaseActions", () => {
     });
 
     expect(success).toBe(true);
-    expect(mockFetch).toHaveBeenCalledWith(expect.stringContaining("/lease"), expect.objectContaining({
-      method: "POST",
-    }));
+    expect(mockFetch).toHaveBeenCalledWith(
+      expect.stringContaining("/lease"),
+      expect.objectContaining({
+        method: "POST",
+      }),
+    );
   });
 
   it("updateLease - should send PUT request and return true on success", async () => {
@@ -77,9 +83,12 @@ describe("useLeaseActions", () => {
     });
 
     expect(success).toBe(true);
-    expect(mockFetch).toHaveBeenCalledWith(expect.stringContaining("/lease/42"), expect.objectContaining({
-      method: "PUT",
-    }));
+    expect(mockFetch).toHaveBeenCalledWith(
+      expect.stringContaining("/lease/42"),
+      expect.objectContaining({
+        method: "PUT",
+      }),
+    );
   });
 
   it("deleteLease - should send DELETE request and return true on success", async () => {
@@ -93,9 +102,12 @@ describe("useLeaseActions", () => {
     });
 
     expect(success).toBe(true);
-    expect(mockFetch).toHaveBeenCalledWith(expect.stringContaining("/lease/42"), expect.objectContaining({
-      method: "DELETE",
-    }));
+    expect(mockFetch).toHaveBeenCalledWith(
+      expect.stringContaining("/lease/42"),
+      expect.objectContaining({
+        method: "DELETE",
+      }),
+    );
   });
 
   it("should handle missing userId in sessionStorage", async () => {

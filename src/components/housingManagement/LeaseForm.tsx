@@ -8,7 +8,7 @@ interface LeaseFormProps {
 
 const LeaseForm = ({ lease, onClose }: LeaseFormProps) => {
   const [formData, setFormData] = useState<Lease>({
-    LEAN_ID: 0,             
+    LEAN_ID: 0,
     LEAD_START: "",
     LEAD_END: "",
     LEAN_RENT: "0",
@@ -33,15 +33,15 @@ const LeaseForm = ({ lease, onClose }: LeaseFormProps) => {
   }, [lease]);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value, type } = e.target;
     const newValue =
       type === "checkbox"
         ? (e.target as HTMLInputElement).checked
         : ["LEAN_RENT", "LEAN_CHARGES", "USEN_ID", "ACCN_ID"].includes(name)
-        ? Number(value)
-        : value;
+          ? Number(value)
+          : value;
 
     setFormData((prev) => ({
       ...prev,
@@ -79,7 +79,7 @@ const LeaseForm = ({ lease, onClose }: LeaseFormProps) => {
         method,
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(cleanData),
       });
@@ -87,7 +87,7 @@ const LeaseForm = ({ lease, onClose }: LeaseFormProps) => {
       if (!res.ok) {
         const errorText = await res.text();
         throw new Error(
-          `Erreur ${res.status} : ${errorText || "serveur inaccessible"}`
+          `Erreur ${res.status} : ${errorText || "serveur inaccessible"}`,
         );
       }
 
@@ -203,11 +203,7 @@ const LeaseForm = ({ lease, onClose }: LeaseFormProps) => {
             <button type="submit" className="submit-button">
               {lease ? "Enregistrer" : "Créer"}
             </button>
-            <button
-              type="button"
-              className="cancel-button"
-              onClick={onClose}
-            >
+            <button type="button" className="cancel-button" onClick={onClose}>
               Annuler
             </button>
           </div>

@@ -61,7 +61,7 @@ h1 {
   left: 0;
   height: 100vh;
   width: 20vw;
-  background-color: #D8B9A0;
+  background-color: #d8b9a0;
   color: black;
   padding: 16px;
   display: flex;
@@ -273,7 +273,6 @@ h1 {
   }
 }
 
-
 /* === BUTTONS === */
 .button,
 button {
@@ -312,7 +311,7 @@ button {
   transform: translateY(-3px);
 }
 .button.destructive {
-  background-color: #F44336;
+  background-color: #f44336;
   color: white;
   border: none;
 }
@@ -339,7 +338,9 @@ button {
   border-radius: 8px;
   box-sizing: border-box;
   font-size: 15px;
-  transition: border-color 0.2s, box-shadow 0.3s ease;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.3s ease;
 }
 .input-field:focus {
   outline: none;
@@ -446,11 +447,13 @@ button {
 
 /* Tablet */
 @media (max-width: 1024px) {
-  .container, .form-container {
+  .container,
+  .form-container {
     padding: 1.5em;
     font-size: 1em;
   }
-  .table th, .table td {
+  .table th,
+  .table td {
     padding: 0.75rem;
   }
 }
@@ -602,7 +605,9 @@ button {
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 1em;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  transition:
+    border-color 0.3s,
+    box-shadow 0.3s;
 }
 
 .input:focus {
@@ -634,7 +639,9 @@ button {
   border-radius: 8px;
   font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
+  transition:
+    background-color 0.3s,
+    transform 0.2s;
 }
 
 .green_btn:hover {
@@ -709,5 +716,3 @@ button {
 .button.danger:hover {
   background-color: #c0392b;
 }
-
-

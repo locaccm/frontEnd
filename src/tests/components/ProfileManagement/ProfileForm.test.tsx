@@ -53,7 +53,9 @@ describe("ProfileForm", () => {
     expect(screen.getByDisplayValue("123 rue de Paris")).toBeInTheDocument();
     expect(screen.getByDisplayValue("1990-05-15")).toBeInTheDocument();
     expect(screen.getByDisplayValue("0601020304")).toBeInTheDocument();
-    expect(screen.getByDisplayValue("Développeur passionné")).toBeInTheDocument();
+    expect(
+      screen.getByDisplayValue("Développeur passionné"),
+    ).toBeInTheDocument();
   });
 
   test("modifie un champ et affiche la nouvelle valeur", async () => {
@@ -71,13 +73,13 @@ describe("ProfileForm", () => {
 
   test("envoie les données mises à jour", async () => {
     mockFetch
-        .mockResolvedValueOnce({
-          ok: true,
-          json: async () => mockProfile,
-        } as Response)
-        .mockResolvedValueOnce({
-          ok: true,
-        } as Response);
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => mockProfile,
+      } as Response)
+      .mockResolvedValueOnce({
+        ok: true,
+      } as Response);
 
     render(<ProfileForm />);
     const saveButton = await screen.findByText("Enregistrer");
@@ -86,14 +88,14 @@ describe("ProfileForm", () => {
 
     await waitFor(() => {
       expect(mockFetch).toHaveBeenLastCalledWith(
-          expect.stringContaining("profiles/1"),
-          expect.objectContaining({
-            method: "PUT",
-            headers: expect.objectContaining({
-              "Content-Type": "application/json",
-              Authorization: "Bearer mock-token",
-            }),
+        expect.stringContaining("profiles/1"),
+        expect.objectContaining({
+          method: "PUT",
+          headers: expect.objectContaining({
+            "Content-Type": "application/json",
+            Authorization: "Bearer mock-token",
           }),
+        }),
       );
     });
   });
@@ -150,11 +152,11 @@ describe("ProfileForm", () => {
 
   test("gère une erreur lors de la mise à jour du profil", async () => {
     mockFetch
-        .mockResolvedValueOnce({
-          ok: true,
-          json: async () => mockProfile,
-        } as Response)
-        .mockRejectedValueOnce(new Error("Update échoué"));
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => mockProfile,
+      } as Response)
+      .mockRejectedValueOnce(new Error("Update échoué"));
 
     render(<ProfileForm />);
     const button = await screen.findByText("Enregistrer");
@@ -178,9 +180,7 @@ describe("ProfileForm", () => {
     expect(mockFetch).toHaveBeenCalledTimes(1);
   });
 
-
   test("supprime le compte après confirmation", async () => {
-
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: async () => mockProfile,
@@ -201,17 +201,16 @@ describe("ProfileForm", () => {
 
     await waitFor(() => {
       expect(mockFetch).toHaveBeenCalledWith(
-          expect.stringContaining("profiles/1"),
-          expect.objectContaining({
-            method: "DELETE",
-            headers: {
-              Authorization: "Bearer mock-token",
-            },
-          })
+        expect.stringContaining("profiles/1"),
+        expect.objectContaining({
+          method: "DELETE",
+          headers: {
+            Authorization: "Bearer mock-token",
+          },
+        }),
       );
     });
   });
-
 
   test("ne supprime pas le compte si l'utilisateur annule", async () => {
     mockFetch.mockResolvedValueOnce({
@@ -230,6 +229,4 @@ describe("ProfileForm", () => {
       expect(mockFetch).toHaveBeenCalledTimes(1);
     });
   });
-
-
 });

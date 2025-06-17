@@ -15,7 +15,7 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
   onSuccess,
 }) => {
   const { deleteAccommodation } = useAccommodationActions();
-  
+
   const handleDelete = async () => {
     const success = await deleteAccommodation(accommodationId);
     if (success) {
@@ -43,8 +43,10 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
 const styles: Record<string, React.CSSProperties> = {
   overlay: {
     position: "fixed",
-    top: 0, left: 0,
-    width: "100vw", height: "100vh",
+    top: 0,
+    left: 0,
+    width: "100vw",
+    height: "100vh",
     backgroundColor: "rgba(0, 0, 0, 0.3)",
     display: "flex",
     justifyContent: "center",
@@ -55,13 +57,13 @@ const styles: Record<string, React.CSSProperties> = {
     padding: "20px",
     borderRadius: "8px",
     width: "300px",
-    boxShadow: "0 2px 10px rgba(0, 0, 0, 0.2)"
+    boxShadow: "0 2px 10px rgba(0, 0, 0, 0.2)",
   },
   buttons: {
     display: "flex",
     justifyContent: "space-between",
-    marginTop: "20px"
-  }
+    marginTop: "20px",
+  },
 };
 
 export default DeleteConfirmationModal;

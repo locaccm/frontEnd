@@ -1,8 +1,8 @@
 import React from "react";
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
-import HousingManagement from "../../../pages/housingManagement/housingManagement.js"; 
+import HousingManagement from "../../../pages/housingManagement/housingManagement.js";
 import { vi, beforeEach, describe, expect, Mock } from "vitest";
-import '@testing-library/jest-dom';
+import "@testing-library/jest-dom";
 
 global.fetch = vi.fn();
 
@@ -22,7 +22,7 @@ const mockLeases = [
 
 describe("HousingManagement", () => {
   beforeEach(() => {
-    (fetch as ReturnType<typeof vi.fn>).mockClear(); 
+    (fetch as ReturnType<typeof vi.fn>).mockClear();
   });
 
   test("displays leases after successful fetch", async () => {
@@ -33,7 +33,7 @@ describe("HousingManagement", () => {
 
     render(<HousingManagement />);
 
-    expect(await screen.findByText("1000")).toBeInTheDocument(); 
+    expect(await screen.findByText("1000")).toBeInTheDocument();
     expect(screen.getByText("2024-01-01")).toBeInTheDocument();
     expect(screen.getByText("Oui")).toBeInTheDocument();
   });
@@ -58,7 +58,6 @@ describe("HousingManagement", () => {
     fireEvent.click(addButton);
 
     expect(screen.getByText("Ajouter un bail")).toBeInTheDocument();
-
   });
 
   test("deletes a lease when 'Delete' is clicked", async () => {
@@ -67,10 +66,10 @@ describe("HousingManagement", () => {
         ok: true,
         json: async () => mockLeases,
       })
-      .mockResolvedValueOnce({ ok: true }) 
+      .mockResolvedValueOnce({ ok: true })
       .mockResolvedValueOnce({
         ok: true,
-        json: async () => [], 
+        json: async () => [],
       });
 
     render(<HousingManagement />);
@@ -81,7 +80,7 @@ describe("HousingManagement", () => {
     await waitFor(() => {
       expect(fetch).toHaveBeenCalledWith(
         expect.stringContaining("/lease/1"),
-        expect.objectContaining({ method: "DELETE" })
+        expect.objectContaining({ method: "DELETE" }),
       );
     });
   });

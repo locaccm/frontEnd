@@ -19,9 +19,12 @@ describe("DocumentWrapper", () => {
       <MemoryRouter initialEntries={["/document-management/123"]}>
         <Routes>
           <Route path="/signin" element={<div>Sign In Page</div>} />
-          <Route path="/document-management/:leaseId" element={<DocumentWrapper />} />
+          <Route
+            path="/document-management/:leaseId"
+            element={<DocumentWrapper />}
+          />
         </Routes>
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     expect(screen.getByText("Sign In Page")).toBeInTheDocument();
@@ -34,12 +37,17 @@ describe("DocumentWrapper", () => {
     render(
       <MemoryRouter initialEntries={["/document-management/not-a-number"]}>
         <Routes>
-          <Route path="/document-management/:leaseId" element={<DocumentWrapper />} />
+          <Route
+            path="/document-management/:leaseId"
+            element={<DocumentWrapper />}
+          />
         </Routes>
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
-    expect(screen.getByText(/Unauthorized access or missing information/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/Unauthorized access or missing information/i),
+    ).toBeInTheDocument();
   });
 
   it("renders DocumentManagement with valid leaseId and token", () => {
@@ -49,11 +57,16 @@ describe("DocumentWrapper", () => {
     render(
       <MemoryRouter initialEntries={["/document-management/42"]}>
         <Routes>
-          <Route path="/document-management/:leaseId" element={<DocumentWrapper />} />
+          <Route
+            path="/document-management/:leaseId"
+            element={<DocumentWrapper />}
+          />
         </Routes>
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
-    expect(screen.getByText("DocumentManagement for lease 42")).toBeInTheDocument();
+    expect(
+      screen.getByText("DocumentManagement for lease 42"),
+    ).toBeInTheDocument();
   });
 });

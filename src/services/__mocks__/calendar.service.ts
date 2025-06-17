@@ -1,7 +1,9 @@
 // /home/eno/frontEnd/src/services/__mocks__/calendar.service.ts
 
 export const CalendarService = {
-  getActiveSelectionData: vi.fn(() => Promise.resolve({ data: { users: [], accommodations: [] } })),
+  getActiveSelectionData: vi.fn(() =>
+    Promise.resolve({ data: { users: [], accommodations: [] } }),
+  ),
   fetchDayEvents: vi.fn(() => Promise.resolve({ data: { events: [] } })),
   fetchWeekEvents: vi.fn(() => Promise.resolve({ data: { events: [] } })),
   fetchMonthEvents: vi.fn(() => Promise.resolve({ data: { events: [] } })),

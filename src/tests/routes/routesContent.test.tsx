@@ -5,10 +5,9 @@ import { MemoryRouter } from "react-router-dom";
 import AppRoutesContent from "../../components/routes/appRoutesContent.js";
 
 // Mock the landing page component
- vi.mock("../../pages/landingPage/LandingPage.js", () => ({
- default: () => <div>Landing Page</div>,
-   }));
-  
+vi.mock("../../pages/landingPage/LandingPage.js", () => ({
+  default: () => <div>Landing Page</div>,
+}));
 
 // Mock Signin page
 vi.mock("../../pages/authentication/Signin/Signin.js", () => ({
@@ -27,7 +26,7 @@ describe("AppRoutesContent", () => {
     render(
       <MemoryRouter initialEntries={["/"]}>
         <AppRoutesContent />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     expect(screen.getByText("Landing Page")).toBeInTheDocument();
@@ -37,7 +36,7 @@ describe("AppRoutesContent", () => {
     render(
       <MemoryRouter initialEntries={["/signin"]}>
         <AppRoutesContent />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     expect(screen.getByText("Signin Page")).toBeInTheDocument();
@@ -47,7 +46,7 @@ describe("AppRoutesContent", () => {
     render(
       <MemoryRouter initialEntries={["/signup"]}>
         <AppRoutesContent />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     expect(screen.getByText("Signup Page")).toBeInTheDocument();

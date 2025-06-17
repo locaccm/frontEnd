@@ -1,13 +1,16 @@
-import React from 'react';
-import '../../../styles/landingPage/CallToAction.css';
+import React from "react";
+import "../../../styles/landingPage/CallToAction.css";
 
 const CallToAction: React.FC = () => (
-<section className="optimisation-section">
+  <section className="optimisation-section">
     <div className="optimisation-content">
       <div className="text-content">
         <h2>Optimisez la gestion de vos biens immobiliers</h2>
         <p>
-          Nos solutions innovantes et simples à utiliser sont conçues pour vous aider à maximiser la rentabilité et la gestion de vos biens immobiliers. Rejoignez notre plateforme et gérez vos propriétés en toute tranquillité.
+          Nos solutions innovantes et simples à utiliser sont conçues pour vous
+          aider à maximiser la rentabilité et la gestion de vos biens
+          immobiliers. Rejoignez notre plateforme et gérez vos propriétés en
+          toute tranquillité.
         </p>
       </div>
       <div className="action-box">

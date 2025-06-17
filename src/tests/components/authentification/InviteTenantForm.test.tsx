@@ -18,16 +18,20 @@ describe("InviteTenantForm", () => {
 
   it("renders form inputs and button", () => {
     render(<InviteTenantForm />);
-    expect(screen.getByPlaceholderText(/email du futur locataire/i)).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText(/email du futur locataire/i),
+    ).toBeInTheDocument();
     expect(screen.getByPlaceholderText(/adresse/i)).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /inviter/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /inviter/i }),
+    ).toBeInTheDocument();
   });
 
   it("submits data correctly when all fields are filled", async () => {
     fetchMock.mockResolvedValueOnce({
       ok: true,
       json: async () => ({}),
-      body: {}, 
+      body: {},
     });
 
     render(<InviteTenantForm />);
@@ -87,9 +91,9 @@ describe("InviteTenantForm", () => {
     fireEvent.change(screen.getByPlaceholderText(/adresse/i), {
       target: { value: "123 rue de Paris" },
     });
-  
+
     const originalLocation = window.location;
-  
+
     let hrefValue = "";
     Object.defineProperty(window, "location", {
       configurable: true,
@@ -104,14 +108,16 @@ describe("InviteTenantForm", () => {
         },
       },
     });
-  
+
     fireEvent.click(screen.getByRole("button", { name: /inviter/i }));
-  
-    expect(alertMock).toHaveBeenCalledWith("Session expirée, veuillez vous reconnecter");
+
+    expect(alertMock).toHaveBeenCalledWith(
+      "Session expirée, veuillez vous reconnecter",
+    );
     expect(hrefValue).toBe("/signin");
     Object.defineProperty(window, "location", {
       configurable: true,
       value: originalLocation,
     });
   });
-})
+});

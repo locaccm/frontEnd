@@ -28,7 +28,9 @@ Object.defineProperty(window, "sessionStorage", {
 });
 
 import * as SessionManager from "../../../core/session/SessionsManager.js";
-const initUserProfileMock = vi.spyOn(SessionManager, "initUserProfileSession").mockResolvedValue();
+const initUserProfileMock = vi
+  .spyOn(SessionManager, "initUserProfileSession")
+  .mockResolvedValue();
 
 beforeEach(() => {
   mockFetch.mockReset();
@@ -42,7 +44,7 @@ describe("SigninForm", () => {
     render(
       <MemoryRouter>
         <SigninForm />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
     expect(screen.getByPlaceholderText(/email/i)).toBeInTheDocument();
     expect(screen.getByPlaceholderText(/mot de passe/i)).toBeInTheDocument();
@@ -72,7 +74,7 @@ describe("SigninForm", () => {
     render(
       <MemoryRouter>
         <SigninForm />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
     fireEvent.change(screen.getByPlaceholderText(/email/i), {
       target: { value: "john@example.com", name: "USEC_MAIL" },
@@ -98,7 +100,7 @@ describe("SigninForm", () => {
     render(
       <MemoryRouter>
         <SigninForm />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
     fireEvent.change(screen.getByPlaceholderText(/email/i), {
       target: { value: "john@example.com", name: "USEC_MAIL" },

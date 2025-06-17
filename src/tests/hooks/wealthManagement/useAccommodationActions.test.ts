@@ -38,8 +38,10 @@ describe("useAccommodationActions", () => {
     expect(fetch).toHaveBeenCalledWith(
       expect.stringContaining("/read?userId=1"),
       expect.objectContaining({
-        headers: expect.objectContaining({ Authorization: "Bearer fake-token" }),
-      })
+        headers: expect.objectContaining({
+          Authorization: "Bearer fake-token",
+        }),
+      }),
     );
     expect(res).toEqual(mockData);
     expect(result.current.error).toBeNull();

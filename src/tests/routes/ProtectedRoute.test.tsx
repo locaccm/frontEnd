@@ -22,7 +22,7 @@ describe("ProtectedRoute", () => {
           />
           <Route path="/signin" element={<div>Signin Page</div>} />
         </Routes>
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     expect(screen.getByText("Signin Page")).toBeInTheDocument();
@@ -44,7 +44,7 @@ describe("ProtectedRoute", () => {
           />
           <Route path="/signin" element={<div>Signin Page</div>} />
         </Routes>
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     expect(screen.getByText("Protected Page")).toBeInTheDocument();

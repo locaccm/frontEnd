@@ -1,5 +1,11 @@
-import apiClient from './api.service.js';
-import { Event, CalendarMonthResponse, CalendarDayResponse, CalendarWeekResponse, ActiveSelectionData } from '../interfaces/Calendar.interface.js';
+import apiClient from "./api.service.js";
+import {
+  Event,
+  CalendarMonthResponse,
+  CalendarDayResponse,
+  CalendarWeekResponse,
+  ActiveSelectionData,
+} from "../interfaces/Calendar.interface.js";
 
 /**
  * Service for managing interactions with the calendar API
@@ -9,7 +15,7 @@ export const CalendarService = {
    * Fetch all events
    */
   getAllEvents: async (): Promise<Event[]> => {
-    const response = await apiClient.get('/events');
+    const response = await apiClient.get("/events");
     return response.data;
   },
 
@@ -25,7 +31,7 @@ export const CalendarService = {
    * Create a new event
    */
   createEvent: async (event: Partial<Event>): Promise<Event> => {
-    const response = await apiClient.post('/events', event);
+    const response = await apiClient.post("/events", event);
     return response.data;
   },
 
@@ -53,7 +59,7 @@ export const CalendarService = {
     dateStart?: string;
     dateEnd?: string;
   }): Promise<Event[]> => {
-    const response = await apiClient.get('/events/filter', { params: filters });
+    const response = await apiClient.get("/events/filter", { params: filters });
     return response.data;
   },
 
@@ -68,7 +74,7 @@ export const CalendarService = {
     usager?: number;
     logement?: number;
   }): Promise<CalendarDayResponse> => {
-    const response = await apiClient.get('/calendar/day', { params });
+    const response = await apiClient.get("/calendar/day", { params });
     return response.data;
   },
 
@@ -82,7 +88,7 @@ export const CalendarService = {
     usager?: number;
     logement?: number;
   }): Promise<CalendarWeekResponse> => {
-    const response = await apiClient.get('/calendar/week', { params });
+    const response = await apiClient.get("/calendar/week", { params });
     return response.data;
   },
 
@@ -96,7 +102,7 @@ export const CalendarService = {
     usager?: number;
     logement?: number;
   }): Promise<CalendarMonthResponse> => {
-    const response = await apiClient.get('/calendar/month', { params });
+    const response = await apiClient.get("/calendar/month", { params });
     return response.data;
   },
 
@@ -104,7 +110,7 @@ export const CalendarService = {
    * Fetch users and accommodations with active leases for selection lists
    */
   getActiveSelectionData: async (): Promise<ActiveSelectionData> => {
-    const response = await apiClient.get('/active-selection-data');
+    const response = await apiClient.get("/active-selection-data");
     return response.data;
   },
 };

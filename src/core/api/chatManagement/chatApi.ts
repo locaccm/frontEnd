@@ -48,7 +48,10 @@ export async function getOwnerByTenant(tenantId: number): Promise<User> {
   return res.json();
 }
 
-export async function getMessages(from: number, to: number): Promise<Message[]> {
+export async function getMessages(
+  from: number,
+  to: number,
+): Promise<Message[]> {
   const res = await fetch(`${API_BASE}/messages?from=${from}&to=${to}`, {
     headers: { Authorization: `Bearer ${getToken()}` },
   });
@@ -59,7 +62,7 @@ export async function getMessages(from: number, to: number): Promise<Message[]> 
 export async function sendMessage(
   sender: number,
   receiver: number,
-  content: string
+  content: string,
 ): Promise<{ success: boolean }> {
   const res = await fetch(`${API_BASE}/messages`, {
     method: "POST",

@@ -1,11 +1,11 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect } from "react";
 import AccommodationTable from "../../components/wealthManagement/AccommodationTable.js";
 import CreateAccommodationModal from "../../components/wealthManagement/CreateAccommodationModal.js";
 import DeleteConfirmationModal from "../../components/wealthManagement/DeleteConfirmationModal.js";
 import UpdateAccommodationModal from "../../components/wealthManagement/UpdateAccommodationModal.js";
 import DocumentManagement from "../documentManagement/documentManagement.js";
 import MyDocuments from "../documentManagement/MyDocuments.js";
-import '../../assets/styles/styles.css';
+import "../../assets/styles/styles.css";
 
 const WealthManagementPage: React.FC = () => {
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -14,12 +14,23 @@ const WealthManagementPage: React.FC = () => {
     id: number;
     data: any;
   } | null>(null);
-  const [accommodationToDelete, setAccommodationToDelete] = useState<number | null>(null);
+  const [accommodationToDelete, setAccommodationToDelete] = useState<
+    number | null
+  >(null);
 
   const [refreshKey, setRefreshKey] = useState(0);
-  const handleCreateSuccess = useCallback(() => setRefreshKey(k => k + 1), []);
-  const handleUpdateSuccess = useCallback(() => setRefreshKey(k => k + 1), []);
-  const handleDeleteSuccess = useCallback(() => setRefreshKey(k => k + 1), []);
+  const handleCreateSuccess = useCallback(
+    () => setRefreshKey((k) => k + 1),
+    [],
+  );
+  const handleUpdateSuccess = useCallback(
+    () => setRefreshKey((k) => k + 1),
+    [],
+  );
+  const handleDeleteSuccess = useCallback(
+    () => setRefreshKey((k) => k + 1),
+    [],
+  );
 
   const [showDocManager, setShowDocManager] = useState(false);
   const [leaseIdForDoc, setLeaseIdForDoc] = useState<number | null>(null);
@@ -27,7 +38,7 @@ const WealthManagementPage: React.FC = () => {
   const [jwt, setJwt] = useState<string | null>(null);
 
   useEffect(() => {
-    const token = sessionStorage.getItem('token');
+    const token = sessionStorage.getItem("token");
     setJwt(token);
   }, []);
 
@@ -44,11 +55,11 @@ const WealthManagementPage: React.FC = () => {
         <AccommodationTable
           key={refreshKey}
           onCreate={() => setShowCreateModal(true)}
-          onEdit={acc => {
+          onEdit={(acc) => {
             setAccommodationToEdit({ id: acc.ACCN_ID, data: acc });
             setShowUpdateModal(true);
           }}
-          onDelete={id => setAccommodationToDelete(id)}
+          onDelete={(id) => setAccommodationToDelete(id)}
           onGenerate={handleGenerateClick}
         />
       </div>

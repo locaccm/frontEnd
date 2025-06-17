@@ -14,7 +14,7 @@ interface TimeGridProps {
   events: TimeGridEvent[];
   dayDates: string[]; // List of dates (YYYY-MM-DD) to display as columns (1 for day, 7 for week)
   startHour?: number; // Start hour for the grid (e.g., 8)
-  endHour?: number;   // End hour for the grid (e.g., 20)
+  endHour?: number; // End hour for the grid (e.g., 20)
   onEventClick?: (event: TimeGridEvent) => void;
   highlightDate?: string; // To highlight the current day
 }
@@ -25,7 +25,7 @@ const TimeGrid: React.FC<TimeGridProps> = ({
   startHour = 8,
   endHour = 20,
   onEventClick,
-  highlightDate
+  highlightDate,
 }) => {
   // Generate hours
   const hours = [];
@@ -35,20 +35,19 @@ const TimeGrid: React.FC<TimeGridProps> = ({
 
   // Group events by date
   const eventsByDate: { [date: string]: TimeGridEvent[] } = {};
-  dayDates.forEach(date => {
-    eventsByDate[date] = events.filter(ev => ev.date === date);
+  dayDates.forEach((date) => {
+    eventsByDate[date] = events.filter((ev) => ev.date === date);
   });
 
   return (
     <div className="time-grid">
       <div className="time-grid-header">
         <div className="time-grid-hour-col" />
-        {dayDates.map(date => (
+        {dayDates.map((date) => (
           <div
             key={date}
             className={
-              "time-grid-day-col" +
-              (highlightDate === date ? " highlight" : "")
+              "time-grid-day-col" + (highlightDate === date ? " highlight" : "")
             }
           >
             {date}
@@ -56,19 +55,18 @@ const TimeGrid: React.FC<TimeGridProps> = ({
         ))}
       </div>
       <div className="time-grid-body">
-        {hours.map(hour => (
+        {hours.map((hour) => (
           <div key={hour} className="time-grid-row">
-            <div className="time-grid-hour-col">
-              {hour}:00
-            </div>
-            {dayDates.map(date => (
+            <div className="time-grid-hour-col">{hour}:00</div>
+            {dayDates.map((date) => (
               <div key={date} className="time-grid-cell">
                 {eventsByDate[date]
-                  .filter(ev =>
-                    ev.startTime &&
-                    parseInt(ev.startTime.split(":")[0], 10) === hour
+                  .filter(
+                    (ev) =>
+                      ev.startTime &&
+                      parseInt(ev.startTime.split(":")[0], 10) === hour,
                   )
-                  .map(ev => (
+                  .map((ev) => (
                     <div
                       key={ev.id}
                       className="time-grid-event"

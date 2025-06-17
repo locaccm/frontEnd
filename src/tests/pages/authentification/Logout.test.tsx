@@ -26,7 +26,7 @@ describe("Logout", () => {
         <Routes>
           <Route path="/logout" element={<Logout />} />
         </Routes>
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     expect(sessionStorage.getItem("token")).toBe(null);

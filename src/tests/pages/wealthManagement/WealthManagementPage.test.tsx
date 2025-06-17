@@ -2,8 +2,7 @@ import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { vi } from "vitest";
 import WealthManagementPage from "../../../pages/wealthManagement/WealthManagementPage.js";
-import {Accommodation} from "../../../types/wealthManagement/wealthManagement.js";
-
+import { Accommodation } from "../../../types/wealthManagement/wealthManagement.js";
 
 const mockAccommodation: Accommodation = {
   ACCN_ID: 5,
@@ -17,78 +16,75 @@ const mockAccommodation: Accommodation = {
 
 vi.mock("../../../components/wealthManagement/AccommodationTable", () => ({
   default: ({
-              onCreate,
-              onEdit,
-              onDelete,
-            }: {
+    onCreate,
+    onEdit,
+    onDelete,
+  }: {
     onCreate: () => void;
     onEdit: (acc: Accommodation) => void;
     onDelete: (id: number) => void;
   }) => (
-      <div data-testid="mock-table">
-        <button onClick={onCreate}>Mock Créer</button>
-        <button onClick={() => onEdit(mockAccommodation)}>Mock Éditer</button>
-        <button onClick={() => onDelete(42)}>Mock Supprimer</button>
-      </div>
+    <div data-testid="mock-table">
+      <button onClick={onCreate}>Mock Créer</button>
+      <button onClick={() => onEdit(mockAccommodation)}>Mock Éditer</button>
+      <button onClick={() => onDelete(42)}>Mock Supprimer</button>
+    </div>
   ),
 }));
 
 vi.mock(
-    "../../../components/wealthManagement/CreateAccommodationModal",
-    () => ({
-      default: ({
-                  onClose,
-                  onSuccess,
-                }: {
-        onClose: () => void;
-        onSuccess: () => void;
-      }) => (
-          <div data-testid="mock-create-modal">
-            <span>Modal Création</span>
-            <button onClick={onSuccess}>Valider Création</button>
-            <button onClick={onClose}>Fermer Création</button>
-          </div>
-      ),
-    })
+  "../../../components/wealthManagement/CreateAccommodationModal",
+  () => ({
+    default: ({
+      onClose,
+      onSuccess,
+    }: {
+      onClose: () => void;
+      onSuccess: () => void;
+    }) => (
+      <div data-testid="mock-create-modal">
+        <span>Modal Création</span>
+        <button onClick={onSuccess}>Valider Création</button>
+        <button onClick={onClose}>Fermer Création</button>
+      </div>
+    ),
+  }),
 );
 
 vi.mock(
-    "../../../components/wealthManagement/UpdateAccommodationModal",
-    () => ({
-      default: ({
-                  onClose,
-                  onSuccess,
-                }: {
-        onClose: () => void;
-        onSuccess: () => void;
-      }) => (
-          <div data-testid="mock-update-modal">
-            <span>Modal Update</span>
-            <button onClick={onSuccess}>Valider Update</button>
-            <button onClick={onClose}>Fermer Update</button>
-          </div>
-      ),
-    })
+  "../../../components/wealthManagement/UpdateAccommodationModal",
+  () => ({
+    default: ({
+      onClose,
+      onSuccess,
+    }: {
+      onClose: () => void;
+      onSuccess: () => void;
+    }) => (
+      <div data-testid="mock-update-modal">
+        <span>Modal Update</span>
+        <button onClick={onSuccess}>Valider Update</button>
+        <button onClick={onClose}>Fermer Update</button>
+      </div>
+    ),
+  }),
 );
 
-vi.mock(
-    "../../../components/wealthManagement/DeleteConfirmationModal",
-    () => ({
-      default: ({
-                  onClose,
-                  onSuccess,
-                }: {
-        onClose: () => void;
-        onSuccess: () => void;
-      }) => (
-          <div data-testid="mock-delete-modal">
-            <span>Modal Delete</span>
-            <button onClick={onSuccess}>Valider Delete</button>
-            <button onClick={onClose}>Fermer Delete</button>
-          </div>
-      ),
-    })
-);
+vi.mock("../../../components/wealthManagement/DeleteConfirmationModal", () => ({
+  default: ({
+    onClose,
+    onSuccess,
+  }: {
+    onClose: () => void;
+    onSuccess: () => void;
+  }) => (
+    <div data-testid="mock-delete-modal">
+      <span>Modal Delete</span>
+      <button onClick={onSuccess}>Valider Delete</button>
+      <button onClick={onClose}>Fermer Delete</button>
+    </div>
+  ),
+}));
 
 describe("WealthManagementPage", () => {
   beforeEach(() => {
@@ -99,7 +95,7 @@ describe("WealthManagementPage", () => {
   it("affiche le titre et le tableau mocké", () => {
     render(<WealthManagementPage />);
     expect(
-        screen.getByRole("heading", { name: /Gestion des logements/i })
+      screen.getByRole("heading", { name: /Gestion des logements/i }),
     ).toBeInTheDocument();
     expect(screen.getByText("Mock Créer")).toBeInTheDocument();
     expect(screen.getByText("Mock Éditer")).toBeInTheDocument();

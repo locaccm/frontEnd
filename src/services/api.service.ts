@@ -1,16 +1,16 @@
-import axios from 'axios';
+import axios from "axios";
 
 // Base configuration for axios
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-const API_KEY = import.meta.env.VITE_API_KEY || '';
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+const API_KEY = import.meta.env.VITE_API_KEY || "";
 
 // Create an axios instance with base configuration
 const apiClient = axios.create({
   baseURL: API_URL,
   headers: {
-    'Content-Type': 'application/json',
-    'x-api-key': API_KEY
-  }
+    "Content-Type": "application/json",
+    "x-api-key": API_KEY,
+  },
 });
 
 // Response interceptor for global error handling
@@ -18,9 +18,9 @@ apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
     // Log the error and return it for component-level handling
-    console.error('API Error:', error.response?.data || error.message);
+    console.error("API Error:", error.response?.data || error.message);
     return Promise.reject(error);
-  }
+  },
 );
 
 // Function to fetch events for a specific day
@@ -46,11 +46,12 @@ export const fetchFilteredEvents = (filters: {
   dateEnd?: string;
 }) => {
   const queryParams = new URLSearchParams();
-  if (filters.usager) queryParams.append('usager', filters.usager.toString());
-  if (filters.logement) queryParams.append('logement', filters.logement.toString());
-  if (filters.dateStart) queryParams.append('dateStart', filters.dateStart);
-  if (filters.dateEnd) queryParams.append('dateEnd', filters.dateEnd);
-  
+  if (filters.usager) queryParams.append("usager", filters.usager.toString());
+  if (filters.logement)
+    queryParams.append("logement", filters.logement.toString());
+  if (filters.dateStart) queryParams.append("dateStart", filters.dateStart);
+  if (filters.dateEnd) queryParams.append("dateEnd", filters.dateEnd);
+
   return apiClient.get(`/events/filter?${queryParams.toString()}`);
 };
 
@@ -73,11 +74,11 @@ export interface EventData {
   createdAt?: string;
   updatedAt?: string;
   color?: string;
-  status?: 'active' | 'cancelled' | 'completed';
+  status?: "active" | "cancelled" | "completed";
 }
 
 // Payload sent to backend for creating/updating an event
-export type ApiEventData = Omit<EventData, 'usagerId' | 'logementId'> & {
+export type ApiEventData = Omit<EventData, "usagerId" | "logementId"> & {
   USEN_ID?: number;
   ACCN_ID?: number;
 };
@@ -90,7 +91,7 @@ export const createEvent = (eventData: EventData) => {
     USEN_ID: usagerId,
     ACCN_ID: logementId,
   };
-  return apiClient.post('/events', payload);
+  return apiClient.post("/events", payload);
 };
 
 // Function to update an event (maps usagerId/logementId accordingly)
@@ -108,7 +109,5 @@ export const updateEvent = (id: number, eventData: EventData) => {
 export const deleteEvent = (id: number) => {
   return apiClient.delete(`/events/${id}`);
 };
-
-
 
 export default apiClient;

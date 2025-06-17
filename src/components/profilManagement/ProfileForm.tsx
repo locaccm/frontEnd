@@ -24,128 +24,132 @@ const ProfileForm = () => {
   });
 
   //const userId = 1; In DEV MODE
-    const userId = sessionStorage.getItem("userId");
-    const token = sessionStorage.getItem("token");
+  const userId = sessionStorage.getItem("userId");
+  const token = sessionStorage.getItem("token");
 
-    useEffect(() => {
-        if (!userId || !token) return;
+  useEffect(() => {
+    if (!userId || !token) return;
 
-        fetch(`${import.meta.env.VITE_PROFILE_URL}profiles/${userId}`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        })
-            .then((res) => {
-                if (!res.ok) throw new Error("Erreur lors du chargement du profil");
-                return res.json();
-            })
-            .then((data) => {
-                const formattedBirthDate = data.birthDate
-                    ? new Date(data.birthDate).toISOString().split("T")[0]
-                    : "";
+    fetch(`${import.meta.env.VITE_PROFILE_URL}profiles/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Erreur lors du chargement du profil");
+        return res.json();
+      })
+      .then((data) => {
+        const formattedBirthDate = data.birthDate
+          ? new Date(data.birthDate).toISOString().split("T")[0]
+          : "";
 
-                setProfile({
-                    ...data,
-                    birthDate: formattedBirthDate,
-                });
-            })
-            .catch((err) => {
-                console.error("Erreur chargement profil :", err);
-            });
-    }, [userId, token]);
+        setProfile({
+          ...data,
+          birthDate: formattedBirthDate,
+        });
+      })
+      .catch((err) => {
+        console.error("Erreur chargement profil :", err);
+      });
+  }, [userId, token]);
 
-    if (!userId) {
-        return <div>Utilisateur non connecté</div>;
-    }
+  if (!userId) {
+    return <div>Utilisateur non connecté</div>;
+  }
 
-
-    const handleChange = (
+  const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     setProfile((prev) => ({ ...prev, [name]: value }));
   };
 
-    const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (!file) return;
+  const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
 
-        const formData = new FormData();
-        formData.append("file", file);
+    const formData = new FormData();
+    formData.append("file", file);
 
-        try {
-            const res = await fetch(`${import.meta.env.VITE_BUCKET_UPLOAD_URL}/upload/images`, {
-                method: "POST",
-                body: formData,
-            });
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_BUCKET_UPLOAD_URL}/upload/images`,
+        {
+          method: "POST",
+          body: formData,
+        },
+      );
 
-            if (!res.ok) throw new Error("Upload échoué");
+      if (!res.ok) throw new Error("Upload échoué");
 
-            const data = await res.json();
-            setProfile((prev) => ({ ...prev, photoUrl: data.path }));
-        } catch (err) {
-            console.error(err);
-            alert("Erreur lors de l'upload de l'image");
-        }
-    };
+      const data = await res.json();
+      setProfile((prev) => ({ ...prev, photoUrl: data.path }));
+    } catch (err) {
+      console.error(err);
+      alert("Erreur lors de l'upload de l'image");
+    }
+  };
 
-    const handleDeleteAccount = async () => {
-        if (!userId || !token) return;
+  const handleDeleteAccount = async () => {
+    if (!userId || !token) return;
 
-        const confirmed = window.confirm("Es-tu sûr de vouloir supprimer ton compte ? Cette action est irréversible.");
-        if (!confirmed) return;
+    const confirmed = window.confirm(
+      "Es-tu sûr de vouloir supprimer ton compte ? Cette action est irréversible.",
+    );
+    if (!confirmed) return;
 
-        try {
-            const res = await fetch(
-                `${import.meta.env.VITE_PROFILE_URL}profiles/${userId}`,
-                {
-                    method: "DELETE",
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                },
-            );
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_PROFILE_URL}profiles/${userId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
 
-            if (!res.ok) throw new Error("Échec de la suppression");
+      if (!res.ok) throw new Error("Échec de la suppression");
 
-            alert("Compte supprimé avec succès.");
-            sessionStorage.clear();
-            window.location.href = "/";
-        } catch (err) {
-            console.error("Erreur suppression compte :", err);
-            alert("Erreur lors de la suppression du compte.");
-        }
-    };
+      alert("Compte supprimé avec succès.");
+      sessionStorage.clear();
+      window.location.href = "/";
+    } catch (err) {
+      console.error("Erreur suppression compte :", err);
+      alert("Erreur lors de la suppression du compte.");
+    }
+  };
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        if (!token) {
-            alert("Vous devez être connecté pour mettre à jour votre profil.");
-            return;
-        }
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!token) {
+      alert("Vous devez être connecté pour mettre à jour votre profil.");
+      return;
+    }
 
-        try {
-            const res = await fetch(
-                `${import.meta.env.VITE_PROFILE_URL}profiles/${userId}`,
-                {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
-                    },
-                    body: JSON.stringify(profile),
-                },
-            );
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_PROFILE_URL}profiles/${userId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(profile),
+        },
+      );
 
-            if (!res.ok) throw new Error("Échec mise à jour");
+      if (!res.ok) throw new Error("Échec mise à jour");
 
-            alert("Profil mis à jour !");
-            setUserProfileData(profile);
-        } catch (err) {
-            console.error("Erreur update profil :", err);
-            alert("Erreur lors de la mise à jour");
-        }
-    };
+      alert("Profil mis à jour !");
+      setUserProfileData(profile);
+    } catch (err) {
+      console.error("Erreur update profil :", err);
+      alert("Erreur lors de la mise à jour");
+    }
+  };
 
   return (
     <form className="form-container" onSubmit={handleSubmit}>
@@ -216,15 +220,14 @@ const ProfileForm = () => {
         Enregistrer
       </button>
 
-        <button
-            type="button"
-            className="button danger"
-            onClick={handleDeleteAccount}
-            style={{ marginTop: "1rem" }}
-        >
-            Supprimer mon compte
-        </button>
-
+      <button
+        type="button"
+        className="button danger"
+        onClick={handleDeleteAccount}
+        style={{ marginTop: "1rem" }}
+      >
+        Supprimer mon compte
+      </button>
     </form>
   );
 };

@@ -16,7 +16,7 @@ describe("MainLayout", () => {
             <Route path="/profile" element={<div>Profile Page</div>} />
           </Route>
         </Routes>
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     expect(screen.getByText("Sidebar")).toBeInTheDocument();

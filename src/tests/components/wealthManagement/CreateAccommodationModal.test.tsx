@@ -20,14 +20,24 @@ describe("CreateAccommodationModal", () => {
     const onSuccess = vi.fn();
     mockCreateAccommodation.mockResolvedValue(true);
 
-    render(<CreateAccommodationModal onClose={onClose} onSuccess={onSuccess} />);
+    render(
+      <CreateAccommodationModal onClose={onClose} onSuccess={onSuccess} />,
+    );
 
     expect(screen.getByText("Créer un logement")).toBeInTheDocument();
 
-    fireEvent.change(screen.getByPlaceholderText("Nom"), { target: { value: "Test Logement" } });
-    fireEvent.change(screen.getByPlaceholderText("Type"), { target: { value: "Appartement" } });
-    fireEvent.change(screen.getByPlaceholderText("Adresse"), { target: { value: "42 rue du test" } });
-    fireEvent.change(screen.getByPlaceholderText("Description"), { target: { value: "Vue mer" } });
+    fireEvent.change(screen.getByPlaceholderText("Nom"), {
+      target: { value: "Test Logement" },
+    });
+    fireEvent.change(screen.getByPlaceholderText("Type"), {
+      target: { value: "Appartement" },
+    });
+    fireEvent.change(screen.getByPlaceholderText("Adresse"), {
+      target: { value: "42 rue du test" },
+    });
+    fireEvent.change(screen.getByPlaceholderText("Description"), {
+      target: { value: "Vue mer" },
+    });
 
     fireEvent.click(screen.getByText("Valider"));
 

@@ -1,9 +1,17 @@
 // /home/eno/frontEnd/src/services/__mocks__/api.service.ts
 
-export const fetchDayEvents = vi.fn(() => Promise.resolve({ data: { events: [] } }));
-export const fetchWeekEvents = vi.fn(() => Promise.resolve({ data: { events: [] } }));
-export const fetchMonthEvents = vi.fn(() => Promise.resolve({ data: { events: [] } }));
-export const fetchFilteredEvents = vi.fn(() => Promise.resolve({ data: { events: [] } }));
+export const fetchDayEvents = vi.fn(() =>
+  Promise.resolve({ data: { events: [] } }),
+);
+export const fetchWeekEvents = vi.fn(() =>
+  Promise.resolve({ data: { events: [] } }),
+);
+export const fetchMonthEvents = vi.fn(() =>
+  Promise.resolve({ data: { events: [] } }),
+);
+export const fetchFilteredEvents = vi.fn(() =>
+  Promise.resolve({ data: { events: [] } }),
+);
 export const createEvent = vi.fn(() => Promise.resolve({ data: {} })); // Assuming create returns a single object
 
 // French comments from user below - retained

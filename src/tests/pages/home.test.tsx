@@ -8,7 +8,7 @@ describe("Home", () => {
     render(
       <MemoryRouter>
         <Home />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
     expect(
       screen.getByRole("heading", { name: /Welcome to LocalCMM/i }),
@@ -19,7 +19,7 @@ describe("Home", () => {
     render(
       <MemoryRouter>
         <Home />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
     expect(
       screen.getByText(/Your fast and efficient rental solution/i),
@@ -30,7 +30,7 @@ describe("Home", () => {
     render(
       <MemoryRouter>
         <Home />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
     const link = screen.getByRole("link", { name: /Access the project/i });
     expect(link).toBeInTheDocument();

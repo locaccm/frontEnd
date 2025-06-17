@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import '../../../styles/landingPage/ContactSection.css';
-import Logo from '../../../assets/images/landingPage/ddloca.png';
+import React, { useState } from "react";
+import "../../../styles/landingPage/ContactSection.css";
+import Logo from "../../../assets/images/landingPage/ddloca.png";
 
 // Endpoint for Formspree (change if needed)
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/mrbkkeqz";
@@ -28,7 +28,7 @@ const ContactSection: React.FC = () => {
         method: "POST",
         headers: {
           Accept: "application/json",
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
       });
@@ -52,14 +52,22 @@ const ContactSection: React.FC = () => {
           <img src={Logo} className="contact-logo" alt="Logo" />
           <h3 id="padding_text">Contactez-nous</h3>
           <p>
-            Que vous ayez des questions sur notre service ou que vous souhaitiez plus d'informations, notre équipe est là pour vous aider. N'hésitez pas à nous contacter !
+            Que vous ayez des questions sur notre service ou que vous souhaitiez
+            plus d'informations, notre équipe est là pour vous aider. N'hésitez
+            pas à nous contacter !
           </p>
         </div>
         {sent ? (
           // Success message after form is sent
           <div
             className="form-success"
-            style={{ color: "green", marginTop: 32, fontWeight: 500, fontSize: 20, textAlign: "center" }}
+            style={{
+              color: "green",
+              marginTop: 32,
+              fontWeight: 500,
+              fontSize: 20,
+              textAlign: "center",
+            }}
           >
             Merci, votre message a bien été envoyé !
           </div>
