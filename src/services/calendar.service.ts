@@ -1,5 +1,5 @@
 import apiClient from './api.service';
-import { Event, CalendarMonthResponse, CalendarDayResponse, CalendarWeekResponse } from '../interfaces/Calendar.interface';
+import { Event, CalendarMonthResponse, CalendarDayResponse, CalendarWeekResponse, ActiveSelectionData } from '../interfaces/Calendar.interface';
 
 /**
  * Service for managing interactions with the calendar API
@@ -98,7 +98,15 @@ export const CalendarService = {
   }): Promise<CalendarMonthResponse> => {
     const response = await apiClient.get('/calendar/month', { params });
     return response.data;
-  }
+  },
+
+  /**
+   * Fetch users and accommodations with active leases for selection lists
+   */
+  getActiveSelectionData: async (): Promise<ActiveSelectionData> => {
+    const response = await apiClient.get('/active-selection-data');
+    return response.data;
+  },
 };
 
 export default CalendarService;

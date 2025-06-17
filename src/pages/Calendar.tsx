@@ -10,12 +10,10 @@ import {
   createEvent,
   updateEvent as updateEventApi,
   deleteEvent as deleteEventApi,
-  fetchUsers,
-  fetchAccommodations,
-  EventData,
-  User,
-  Accommodation
+  EventData
 } from "../services/api.service";
+import { CalendarService } from "../services/calendar.service";
+import { SelectionDataItem } from "../interfaces/Calendar.interface";
 
 // Simplified interface for events
 interface SimpleEvent {
@@ -69,8 +67,8 @@ const Calendar: React.FC = () => {
   const [usagerId, setUsagerId] = useState<number | null>(null);
   const [logementId, setLogementId] = useState<number | null>(null);
   // Lists of users and accommodations
-  const [users, setUsers] = useState<User[]>([]);
-  const [accommodations, setAccommodations] = useState<Accommodation[]>([]);
+  const [users, setUsers] = useState<SelectionDataItem[]>([]);
+  const [accommodations, setAccommodations] = useState<SelectionDataItem[]>([]);
 
   // NOTE: using native <input type="time"> for time selection; removed custom hour/minute selectors
 
@@ -347,18 +345,18 @@ const Calendar: React.FC = () => {
 
   // Load users and accommodations dynamically
   useEffect(() => {
-    const loadRefs = async () => {
+    const loadSelectionData = async () => {
       try {
-        const usersRes = await fetchUsers();
-        setUsers(usersRes.data);
-        const accRes = await fetchAccommodations();
-        setAccommodations(accRes.data);
+        const data = await CalendarService.getActiveSelectionData();
+        setUsers(data.users);
+        setAccommodations(data.accommodations);
       } catch (err) {
-        console.error("Error loading users/accommodations:", err);
-        setError("Failed to load users/accommodations.");
+        console.error("Failed to load selection data", err);
+        setError("Could not load users or accommodations.");
       }
     };
-    loadRefs();
+    
+    loadSelectionData();
   }, []);
 
 // Section 2 - Navigation and event functions
@@ -859,12 +857,13 @@ const Calendar: React.FC = () => {
                 >
                   <option value="">Select a user</option>
                   {users.map(user => (
-                    <option key={user.USEN_ID} value={user.USEN_ID}>
-                      {user.USEC_FNAME} {user.USEC_LNAME.toUpperCase()}
+                    <option key={user.id} value={user.id}>
+                      {user.name}
                     </option>
                   ))}
                 </select>
               </div>
+
               <div className="form-group">
                 <label htmlFor="logementId">Accommodations :</label>
                 <select
@@ -883,26 +882,27 @@ const Calendar: React.FC = () => {
                 >
                   <option value="">Select an accommodation</option>
                   {accommodations.map(acc => (
-                    <option key={acc.ACCN_ID} value={acc.ACCN_ID}>
-                      {acc.ACCC_NAME}
+                    <option key={acc.id} value={acc.id}>
+                      {acc.name}
                     </option>
                   ))}
                 </select>
               </div>
+
               <div className="form-group full-width">
-                 <label htmlFor="eventTitle">Title :</label>
-                 <input
-                   type="text"
-                   id="eventTitle"
-                   className="event-title-input"
-                   value={editingEvent ? editingEvent.title : newEvent}
-                   onChange={e => editingEvent
-                     ? setEditingEvent({ ...editingEvent, title: e.target.value })
-                     : setNewEvent(e.target.value)
-                   }
-                   placeholder="Event title"
-                 />
-               </div>
+                <label htmlFor="eventTitle">Title :</label>
+                <input
+                  type="text"
+                  id="eventTitle"
+                  className="event-title-input"
+                  value={editingEvent ? editingEvent.title : newEvent}
+                  onChange={e => editingEvent
+                    ? setEditingEvent({ ...editingEvent, title: e.target.value })
+                    : setNewEvent(e.target.value)
+                  }
+                  placeholder="Event title"
+                />
+              </div>
               {/* Date and Time */}
               <div className="datetime-grid">
                 <div>

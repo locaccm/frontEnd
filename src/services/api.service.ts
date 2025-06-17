@@ -109,27 +109,6 @@ export const deleteEvent = (id: number) => {
   return apiClient.delete(`/events/${id}`);
 };
 
-// Interface for a user (User)
-export interface User {
-  USEN_ID: number;
-  USEC_FNAME: string;
-  USEC_LNAME: string;
-}
 
-// Fetch the list of users
-export const fetchUsers = () => {
-  return apiClient.get<User[]>('/users');
-};
-
-// Interface for an accommodation (Accommodation)
-export interface Accommodation {
-  ACCN_ID: number;
-  ACCC_NAME: string;
-}
-
-// Fetch the list of accommodations
-export const fetchAccommodations = () => {
-  return apiClient.get<Accommodation[]>('/accommodations');
-};
 
 export default apiClient;

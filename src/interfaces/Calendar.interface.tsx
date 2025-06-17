@@ -49,3 +49,15 @@ export interface EventFilters {
     dateStart?: string;
     dateEnd?: string;
 }
+
+// Interface for a single item in a selection list (e.g., user or accommodation)
+export interface SelectionDataItem {
+    id: number;
+    name: string;
+}
+
+// Interface for the data returned by the active selection endpoint
+export interface ActiveSelectionData {
+    users: SelectionDataItem[];
+    accommodations: SelectionDataItem[];
+}
