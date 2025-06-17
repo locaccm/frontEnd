@@ -40,7 +40,13 @@ const SignupForm = () => {
           alert("Inscription réussie, veuillez vous connecter");
           window.location.href = "/signin";
         } else {
-          alert("Erreur lors de l'inscription");
+          alert("Erreur lors de l'inscription dans la base de données n'a pas été inscrit.\n\n" +
+          "Le mot de passe doit respecter les règles suivantes :\n" +
+          "- Au moins 8 caractères\n" +
+          "- Au moins une lettre majuscule\n" +
+          "- Au moins une lettre minuscule\n" +
+          "- Au moins un chiffre\n" +
+          "- Au moins un caractère spécial (@$!%*?&)")
         }
       })
       .catch((error) => {

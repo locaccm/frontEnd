@@ -57,7 +57,7 @@ const InviteTenantForm = () => {
         if (response.ok && response.body !== null) {
           alert("Invitation réussie");
         } else {
-          alert("Erreur lors de l'invitation");
+          alert("Erreur lors de l'invitation, l'email a bien été envoyé mais l'inscription dans la base de données n'a pas été inscrit");
         }
       })
       .catch((error) => {

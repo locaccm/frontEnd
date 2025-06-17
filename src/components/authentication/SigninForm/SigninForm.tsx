@@ -55,7 +55,7 @@ const SigninForm = () => {
           await initUserProfileSession();
           navigate("/profile");
         } else {
-          alert("Erreur lors de la connexion");
+          alert("Mots de passe ou adresse mail incorrect");
         }
       })
       .catch((error) => {

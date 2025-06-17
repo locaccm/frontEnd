@@ -15,11 +15,10 @@ describe("Sidebar", () => {
     expect(profileImg).toBeInTheDocument();
     expect(profileImg).toHaveClass("profile-pic");
 
-    expect(screen.getByText("Wealth-management")).toBeInTheDocument();
-    expect(screen.getByText("Leases")).toBeInTheDocument();
-    expect(screen.getByText("Calendar")).toBeInTheDocument();
-    expect(screen.getByText("Documents")).toBeInTheDocument();
-    expect(screen.getByText("Invitation")).toBeInTheDocument();
+    expect(screen.getByText("Logements")).toBeInTheDocument();
+    expect(screen.getByText("Baux")).toBeInTheDocument();
+    expect(screen.getByText("Calendrier")).toBeInTheDocument();
+    expect(screen.getByText("Inviter un locataire")).toBeInTheDocument();
     expect(screen.getByText("Chats")).toBeInTheDocument();
 
     const profileLink = profileImg.closest("a");
