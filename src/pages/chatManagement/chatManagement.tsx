@@ -90,33 +90,34 @@ const ChatManagement: React.FC = () => {
     };
   }, [userId]);
 
-  useEffect(() => {
+    useEffect(() => {
     const handleIncomingMessage = (data: {
-      from: number;
-      to: number;
-      message: string;
+        from: number;
+        to: number;
+        message: string;
     }) => {
-      if (
+        if (
         selectedContact &&
-        (data.from === selectedContact.USEN_ID || data.to === selectedContact.USEN_ID)
-      ) {
-        setMessages((prev) => [
-          ...prev,
-          {
+        userId &&
+        (
+            (data.from === selectedContact.USEN_ID && data.to === userId) ||
+            (data.to === selectedContact.USEN_ID && data.from === userId)
+        )
+        ) {
+        setMessages((prev) => [...prev, {
             MESN_SENDER: data.from,
             MESN_RECEIVER: data.to,
             MESC_CONTENT: data.message,
             MESD_DATE: new Date(),
-          },
-        ]);
-      }
+        }]);
+        }
     };
 
     socket.on("chat message", handleIncomingMessage);
     return () => {
-      socket.off("chat message", handleIncomingMessage);
+        socket.off("chat message", handleIncomingMessage);
     };
-  }, [selectedContact]);
+    }, [selectedContact, userId]);
 
   const handleSend = async (): Promise<void> => {
     if (!newMessage.trim() || !selectedContact || !userId) return;
