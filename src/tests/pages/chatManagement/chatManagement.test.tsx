@@ -1,24 +1,15 @@
 import { describe, it, beforeEach, expect, vi } from "vitest";
+import {
+  mockSocketEmit,
+  mockSocketOnCallbacks,
+  mockSocket,
+  mockSocketDisconnect,
+} from "./__mocks__/socket.js";
 
-const mockSocketOnCallbacks: Record<string, (...args: any[]) => void> = {};
-const mockSocketEmit = vi.fn();
-
-export { mockSocketEmit, mockSocketOnCallbacks };
-
-vi.mock("socket.io-client", () => {
-  return {
-    io: () => ({
-      on: (event: string, cb: (...args: any[]) => void) => {
-        mockSocketOnCallbacks[event] = cb;
-      },
-      off: (event: string) => {
-        delete mockSocketOnCallbacks[event];
-      },
-      emit: mockSocketEmit,
-      disconnect: vi.fn(),
-    }),
-  };
-});
+// Mock global
+vi.mock("socket.io-client", () => ({
+  io: () => mockSocket,
+}));
 
 vi.mock("../../../core/api/chatManagement/chatApi.js", () => ({
   getUserById: vi.fn(),
@@ -50,8 +41,9 @@ beforeEach(() => {
   sessionStorage.clear();
   vi.clearAllMocks();
   for (const key in mockSocketOnCallbacks) delete mockSocketOnCallbacks[key];
+  mockSocketEmit.mockReset();
+  mockSocketDisconnect.mockReset();
 
-  // 👇 Mock scrollIntoView
   Object.defineProperty(HTMLElement.prototype, "scrollIntoView", {
     configurable: true,
     value: vi.fn(),
