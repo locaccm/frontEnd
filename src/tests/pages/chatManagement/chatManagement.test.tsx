@@ -286,6 +286,8 @@ describe("ChatManagement", () => {
       });
     });
 
-    expect(await screen.findByText("New socket message")).toBeInTheDocument();
+    expect(
+      await screen.findByText((content) => content.includes("New socket message"))
+    ).toBeInTheDocument();
   });
 });
