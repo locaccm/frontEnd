@@ -1,5 +1,6 @@
 
 import LandingPage from '../../pages/landingPage/LandingPage.js';
+import CalendarManagement from '../../pages/calendarManagement/calendarManagement.js';
 import { Route, Routes } from "react-router-dom";
 import Signup from "../../pages/authentication/Signup/Signup.js";
 import Signin from "../../pages/authentication/Signin/Signin.js";
@@ -34,7 +35,7 @@ const AppRoutesContent = () => {
                 <Route path="/wealth-management" element={<WealthManagement />} />
                 <Route path="/document-management/:leaseId" element={<DocumentWrapper />} />
                 <Route path="/contacts" element={<ChatBubble />} />
-                <Route path="/calendar" element={<div>Calendar Page</div>} />
+                <Route path="/calendar" element={<CalendarManagement />} />
                 <Route path="/logout" element={<Logout />} />
                 <Route path="/invite-tenant" element={<InviteTenantPage />} />
             </Route>

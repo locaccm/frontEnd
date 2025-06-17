@@ -1,5 +1,5 @@
-import apiClient from './api.service';
-import { Event, CalendarMonthResponse, CalendarDayResponse, CalendarWeekResponse, ActiveSelectionData } from '../interfaces/Calendar.interface';
+import apiClient from './api.service.js';
+import { Event, CalendarMonthResponse, CalendarDayResponse, CalendarWeekResponse, ActiveSelectionData } from '../interfaces/Calendar.interface.js';
 
 /**
  * Service for managing interactions with the calendar API
