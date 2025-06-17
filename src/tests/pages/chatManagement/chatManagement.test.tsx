@@ -52,6 +52,12 @@ beforeEach(() => {
   sessionStorage.clear();
   vi.clearAllMocks();
   for (const key in mockSocketOnCallbacks) delete mockSocketOnCallbacks[key];
+
+  // 👇 Mock scrollIntoView
+  Object.defineProperty(HTMLElement.prototype, "scrollIntoView", {
+    configurable: true,
+    value: vi.fn(),
+  });
 });
 
 
