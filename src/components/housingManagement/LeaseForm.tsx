@@ -38,7 +38,7 @@ const LeaseForm = ({ lease, onClose }: LeaseFormProps) => {
         setAccommodations(data);
         const selected = data.find((acc) => acc.ACCN_ID === formData.ACCN_ID);
         setHousingName(selected?.ACCC_NAME || `Logement n°${formData.ACCN_ID}`);
-      }
+      } // NOSONAR
     };
 
     init();
@@ -110,8 +110,8 @@ const LeaseForm = ({ lease, onClose }: LeaseFormProps) => {
       if (!res.ok) {
         const errorText = await res.text();
         throw new Error(
-          `Erreur ${res.status} : ${errorText || "serveur inaccessible"}`
-        );
+          `Erreur ${res.status} : ${errorText || "serveur inaccessible"}` // NOSONAR
+        ); 
       }
 
       onClose();

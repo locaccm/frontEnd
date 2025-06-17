@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import LeaseForm from "../../../components/housingManagement/LeaseForm.js";
 import { Lease } from "../../../pages/housingManagement/housingManagement.js";
-import React from "react";
+import { useAccommodationActions } from "../../../hooks/wealthManagement/useAccommodationActions.js";
 
 const mockLease: Lease = {
   LEAN_ID: 1,
@@ -122,38 +122,50 @@ describe("LeaseForm", () => {
   });
 
   it("logs error and prevents submit when no token in sessionStorage", async () => {
-  sessionStorage.removeItem("token");
-  const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    sessionStorage.removeItem("token");
+    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
 
-  render(<LeaseForm lease={null} onClose={vi.fn()} />);
+    render(<LeaseForm lease={null} onClose={vi.fn()} />);
 
-  const form = screen.getByRole("dialog").querySelector("form")!;
-  fireEvent.submit(form);
+    const form = screen.getByRole("dialog").querySelector("form")!;
+    fireEvent.submit(form);
 
-  await waitFor(() => {
-    expect(consoleErrorSpy).toHaveBeenCalledWith("Aucun token d'authentification trouvé.");
+    await waitFor(() => {
+      expect(consoleErrorSpy).toHaveBeenCalledWith("Aucun token d'authentification trouvé.");
+    });
+
+    consoleErrorSpy.mockRestore();
   });
 
-  consoleErrorSpy.mockRestore();
-});
+  it("logs error when fetch throws an exception", async () => {
+    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    global.fetch = vi.fn().mockRejectedValue(new Error("Network error"));
+    render(<LeaseForm lease={null} onClose={vi.fn()} />);
 
-it("logs error when fetch throws an exception", async () => {
-  const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
-  global.fetch = vi.fn().mockRejectedValue(new Error("Network error"));
-  render(<LeaseForm lease={null} onClose={vi.fn()} />);
+    const form = screen.getByRole("dialog").querySelector("form")!;
+    fireEvent.submit(form);
 
-  const form = screen.getByRole("dialog").querySelector("form")!;
-  fireEvent.submit(form);
+    await waitFor(() => {
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        "Échec de l'envoi du formulaire :",
+        expect.any(Error)
+      );
+    });
 
-  await waitFor(() => {
-    expect(consoleErrorSpy).toHaveBeenCalledWith(
-      "Échec de l'envoi du formulaire :",
-      expect.any(Error)
-    );
+    consoleErrorSpy.mockRestore();
   });
 
-  consoleErrorSpy.mockRestore();
-});
+  it("sets accommodations and housing name from fetched data", async () => {
+    const accommodationsMock = [
+      { ACCN_ID: 1, ACCC_NAME: "Test Logement" },
+      { ACCN_ID: 2, ACCC_NAME: "Autre Logement" },
+    ];
 
+    render(<LeaseForm lease={null} onClose={vi.fn()} />);
+    await waitFor(() => {
+      expect(screen.getByRole("option", { name: "Test Logement" })).toBeInTheDocument();
+    });
+    expect(screen.getByTestId("housing-name")).toHaveTextContent("Test Logement");
+  });
 
 });
