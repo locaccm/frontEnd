@@ -40,7 +40,7 @@ const SignupForm = () => {
           alert("Inscription réussie, veuillez vous connecter");
           window.location.href = "/signin";
         } else {
-          alert("Erreur lors de l'inscription");
+          alert("Erreur lors de l'inscription, Le mot de passe doit comporter au moins 8 caractères");
         }
       })
       .catch((error) => {

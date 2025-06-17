@@ -165,6 +165,7 @@ h1 {
   border-radius: 1.5em;
   font-size: clamp(1rem, 2.5vw, 1.1em);
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+  flex-direction: column;
 }
 
 /* Form containers */
