@@ -8,6 +8,7 @@ import {
   User,
   Message,
 } from "../../core/api/chatManagement/chatApi.js";
+import { io, Socket } from "socket.io-client";
 import "../../styles/Chat.css";
 
 function formatName(fname: string, lname: string) {
@@ -16,6 +17,8 @@ function formatName(fname: string, lname: string) {
   const formattedLname = lname.toUpperCase();
   return `${formattedFname} ${formattedLname}`;
 }
+
+const socket: Socket = io(import.meta.env.VITE_CHAT_URL);
 
 const ChatManagement: React.FC = () => {
   const storedUserId = sessionStorage.getItem("userId");
@@ -28,35 +31,34 @@ const ChatManagement: React.FC = () => {
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
-    useEffect(() => {
+  useEffect(() => {
     if (userId === null) return;
 
     async function loadContacts(id: number) {
-        try {
+      try {
         const user = await getUserById(id);
-
         let linkedUsers: User[] = [];
 
         if (user.USEC_TYPE === "OWNER") {
-            const tenants = await getTenantsByOwner(user.USEN_ID);
-            linkedUsers = [user, ...tenants];
+          const tenants = await getTenantsByOwner(user.USEN_ID);
+          linkedUsers = [user, ...tenants];
         } else if (user.USEC_TYPE === "TENANT") {
-            const owner = await getOwnerByTenant(user.USEN_ID);
-            linkedUsers = [user];
-            if (owner) linkedUsers.push(owner);
+          const owner = await getOwnerByTenant(user.USEN_ID);
+          linkedUsers = [user];
+          if (owner) linkedUsers.push(owner);
         } else {
-            linkedUsers = [user];
+          linkedUsers = [user];
         }
 
         setContacts(linkedUsers);
         setSelectedContact(linkedUsers[0] || null);
-        } catch (err) {
+      } catch (err) {
         console.error(err);
-        }
+      }
     }
 
     loadContacts(userId);
-    }, [userId]);
+  }, [userId]);
 
   useEffect(() => {
     if (!userId || !selectedContact) {
@@ -73,17 +75,66 @@ const ChatManagement: React.FC = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  useEffect(() => {
+    if (!userId) return;
+
+    socket.emit("register user", String(userId));
+
+    socket.on("user registered", () => {});
+    socket.on("error", (data) => {
+      console.error("Socket error:", data);
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, [userId]);
+
+    useEffect(() => {
+    const handleIncomingMessage = (data: {
+        from: number;
+        to: number;
+        message: string;
+    }) => {
+        if (
+        selectedContact &&
+        userId &&
+        (
+            (data.from === selectedContact.USEN_ID && data.to === userId) ||
+            (data.to === selectedContact.USEN_ID && data.from === userId)
+        )
+        ) {
+        setMessages((prev) => [...prev, {
+            MESN_SENDER: data.from,
+            MESN_RECEIVER: data.to,
+            MESC_CONTENT: data.message,
+            MESD_DATE: new Date(),
+        }]);
+        }
+    };
+
+    socket.on("chat message", handleIncomingMessage);
+    return () => {
+        socket.off("chat message", handleIncomingMessage);
+    };
+    }, [selectedContact, userId]);
+
   const handleSend = async (): Promise<void> => {
     if (!newMessage.trim() || !selectedContact || !userId) return;
 
+    socket.emit("chat message", {
+      from: String(userId),
+      to: String(selectedContact.USEN_ID),
+      message: newMessage,
+    });
+
     try {
       await sendMessage(userId, selectedContact.USEN_ID, newMessage);
-      const updatedMessages = await getMessages(userId, selectedContact.USEN_ID);
-      setMessages(updatedMessages);
-      setNewMessage("");
-    } catch (err) {
-      console.error(err);
+    } catch (e) {
+      console.warn("Failed to persist message via REST", e);
     }
+
+    setNewMessage("");
   };
 
   if (!userId) {
