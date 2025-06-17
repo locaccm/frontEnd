@@ -178,4 +178,58 @@ describe("ProfileForm", () => {
     expect(mockFetch).toHaveBeenCalledTimes(1);
   });
 
+
+  test("supprime le compte après confirmation", async () => {
+
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockProfile,
+    } as Response);
+
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+    } as Response);
+
+    vi.spyOn(window, "confirm").mockReturnValueOnce(true);
+    vi.spyOn(window, "alert").mockImplementation(() => {});
+    vi.stubGlobal("location", { href: "", assign: vi.fn() });
+
+    render(<ProfileForm />);
+
+    const deleteButton = await screen.findByText("Supprimer mon compte");
+    fireEvent.click(deleteButton);
+
+    await waitFor(() => {
+      expect(mockFetch).toHaveBeenCalledWith(
+          expect.stringContaining("profiles/1"),
+          expect.objectContaining({
+            method: "DELETE",
+            headers: {
+              Authorization: "Bearer mock-token",
+            },
+          })
+      );
+    });
+  });
+
+
+  test("ne supprime pas le compte si l'utilisateur annule", async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockProfile,
+    } as Response);
+
+    vi.spyOn(window, "confirm").mockReturnValueOnce(false);
+
+    render(<ProfileForm />);
+    const deleteButton = await screen.findByText("Supprimer mon compte");
+
+    fireEvent.click(deleteButton);
+
+    await waitFor(() => {
+      expect(mockFetch).toHaveBeenCalledTimes(1);
+    });
+  });
+
+
 });
