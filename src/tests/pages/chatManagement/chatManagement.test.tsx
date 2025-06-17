@@ -1,6 +1,4 @@
 import { describe, it, beforeEach, expect, vi } from "vitest";
-import type { Mock } from "vitest";
-import { render, screen, fireEvent, waitFor, act } from "@testing-library/react";
 
 const mockSocketOnCallbacks: Record<string, (...args: any[]) => void> = {};
 const mockSocketEmit = vi.fn();
@@ -28,6 +26,8 @@ vi.mock("../../../core/api/chatManagement/chatApi.js", () => ({
   sendMessage: vi.fn(),
 }));
 
+import { render, screen, fireEvent, waitFor, act } from "@testing-library/react";
+import type { Mock } from "vitest";
 import ChatManagement from "../../../pages/chatManagement/chatManagement.js";
 
 import {
@@ -38,10 +38,10 @@ import {
   sendMessage,
 } from "../../../core/api/chatManagement/chatApi.js";
 
-const mockedGetUserById = getUserById as Mock;
+const mockedGetUserById   = getUserById   as Mock;
 const mockedGetTenantsByOwner = getTenantsByOwner as Mock;
-const mockedGetOwnerByTenant = getOwnerByTenant as Mock;
-const mockedGetMessages = getMessages as Mock;
+const mockedGetOwnerByTenant  = getOwnerByTenant  as Mock;
+const mockedGetMessages  = getMessages  as Mock;
 const mockedSendMessage = sendMessage as Mock;
 
 beforeEach(() => {
@@ -49,6 +49,7 @@ beforeEach(() => {
   vi.clearAllMocks();
   for (const key in mockSocketOnCallbacks) delete mockSocketOnCallbacks[key];
 });
+
 
 describe("ChatManagement", () => {
   it("displays a message if user is not logged in", () => {
