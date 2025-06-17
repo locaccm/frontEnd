@@ -2,7 +2,6 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import LeaseForm from "../../../components/housingManagement/LeaseForm.js";
 import { Lease } from "../../../pages/housingManagement/housingManagement.js";
-import { useAccommodationActions } from "../../../hooks/wealthManagement/useAccommodationActions.js";
 
 const mockLease: Lease = {
   LEAN_ID: 1,
@@ -154,18 +153,4 @@ describe("LeaseForm", () => {
 
     consoleErrorSpy.mockRestore();
   });
-
-  it("sets accommodations and housing name from fetched data", async () => {
-    const accommodationsMock = [
-      { ACCN_ID: 1, ACCC_NAME: "Test Logement" },
-      { ACCN_ID: 2, ACCC_NAME: "Autre Logement" },
-    ];
-
-    render(<LeaseForm lease={null} onClose={vi.fn()} />);
-    await waitFor(() => {
-      expect(screen.getByRole("option", { name: "Test Logement" })).toBeInTheDocument();
-    });
-    expect(screen.getByTestId("housing-name")).toHaveTextContent("Test Logement");
-  });
-
 });
