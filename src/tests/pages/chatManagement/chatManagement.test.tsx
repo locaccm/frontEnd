@@ -6,6 +6,8 @@ const mockSocketEmit = vi.fn();
 export { mockSocketEmit, mockSocketOnCallbacks };
 
 vi.mock("socket.io-client", () => {
+  const mockSocketEmit = vi.fn();
+  const mockSocketOnCallbacks: Record<string, (...args: any[]) => void> = {};
   return {
     io: () => ({
       on: (event: string, cb: (...args: any[]) => void) => {
