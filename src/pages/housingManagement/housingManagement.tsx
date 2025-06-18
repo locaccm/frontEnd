@@ -1,0 +1,125 @@
+import { useEffect, useState } from "react";
+import LeaseForm from "../../components/housingManagement/LeaseForm.js";
+import '../../assets/styles/styles.css'
+
+export interface Lease {
+    LEAN_ID: number;
+    LEAD_START: string;
+    LEAD_END: string;
+    LEAN_RENT: string;    
+    LEAN_CHARGES: string; 
+    LEAD_PAYMENT: string;
+    LEAB_ACTIVE: boolean;
+    USEN_ID: number;
+    ACCN_ID: number;
+}
+
+const HousingManagement = () => {
+    const [leases, setLeases] = useState<Lease[]>([]);
+    const [editingLease, setEditingLease] = useState<Lease | null>(null);
+    const [showForm, setShowForm] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
+        const fetchLeases = async () => {
+        try {
+            const token = sessionStorage.getItem("token");
+            const userId = sessionStorage.getItem("userId");
+            const res = await fetch(
+            `${import.meta.env.VITE_HOUSING_URL}/lease?userId=${userId}`,
+            {
+                method: "GET",
+                headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+                }
+            }
+            );
+            if (!res.ok) throw new Error(`Erreur ${res.status}`);
+            const data: Lease[] = await res.json();
+            setLeases(data);
+        } catch (err: unknown) {
+            setError(err instanceof Error ? err.message : "Erreur inconnue");
+        }
+        };
+
+    useEffect(() => {
+        fetchLeases();
+    }, []);
+
+    const handleEdit = (lease: Lease) => {
+        setEditingLease(lease);
+        setShowForm(true);
+    };
+
+    const handleDelete = async (id: number) => {
+        try {
+        await fetch(`${import.meta.env.VITE_HOUSING_URL}/lease/${id}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${sessionStorage.getItem("token")}`
+        }
+        });
+        fetchLeases(); 
+        } catch (error) {
+        console.error("Erreur lors de la suppression :", error);
+        }
+    };
+
+    return (
+    <div className="container">
+        <h2>Gestion des baux</h2>
+    
+        <button className="button primary" onClick={() => { setEditingLease(null); setShowForm(true); }}>
+            Ajouter un bail
+        </button>
+    
+        {showForm && (
+            <LeaseForm
+                lease={editingLease}
+                onClose={() => {
+                setShowForm(false);
+                setEditingLease(null);
+                fetchLeases();
+                }}
+            />
+        )}
+    
+        {error && <p style={{ color: "red" }}>{error}</p>}
+    
+        <table className="table">
+            <thead>
+                <tr>
+                <th>ID</th>
+                <th>Date début</th>
+                <th>Date fin</th>
+                <th>Loyer (€)</th>
+                <th>Charges (€)</th>
+                <th>Date paiement</th>
+                <th>Actif</th>
+                <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {leases.map((lease) => (
+                    <tr key={lease.LEAN_ID}>
+                        <td>{lease.LEAN_ID}</td>
+                        <td>{lease.LEAD_START.split("T")[0]}</td>
+                        <td>{lease.LEAD_END.split("T")[0]}</td>
+                        <td>{lease.LEAN_RENT}</td>
+                        <td>{lease.LEAN_CHARGES}</td>
+                        <td>{lease.LEAD_PAYMENT.split("T")[0]}</td>
+                        <td>{lease.LEAB_ACTIVE ? "Oui" : "Non"}</td>
+                        <td>
+                            <button className="button outline" onClick={() => handleEdit(lease)}>Modifier</button>
+                            <button className="button destructive" onClick={() => handleDelete(lease.LEAN_ID)}>Supprimer</button>
+                        </td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
+    </div>
+    );      
+};
+
+export default HousingManagement;
