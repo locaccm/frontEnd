@@ -2,7 +2,6 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import LeaseForm from "../../../components/housingManagement/LeaseForm.js";
 import { Lease } from "../../../pages/housingManagement/housingManagement.js";
-import React from "react";
 
 const mockLease: Lease = {
   LEAN_ID: 1,
@@ -20,7 +19,7 @@ describe("LeaseForm", () => {
   beforeEach(() => {
     vi.resetAllMocks();
     sessionStorage.setItem("token", "fake-token");
-    sessionStorage.setItem("userId", "4"); 
+    sessionStorage.setItem("userId", "4");
   });
 
   it("renders correctly in create mode", () => {
@@ -36,27 +35,26 @@ describe("LeaseForm", () => {
     expect(screen.getByDisplayValue("800")).toBeInTheDocument();
     expect(screen.getByDisplayValue("100")).toBeInTheDocument();
     expect(screen.getByDisplayValue("2024-01-01")).toBeInTheDocument(); 
-    expect(screen.getByDisplayValue("2025-01-01")).toBeInTheDocument(); 
-    expect(screen.getByDisplayValue("2024-01-15")).toBeInTheDocument(); 
+    expect(screen.getByDisplayValue("2025-01-01")).toBeInTheDocument();
+    expect(screen.getByDisplayValue("2024-01-15")).toBeInTheDocument();
   });
 
   it("sends POST request when lease is null", async () => {
     global.fetch = vi.fn().mockResolvedValue({ ok: true });
     const onClose = vi.fn();
-  
+
     render(<LeaseForm lease={null} onClose={onClose} />);
-  
+
     fireEvent.change(screen.getByLabelText(/Date de début/i), { target: { value: "2024-01-01" } });
     fireEvent.change(screen.getByLabelText(/Date de fin/i), { target: { value: "2025-01-01" } });
     fireEvent.change(screen.getByLabelText(/Loyer/i), { target: { value: "750" } });
     fireEvent.change(screen.getByLabelText(/Charges/i), { target: { value: "50" } });
     fireEvent.change(screen.getByLabelText(/Date de paiement/i), { target: { value: "2024-01-15" } });
-    fireEvent.change(screen.getByLabelText(/ID Utilisateur/i), { target: { value: "4" } });
-    fireEvent.change(screen.getByLabelText(/ID Logement/i), { target: { value: "5" } });
-  
+    fireEvent.change(screen.getByLabelText(/Logement/i), { target: { value: "2" } });
+
     const form = screen.getByRole("dialog").querySelector("form")!;
     fireEvent.submit(form);
-  
+
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledWith(
         expect.stringContaining("/lease"),
@@ -64,20 +62,20 @@ describe("LeaseForm", () => {
       );
       expect(onClose).toHaveBeenCalled();
     });
-  });  
+  });
 
   it("sends PUT request when lease is provided", async () => {
     global.fetch = vi.fn().mockResolvedValue({ ok: true });
     const onClose = vi.fn();
-  
+
     render(<LeaseForm lease={mockLease} onClose={onClose} />);
     fireEvent.change(screen.getByLabelText(/Loyer/i), {
       target: { value: "850" },
     });
-  
+
     const form = screen.getByRole("dialog").querySelector("form")!;
     fireEvent.submit(form);
-  
+
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledWith(
         expect.stringContaining(`/lease/${mockLease.LEAN_ID}`),
@@ -85,14 +83,13 @@ describe("LeaseForm", () => {
       );
       expect(onClose).toHaveBeenCalled();
     });
-  });  
+  });
 
   it("closes the form when clicking on Annuler", () => {
     const onClose = vi.fn();
     render(<LeaseForm lease={null} onClose={onClose} />);
 
     fireEvent.click(screen.getByRole("button", { name: /Annuler/i }));
-
     expect(onClose).toHaveBeenCalled();
   });
 
@@ -111,13 +108,55 @@ describe("LeaseForm", () => {
     fireEvent.change(screen.getByLabelText(/Loyer/i), { target: { value: "800" } });
     fireEvent.change(screen.getByLabelText(/Charges/i), { target: { value: "80" } });
     fireEvent.change(screen.getByLabelText(/Date de paiement/i), { target: { value: "2024-01-15" } });
-    fireEvent.change(screen.getByLabelText(/ID Utilisateur/i), { target: { value: "1" } });
-    fireEvent.change(screen.getByLabelText(/ID Logement/i), { target: { value: "2" } });
+    fireEvent.change(screen.getByLabelText(/Logement/i), { target: { value: "2" } });
 
     const form = screen.getByRole("dialog").querySelector("form")!;
     fireEvent.submit(form);
 
-    expect(global.fetch).toHaveBeenCalled();
-    expect(onClose).not.toHaveBeenCalled();
+    await waitFor(() => {
+      expect(global.fetch).toHaveBeenCalled();
+      expect(onClose).not.toHaveBeenCalled();
+    });
+  });
+
+  it("logs error and prevents submit when no token in sessionStorage", async () => {
+    sessionStorage.removeItem("token");
+    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    render(<LeaseForm lease={null} onClose={vi.fn()} />);
+    const form = screen.getByRole("dialog").querySelector("form")!;
+    fireEvent.submit(form);
+
+    await waitFor(() => {
+      expect(consoleErrorSpy).toHaveBeenCalledWith("Aucun token d'authentification trouvé.");
+    });
+
+    consoleErrorSpy.mockRestore();
+  });
+
+  it("logs error when fetch throws an exception", async () => {
+    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    global.fetch = vi.fn().mockRejectedValue(new Error("Network error"));
+    render(<LeaseForm lease={null} onClose={vi.fn()} />);
+    const form = screen.getByRole("dialog").querySelector("form")!;
+    fireEvent.submit(form);
+
+    await waitFor(() => {
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        "Échec de l'envoi du formulaire :",
+        expect.any(Error)
+      );
+    });
+
+    consoleErrorSpy.mockRestore();
+  });
+
+  it("handles checkbox change correctly", () => {
+    render(<LeaseForm lease={mockLease} onClose={vi.fn()} />);
+    const checkbox = screen.getByLabelText(/Actif/i) as HTMLInputElement;
+
+    expect(checkbox.checked).toBe(true);
+    fireEvent.click(checkbox);
+    expect(checkbox.checked).toBe(false);
   });
 });
